@@ -69,21 +69,35 @@
               <td>lw</td>
               <td>数値</td>
               <td>1</td>
-              <td>線の太さを設定する。</td>
+              <td>線プロット時、線の太さを設定する。</td>
             </tr>
 
             <tr>
               <td>ps</td>
               <td>数値</td>
               <td>1</td>
-              <td>点の大きさを設定する。</td>
+              <td>点プロット時、点の大きさを設定する。</td>
+            </tr>
+
+            <tr>
+              <td>lt</td>
+              <td>数値</td>
+              <td>n番目に描画された線なら,n</td>
+              <td>線プロット時、線種を選択する。具体的な選択肢は<a href="4-1.html">4-1節</a>。</td>
+            </tr>
+
+            <tr>
+              <td>pt</td>
+              <td>数値</td>
+              <td>n番目に描画された点なら,n</td>
+              <td>点プロット時、点種を選択する。具体的な選択肢は<a href="4-1.html">4-1節</a>。</td>
             </tr>
 
             <tr>
               <td rowspan="2">dt</td>
               <td>数値</td>
-              <td>-1</td>
-              <td>破線パターンを選択する。-1は実線、0はduty比1:1の破線である。</td>
+              <td>0</td>
+              <td>線プロット時、破線パターンを選択する。具体的な選択肢は<a href="4-1.html">4-1節</a>。</td>
             </tr>
 
             <tr>
@@ -91,16 +105,38 @@
               <td>偶数個の数値タプル</td>
               <td>(なし)</td>
               <td>
-                破線パターンを具体的に指定する。(<i>l1</i>,<i>s1</i>)はduty比
+                線プロット時、破線パターンを具体的に指定する。(<i>l1</i>,<i>s1</i>)はduty比
                 <i>l1</i>:<i>s1</i>の破線であり、(<i>l1</i>,<i>s1</i>,<i>l2</i>,<i>s2</i>, ... )はduty比
                 <i>l1</i>,<i>s1</i>, <i>l2</i>,<i>s2</i>, ... の破線をこの順に繰り返し接続する。
               </td>
             </tr>
             
+            <tr>
+              <td rowspan="2">lc</td>
+              <td>文字列</td>
+              <td>(不明)</td>
+              <td>点や線の色をカラーネームで指定する。具体的な選択肢は<a href="4-1.html">4-1節</a>。</td>
+            </tr>
+
+            <tr>
+              <!-- lc -->
+              <td>カラーコード<sup>※1</sup></td>
+              <td>(不明)</td>
+              <td>点や線の色をRRGGBBまたはRRGGBBAA(16進数)で指定する。</td>
+            </tr>
+            
+            <tr>
+              <td>t</td>
+              <td>文字列</td>
+              <td>"<i>data</i> {u <i>xcol</i>:<i>ycol</i>}"</td>
+              <td>凡例のラベルを設定する。</td>
+            </tr>
 
           </tbody>
         </table>
+        <p><small>※1 サブオプション rgb を伴って、"#RRGGBB" または "#RRGGBBAA" の形で入力する。<br>(例) ~ lc rgb "#221A44"</small></p>
       </div>
+      
     </details>
 
     <div class="point-box">
