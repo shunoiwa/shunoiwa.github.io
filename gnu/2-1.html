@@ -1,0 +1,241 @@
+<!-- このファイルがひな形 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Gnuplot備忘録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<div class="container">
+
+  <!-- サイドバー -->
+  <aside class="sidebar">
+    <h1>ナビゲーション</h1>
+
+    <ul class="nav">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="../res.html">研究</a></li>
+
+      <li>
+        <a href="gnu.html">Gnuplot備忘録</a>
+        <ul class="subnav" id="gnu-nav">
+          <!-- JSで生成 -->
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ここから編集OK -->
+  <main class="main">
+    <h1>2-1. グラフエリア</h1>
+    <p>このセクションでは、グラフを描画する領域のデザインについて紹介する。</p>
+    <hr>
+    <h2>setコマンド</h2>
+    <p>
+      グラフエリアの見た目は主にsetコマンドにより設定できる。
+      これらの命令はplotコマンドより前に記述すること。
+      以降、x軸に関する設定のみを示すが、y,z軸も同様に設定できる。
+    </p>
+    <h3>軸と目盛り</h3>
+    <pre><code>set xlabel <i>string</i></code></pre>
+    <p>でx軸のラベルを<i>string</i>(文字列)に設定できる。ギリシャ文字も利用することができ、例えば</p>
+    <pre><code>"{/Symbol e}"</code></pre>
+    <p>とすると \( \varepsilon \) を出力できる(アルファベット e に対応するギリシャ文字。別のアルファベットなら、それに対応するギリシャ文字になる)。</p>
+    <pre><code>set xrange [{<i>xmin</i>}:{<i>xmax</i>}]</code></pre>
+    <p>
+      とすると、x軸の描画範囲を<i>xmin</i>から<i>xmax</i>の間に限定できる(範囲外にデータが存在したとしても)。
+      値を省略すると、下限(または上限)が自動で決定される。
+    </p>
+    <pre><code>set xtics <i>value</i></code></pre>
+    <p>はx軸の主目盛の間隔を<i>value</i>に設定し、</p>
+    <pre><code>set mxtics <i>value</i></code></pre>
+    <p>はx軸の主目盛間を<i>value</i>等分して副目盛とする。</p>
+    <p>この他、
+      <pre><code>set <i>object</i> {<i>axis</i>}</code></pre>
+      によって<i>axis</i>軸(x, y or z)の要素<i>object</i>の有効/無効を設定することができる。
+    </p>
+    <details class="toggle-box">
+      <summary>設定可能な要素</summary>
+
+      <div class="card">
+        <table class="gnu-table">
+          <thead>
+            <tr>
+              <th><i>object</i></th>
+              <th><i>axis</i>の指定</th>
+              <th>デフォルト値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>border</td>
+              <td>不可</td>
+              <td>有効</td>
+              <td>グラフの外枠を表示する。</td>
+            </tr>
+            <tr>
+              <td>grid</td>
+              <td>可能</td>
+              <td>無効</td>
+              <td><i>axis</i>軸の主目盛に合わせてグリッド線を表示する。<i>axis</i>を指定しない場合、両方の軸に対して設定する。</td>
+            </tr>
+            <tr>
+              <td>logscale</td>
+              <td>可能</td>
+              <td>無効</td>
+              <td>
+                <i>axis</i>軸を対数軸にする。その軸上で、表示範囲やデータ点に負の値が存在する場合、エラーになる。<br>
+                <i>axis</i>を指定しない場合、両方の軸に対して設定する。
+              </td>
+            </tr>
+            <tr>
+              <td>zeroaxis</td>
+              <td>不可</td>
+              <td>無効</td>
+              <td>すべてのゼロ軸を表示する。軸ごとの設定は別のコマンドなので注意。</td>
+            </tr>
+            <tr>
+              <td>xzeroaxis</td>
+              <td>不可</td>
+              <td>無効</td>
+              <td>x軸のゼロ軸を表示する。y, z軸も同様。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <h2>グラフの形</h2>
+    グラフの形(アスペクト比)は
+    <pre><code>set size <i>option</i> {<i>value</i>}</code></pre>
+    とすると設定できる、<i>option</i>の一覧を次に示す：
+    <details class="toggle-box">
+      <summary>アスペクト比の設定</summary>
+
+      <div class="card">
+        <table class="gnu-table">
+          <thead>
+            <tr>
+              <th><i>option</i></th>
+              <th><i>value</i>の種類</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>square</td>
+              <td>(なし)</td>
+              <td>グラフの形を正方形に固定する。</td>
+            </tr>
+            <tr>
+              <td rowspan="2">ratio</td>
+              <td>正の数値</td>
+              <td>幅に対する高さの比を <i>ratio</i> に固定する。</td>
+            </tr>
+            <tr>
+              <!-- ratio -->
+              <td>負の数値</td>
+              <td>単位目盛の長さ(0から1までの距離)について、y軸をx軸の -<i>ratio</i>倍に固定する。</td>
+            </tr>
+            <tr>
+              <td>noratio</td>
+              <td>(なし)</td>
+              <td>アスペクト比の固定を解除する。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <h2>実行例</h2>
+    <pre><code>#グラフタイトルの設定
+set title "Graph y = x^2 + 2x"
+
+#グラフサイズの設定
+set size ratio 1.4
+
+#軸ラベルの設定
+set xlabel "x"
+set ylabel "f(x)"
+
+#目盛の設定
+set xtics 2
+set mxtics 4
+set ytics 4
+set mytics 4
+
+#表示範囲の設定
+set xrange [-3:3]
+set yrange [-4:16]
+
+#ゼロ軸の表示
+set xzeroaxis
+
+#グリッドの表示
+set grid
+
+#グラフ描画
+f(x) = x**2 + 2*x
+plot f(x)</code></pre>
+<img src="images/2-1_fig1.png">
+
+    <div class="point-box">
+      <ul>
+        <li>グラフエリアの設定の多くはsetコマンドで行う。</li>
+        <li>設定はplot前に行う。</li>
+      </ul>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+fetch("gnu_list.json")
+  .then(res => res.json())
+  .then(data => {
+    const nav = document.getElementById("gnu-nav");
+
+    data.forEach(chapter => {
+      // ===== 章 =====
+      const li = document.createElement("li");
+
+      const title = document.createElement("div");
+      title.textContent = "第" + chapter.chapter + "章: " + chapter.title;
+      title.style.fontWeight = "bold";
+      title.style.marginTop = "10px";
+
+      li.appendChild(title);
+
+      // ===== ページリスト =====
+      const ul = document.createElement("ul");
+      ul.classList.add("subnav");
+
+      chapter.pages.forEach(page => {
+        const subLi = document.createElement("li");
+        const a = document.createElement("a");
+
+        const num = page.file.match(/(\d+-\d+)/)[1];
+
+        a.href = page.file;
+        a.textContent = num + ". " + page.title;
+
+        subLi.appendChild(a);
+        ul.appendChild(subLi);
+      });
+
+      li.appendChild(ul);
+      nav.appendChild(li);
+    });
+  })
+  .catch(err => {
+    console.error("JSON読み込み失敗:", err);
+  });
+</script>
+
+</body>
+</html>

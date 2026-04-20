@@ -1,0 +1,297 @@
+<!-- このファイルがひな形 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Gnuplot備忘録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<div class="container">
+
+  <!-- サイドバー -->
+  <aside class="sidebar">
+    <h1>ナビゲーション</h1>
+
+    <ul class="nav">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="../res.html">研究</a></li>
+
+      <li>
+        <a href="gnu.html">Gnuplot備忘録</a>
+        <ul class="subnav" id="gnu-nav">
+          <!-- JSで生成 -->
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ここから編集OK -->
+  <main class="main">
+    <h1>1-2. 基本設定</h1>
+    <p>このセクションでは、グラフを描画する際の基本的な設定について紹介する。</p>
+    <hr>
+    <h2>setコマンド</h2>
+    <p>
+      グラフ描画のための基本的な設定は、setコマンドによって行う：
+    </p>
+    <pre><code>set <i>option</i> {<i>suboption</i>} {<i>value</i>}</code></pre>
+    <p>
+      ここでは最低限必要な設定についてのみ説明する。</p>
+    <h2>terminal</h2>
+    <p>
+      Gnuplotでは、様々な実行環境が用意されている。これにより、出力形式が大幅に異なるため、
+      好みの環境を探してみよう。
+    </p>
+    <p>terminalオプションでは環境を設定することができる。suboptionとして設定した環境を指定することができる。</p>
+    <pre><code>set terminal <i>env</i></code></pre>
+    <p>
+      とすると環境<i>env</i>に設定できる。このページでは、qt環境、wxt環境、またはpostscript環境のいずれかを
+      利用することを推奨する(もちろん、好みや用途に合わせて変えても良い)。
+    </p>
+    <h2>datafile</h2>
+    <p>
+      datafileオプションでは、ファイル読み込み(<a href="1-4.html">1-4</a>)時の読み込み規則を指定する。
+    </p>
+    <details class="toggle-box">
+      <summary>datafileのサブオプション一覧</summary>
+      <div class="card">
+        <table class="gnu-table">
+          <thead>
+            <tr>
+              <th><i>suboption</i></th>
+              <th><i>value</i>の種類</th>
+              <th>デフォルト値</th>
+              <th>説明</th>
+              <th>例</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td>separator</td>
+              <td>文字列</td>
+              <td>半角空白文字</td>
+              <td>データ列の区切り文字を指定する</td>
+              <td><code>set datafile separator ","</code></td>
+            </tr>
+
+            <tr>
+              <td>commentschars</td>
+              <td>文字列</td>
+              <td>"#"（VMSでは "#!"）</td>
+              <td>コメント行の開始文字を指定する</td>
+              <td><code>set datafile commentschars "#!%"</code></td>
+            </tr>
+
+            <tr>
+              <td>missing</td>
+              <td>文字列 / NaN</td>
+              <td>未設定</td>
+              <td>欠損値として扱う値を指定する</td>
+              <td><code>set datafile missing NaN</code></td>
+            </tr>
+
+            <tr>
+              <td>columnheaders</td>
+              <td>（なし）</td>
+              <td>無効</td>
+              <td>最初の行を列ヘッダとして扱う</td>
+              <td><code>set datafile columnheaders</code></td>
+            </tr>
+
+            <tr>
+              <td>fortran</td>
+              <td>（なし）</td>
+              <td>無効</td>
+              <td>Fortran形式（D, Q指数）を解釈可能にする（遅くなる）</td>
+              <td><code>set datafile fortran</code></td>
+            </tr>
+
+            <tr>
+              <td>nofpe_trap</td>
+              <td>（なし）</td>
+              <td>無効</td>
+              <td>浮動小数点例外チェックを省略して高速化（危険あり）</td>
+              <td><code>set datafile nofpe_trap</code></td>
+            </tr>
+
+            <tr>
+              <td>binary</td>
+              <td>binaryオプション列</td>
+              <td>未設定</td>
+              <td>バイナリデータとして読み込む設定</td>
+              <td><code>set datafile binary filetype=auto</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <h2>その他のオプション</h2>
+    <p>「その他」とは書いたが、実はここが一番大事である。</p>
+    <details class="toggle-box">
+      <summary>基本的なsetオプション一覧</summary>
+
+      <div class="card">
+        <table class="gnu-table">
+          <thead>
+            <tr>
+              <th><i>option</i></th>
+              <th><i>value</i>の種類</th>
+              <th>デフォルト値</th>
+              <th>説明</th>
+              <th>例</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- ラベル -->
+            <tr>
+              <td>xlabel / ylabel</td>
+              <td>文字列</td>
+              <td>(なし)</td>
+              <td>x軸・y軸のラベルを設定</td>
+              <td><code>set xlabel "Time"</code></td>
+            </tr>
+
+            <tr>
+              <td>title</td>
+              <td>文字列</td>
+              <td>(なし)</td>
+              <td>グラフタイトルを設定</td>
+              <td><code>set title "Sample Plot"</code></td>
+            </tr>
+
+            <!-- 範囲 -->
+            <tr>
+              <td>xrange / yrange</td>
+              <td>[<i>min</i>:<i>max</i>]</td>
+              <td>自動</td>
+              <td>表示範囲min~maxを指定</td>
+              <td><code>set xrange [0:10]</code></td>
+            </tr>
+
+            <!-- スケール -->
+            <tr>
+              <td>logscale</td>
+              <td>x / y / xy</td>
+              <td>(なし)</td>
+              <td>対数スケールにする</td>
+              <td><code>set logscale y</code></td>
+            </tr>
+
+            <!-- グリッド -->
+            <tr>
+              <td>grid</td>
+              <td>（なし）</td>
+              <td>無効</td>
+              <td>グリッド線を表示</td>
+              <td><code>set grid</code></td>
+            </tr>
+
+            <!-- 凡例 -->
+            <tr>
+              <td>key</td>
+              <td>位置指定 / off</td>
+              <td>自動配置</td>
+              <td>凡例（legend）の表示・位置</td>
+              <td><code>set key left top</code></td>
+            </tr>
+
+            <!-- ターミナル -->
+            <tr>
+              <td>terminal</td>
+              <td>種類</td>
+              <td>環境依存</td>
+              <td>出力形式を指定</td>
+              <td><code>set terminal png</code></td>
+            </tr>
+
+            <tr>
+              <td>output</td>
+              <td>文字列</td>
+              <td>(なし)</td>
+              <td>出力先ファイルパスを指定</td>
+              <td><code>set output "graph.png"</code></td>
+            </tr>
+
+            <!-- 線スタイル -->
+            <tr>
+              <td>style line</td>
+              <td>(特定の形式なし)</td>
+              <td>(なし)</td>
+              <td>線の色・太さなどを定義</td>
+              <td><code>set style line 1 lc rgb "blue" lw 2</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <p>
+      なお、具体的な用法については第2章で紹介する。
+    </p>
+    <h2>unsetコマンド</h2>
+    <pre><code>unset <i>option</i></code></pre>
+    <p>
+      で、設定した項目をデフォルト値に戻したり、無効化したりできる。
+    </p>
+    <div class="point-box">
+      <ul>
+        <li>setコマンドにより、様々な設定や定義を行うことが出来る。</li>
+        <li>unsetコマンドにより、設定をデフォルト値または無効に設定できる。</li>
+      </ul>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+fetch("gnu_list.json")
+  .then(res => res.json())
+  .then(data => {
+    const nav = document.getElementById("gnu-nav");
+
+    data.forEach(chapter => {
+      // ===== 章 =====
+      const li = document.createElement("li");
+
+      const title = document.createElement("div");
+      title.textContent = "第" + chapter.chapter + "章: " + chapter.title;
+      title.style.fontWeight = "bold";
+      title.style.marginTop = "10px";
+
+      li.appendChild(title);
+
+      // ===== ページリスト =====
+      const ul = document.createElement("ul");
+      ul.classList.add("subnav");
+
+      chapter.pages.forEach(page => {
+        const subLi = document.createElement("li");
+        const a = document.createElement("a");
+
+        const num = page.file.match(/(\d+-\d+)/)[1];
+
+        a.href = page.file;
+        a.textContent = num + ". " + page.title;
+
+        subLi.appendChild(a);
+        ul.appendChild(subLi);
+      });
+
+      li.appendChild(ul);
+      nav.appendChild(li);
+    });
+  })
+  .catch(err => {
+    console.error("JSON読み込み失敗:", err);
+  });
+</script>
+
+</body>
+</html>

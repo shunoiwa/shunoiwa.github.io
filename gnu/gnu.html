@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Gnuplot備忘録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<div class="container">
+
+  <!-- サイドバー -->
+  <aside class="sidebar">
+    <h1>ナビゲーション</h1>
+
+    <ul class="nav">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="../res.html">研究</a></li>
+
+      <li>
+        <a href="#">Gnuplot備忘録</a>
+        <ul class="subnav" id="gnu-nav">
+          <!-- JSで生成 -->
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- メイン -->
+  <main class="main">
+    <h1>Gnuplot備忘録</h1>
+
+    <div class="card">
+      <h2>概要</h2>
+      <p>
+        Gnuplotの使い方やハマりどころをまとめたページ。
+        左のナビゲーションから各項目に飛べます。
+        インストールが完了していることが前提です。
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>記述法について</h2>
+      <p>
+        このページではソースコードなどを記述することがありますが、
+        <pre><code>$ ...</code></pre>
+        はコンソール上で入力する内容を表しています($は不要)。
+      </p>
+    </div>
+    <p>
+      コード中の斜体、例えば
+      <pre><code>plot <i>func</i></code></pre>
+      の<i>func</i>は、そこに何らかの値が入ることを表しています。波括弧{ }付きの場合、
+      コマンドや場合によっては入力が不要であることを表しています。
+    </p>
+
+  </main>
+
+</div>
+
+<script>
+fetch("gnu_list.json")
+  .then(res => res.json())
+  .then(data => {
+    const nav = document.getElementById("gnu-nav");
+
+    data.forEach(chapter => {
+      // ===== 章 =====
+      const li = document.createElement("li");
+
+      const title = document.createElement("div");
+      title.textContent = "第" + chapter.chapter + "章: " + chapter.title;
+      title.style.fontWeight = "bold";
+      title.style.marginTop = "10px";
+
+      li.appendChild(title);
+
+      // ===== ページリスト =====
+      const ul = document.createElement("ul");
+      ul.classList.add("subnav");
+
+      chapter.pages.forEach(page => {
+        const subLi = document.createElement("li");
+        const a = document.createElement("a");
+
+        const num = page.file.match(/(\d+-\d+)/)[1];
+
+        a.href = page.file;
+        a.textContent = num + ". " + page.title;
+
+        subLi.appendChild(a);
+        ul.appendChild(subLi);
+      });
+
+      li.appendChild(ul);
+      nav.appendChild(li);
+    });
+  })
+  .catch(err => {
+    console.error("JSON読み込み失敗:", err);
+  });
+</script>
+
+</body>
+</html>

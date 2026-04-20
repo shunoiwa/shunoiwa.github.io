@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>研究ページ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+<div class="container">
+
+<aside class="sidebar">
+  <h1>ナビゲーション</h1>
+  <ul class="nav">
+    <li><a href="index.html">ホーム</a></li>
+
+    <li>
+      <a href="#">研究</a>
+      <ul class="subnav" id="research-nav"></ul>
+    </li>
+
+    <li><a href="gnu/gnu.html">Gnuplot備忘録</a></li>
+  </ul>
+</aside>
+
+<main class="main" id="main-content">
+
+  <div class="card">
+    <h2>論文</h2>
+    <p>まだない😡</p>
+  </div>
+
+  <div class="card">
+    <h2>プレプリント</h2>
+    <p>まだない😡</p>
+  </div>
+
+</main>
+
+</div>
+
+<script>
+const container = document.getElementById("main-content");
+const nav = document.getElementById("research-nav");
+
+const headings = container.querySelectorAll("h2, h3");
+
+let currentUl = nav;
+let lastH2Li = null;
+
+headings.forEach((h, i) => {
+  const id = "sec-" + i;
+  h.id = id;
+
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  a.href = "#" + id;
+  a.textContent = h.textContent;
+
+  li.appendChild(a);
+
+  if (h.tagName === "H2") {
+    // H2 → 親
+    currentUl = document.createElement("ul");
+    currentUl.classList.add("subnav");
+
+    li.appendChild(currentUl);
+    nav.appendChild(li);
+
+    lastH2Li = li;
+  } else {
+    // H3 → 子
+    if (currentUl) {
+      currentUl.appendChild(li);
+    }
+  }
+});
+
+// スクロールでハイライト
+const links = nav.querySelectorAll("a");
+
+window.addEventListener("scroll", () => {
+  let current = "";
+
+  headings.forEach(h => {
+    const rect = h.getBoundingClientRect();
+    if (rect.top <= 100) {
+      current = h.id;
+    }
+  });
+
+  links.forEach(link => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === "#" + current) {
+      link.classList.add("active");
+    }
+  });
+});
+</script>
+
+</body>
+</html>

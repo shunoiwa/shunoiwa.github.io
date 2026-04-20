@@ -1,0 +1,36 @@
+[
+  {
+    "chapter": "1",
+    "title": "基礎",
+    "pages": [
+        { "file": "1-1.html", "title": "命令の実行"},
+        { "file": "1-2.html", "title": "基本設定"},
+        { "file": "1-3.html", "title": "関数グラフを書く" },
+        { "file": "1-4.html", "title": "データを読み込む" }
+    ]
+  },
+  {
+    "chapter": "2",
+    "title": "グラフデザイン",
+    "pages": [
+        { "file": "2-1.html", "title": "グラフエリア" },
+        { "file": "2-2.html", "title": "データ点と線(未完成)" },
+        { "file": "2-3.html", "title": "凡例(未完成)" },
+        { "file": "2-4.html", "title": "補助線とテキスト(未完成)" }
+    ]
+  },
+  {
+    "chapter": "3",
+    "title": "統計的な操作",
+    "pages": [
+        { "file": "3-1.html", "title": "近似曲線" }
+    ]
+  },
+  {
+    "chapter": "4",
+    "title": "付録",
+    "pages": [
+        {}
+    ]
+  }
+]

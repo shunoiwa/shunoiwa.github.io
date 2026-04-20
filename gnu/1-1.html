@@ -1,0 +1,129 @@
+<!-- このファイルがひな形 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Gnuplot備忘録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<div class="container">
+
+  <!-- サイドバー -->
+  <aside class="sidebar">
+    <h1>ナビゲーション</h1>
+
+    <ul class="nav">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="../res.html">研究</a></li>
+
+      <li>
+        <a href="gnu.html">Gnuplot備忘録</a>
+        <ul class="subnav" id="gnu-nav">
+          <!-- JSで生成 -->
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ここから編集OK -->
+  <main class="main">
+    <h1>1-1. 命令の実行</h1>
+    <p>このセクションでは、Gnuplotに命令する際の2通りの方法について紹介する。</p>
+    <hr>
+    <h2>命令の記述</h2>
+      <p>
+        Gnuplotでは、好みや場合によって<br>
+        <ul>
+        <li>コンソールに命令を1行ずつ記述、実行する方法(インタラクティブ)</li>
+        <li>ソースコードを書き、後でまとめて実行する方法(バッチ)</li>
+        </ul>
+        の2通りを選択することができる。
+      </p>
+    <h2>インタラクティブ</h2>
+      <p>
+        簡単な処理であれば、コンソールに直接入力したほうが早いので、こちらを推奨する。
+      </p>
+      <p>
+        Gnuplotをインストール済みのPCであれば、
+      <pre><code>$ gnuplot</code></pre>
+      と入力することでGnuplotをCUIで起動できる。ここで1行ずつ
+      <pre><code>$ plot sin(x)</code></pre>
+      と打ってみると、正弦関数のグラフが表示されるだろう。</p>
+      <p>
+        なお、後述の.gpファイルを読み込むことができる：
+        <pre><code>$ load "xxx.gp"</code></pre>
+      </p>
+    <h2>バッチ</h2>
+      <p>
+        複雑な処理の場合、複数の命令をまとめて記述・実行することが可能で(バッチ処理)、
+        通常は.gpファイルを用いる。文法はインタラクティブ的な方法と全く同じである。例えば：
+        <pre><code>set xlabel "x"
+set ylabel "y"
+f(x) = sin(x)
+g(x) = cos(x)
+plot f(x) lw 2 t "sin", \
+     g(x) lw 1 dt (3,3) t "cos"</code></pre>
+        などと入力し、scgraph.gpのような名前で保存すれば、このファイルを(gnuplotで)開く、
+        またはコンソールでloadすることで正弦関数と余弦関数のグラフを描画できるだろう。
+      </p>
+    
+    <div class="point-box">
+      <p>Gnuplotでグラフを作る方法として、コンソールを用いるインタラクティブ的な方法と
+        ソースコードを記述するバッチ処理的な方法の2種類がある。
+      </p>
+    </div>
+
+  </main>
+  <!-- これ以降編集NG -->
+</div>
+
+<script>
+fetch("gnu_list.json")
+  .then(res => res.json())
+  .then(data => {
+    const nav = document.getElementById("gnu-nav");
+
+    data.forEach(chapter => {
+      // ===== 章 =====
+      const li = document.createElement("li");
+
+      const title = document.createElement("div");
+      title.textContent = "第" + chapter.chapter + "章: " + chapter.title;
+      title.style.fontWeight = "bold";
+      title.style.marginTop = "10px";
+
+      li.appendChild(title);
+
+      // ===== ページリスト =====
+      const ul = document.createElement("ul");
+      ul.classList.add("subnav");
+
+      chapter.pages.forEach(page => {
+        const subLi = document.createElement("li");
+        const a = document.createElement("a");
+
+        const num = page.file.match(/(\d+-\d+)/)[1];
+
+        a.href = page.file;
+        a.textContent = num + ". " + page.title;
+
+        subLi.appendChild(a);
+        ul.appendChild(subLi);
+      });
+
+      li.appendChild(ul);
+      nav.appendChild(li);
+    });
+  })
+  .catch(err => {
+    console.error("JSON読み込み失敗:", err);
+  });
+</script>
+
+</body>
+</html>

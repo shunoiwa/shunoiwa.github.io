@@ -1,0 +1,341 @@
+/* ===== ベース ===== */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f6fa;
+  color: #333;
+}
+
+/* ===== レイアウト ===== */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== サイドバー ===== */
+.sidebar {
+  width: 240px;
+  background: #1e1e2f;
+  color: white;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar h1 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+/* ===== ナビ ===== */
+.nav, .subnav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav li {
+  margin-bottom: 8px;
+}
+
+.nav a, .subnav a {
+  display: block;
+  padding: 8px;
+  color: #ccc;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.nav a:hover, .subnav a:hover {
+  background: #3a3a5a;
+  color: white;
+}
+
+/* ===== サブナビ階層 ===== */
+.subnav {
+  margin-left: 10px;
+  border-left: 2px solid #444;
+  padding-left: 10px;
+}
+
+.subnav .subnav {
+  margin-left: 10px;
+  border-left: 2px dashed #555;
+}
+
+/* ===== アクティブ表示 ===== */
+.active {
+  background: #4c6fff !important;
+  color: white !important;
+}
+
+/* ===== メイン ===== */
+.main {
+  flex: 1;
+  padding: 40px;
+}
+
+/* ===== カードUI ===== */
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+/* ===== スクロール位置調整 ===== */
+h2, h3 {
+  scroll-margin-top: 20px;
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+}
+
+/* ===== コードブロック ===== */
+pre {
+  background: #1e1e2f;
+  color: #e6e6e6;
+  padding: 15px;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 15px 0;
+}
+
+code {
+  font-family: inherit;
+}
+
+/* インラインコード */
+p code {
+  background: #eee;
+  color: #c7254e;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+/* ===== Pointボックス ===== */
+.point-box {
+  position: relative;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin: 25px 0;
+
+  /* 立体感 */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+/* 見出しラベル */
+.point-box::before {
+  content: "☆Point☆";
+  position: absolute;
+  top: -12px;
+  left: 20px;
+
+  background: #2dd2ff;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+
+  padding: 4px 10px;
+  border-radius: 6px;
+
+  /* 小さい枠の立体感 */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.gnu-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.gnu-table th, .gnu-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.gnu-table th {
+  background: #f0f2f8;
+  font-weight: bold;
+}
+
+.gnu-table tr:hover {
+  background: #f9f9ff;
+}
+
+/* トグル全体 */
+.toggle-box {
+  margin: 20px 0;
+}
+
+/* 見出し */
+.toggle-box summary {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  background: #4c6fff;
+  color: white;
+  border-radius: 8px;
+  list-style: none;
+}
+
+/* ▼マーク消す（任意） */
+.toggle-box summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 開いたとき */
+.toggle-box[open] summary {
+  background: #3a55d1;
+}
+
+/* 中身との余白 */
+.toggle-box .card {
+  margin-top: 10px;
+}
+
+.toggle-box summary::after {
+  content: "▼";
+  float: right;
+  transition: 0.2s;
+}
+
+.toggle-box[open] summary::after {
+  transform: rotate(180deg);
+}
+
+/*h2*/
+h2 {
+  position: relative;
+  margin-bottom: 15px;
+  padding-left: 12px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 70%;
+  background: #4c6fff;
+  border-radius: 2px;
+}
+
+/*h3*/
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+}
+
+h3::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: #9aa4ff;
+  border-radius: 2px;
+}
+
+h3::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: -2px;
+  width: 30px;
+  height: 2px;
+  background: #d0d5ff;
+}
+
+/*i*/
+
+i {
+  color: #0090e3;
+}
+
+/* ===== 引数説明テーブル ===== */
+.arg-table {
+  margin: 20px 0;
+}
+
+.arg-table table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* 行ごとに隙間 */
+  font-size: 14px;
+}
+
+/* ヘッダ */
+.arg-table th {
+  text-align: left;
+  padding: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+/* 各行をカード風に */
+.arg-table td {
+  background: #f9f9ff;
+  padding: 10px;
+}
+
+/* 左端 */
+.arg-table td:first-child {
+  border-radius: 8px 0 0 8px;
+  font-weight: bold;
+}
+
+/* 右端 */
+.arg-table td:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+/* code部分強調 */
+.arg-table code {
+  font-family: "Fira Code", monospace;
+  background: #eef1ff;
+  padding: 2px 6px;
+  border-radius: 5px;
+}
+
+/* ちょいホバー */
+.arg-table tbody tr:hover td {
+  background: #eef1ff;
+}

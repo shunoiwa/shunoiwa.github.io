@@ -1,0 +1,147 @@
+<!-- このファイルがひな形 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Gnuplot備忘録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<div class="container">
+
+  <!-- サイドバー -->
+  <aside class="sidebar">
+    <h1>ナビゲーション</h1>
+
+    <ul class="nav">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="../res.html">研究</a></li>
+
+      <li>
+        <a href="gnu.html">Gnuplot備忘録</a>
+        <ul class="subnav" id="gnu-nav">
+          <!-- JSで生成 -->
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ここから編集OK -->
+  <main class="main">
+    <h1>1-4. データを読み込む</h1>
+    <p>このセクションでは、あらかじめ用意されたデータのプロットについて紹介する。</p>
+    <hr>
+    <h2>データを読み込む準備</h2>
+    <p>
+      まずはデータの形式を確認すべきである。Gnuplotでは、区切り文字のデフォルトは半角スペースに
+      設定されている。そのため、例えばコンマ区切りCSVファイルを読み込もうとしても失敗する。
+      区切り文字が半角スペース以外(コンマなど)の場合、
+      <pre><code>set datafile separator <i>sep</i></code></pre>
+      を実行して区切り文字を設定しておく必要がある(<i>sep</i>は"," , " ", ":" など区切り文字)。
+    </p>
+    <p>また、Gnuplotではデータファイルの文字コードがUTF-8であることを仮定している。それ以外の文字コードである場合
+      正常に読み込めないので、データファイルの文字コードを確認すること。
+    </p>
+    <p>
+      データファイルは2次元データである必要があり、例えば：
+      <pre><code>0,-3,4
+1,-1,7
+2,1,10
+3,3,13</code></pre>
+      のような形式である。行番号および列番号は1から始まることに注意。
+    </p>
+    <h2>plotコマンド</h2>
+    <p>plotコマンドは関数や数式だけではなく、CSVデータなどのデータファイルも指定できる：</p>
+    <pre><code>plot <i>path</i> u <i>xcol</i>:<i>ycol</i></code></pre>
+    <p><i>path</i>はGnuplotのカレントディレクトリを基準とした相対パスで、ここで指定したデータファイルの
+      第<i>xcol</i>列目をx軸、第<i>ycol</i>列をy軸として、通常すべての行のデータ点をプロットする。
+      例えば同階層に存在する「data.csv」というファイルの \(1\) 列目をx軸、 \(3\) 列目をy軸として読み込みたい場合は
+      <pre><code>plot "data.csv" u 1:3</code></pre>
+      と記述すればよい(デフォルトでは1列目と2列目を読み込むため、u 1:2 は省略できる)。
+    </p>
+    <p><small>※カレントディレクトリは通常、インタラクティブモードであればコンソールと同じ、バッチモードで
+      あれば.gpファイルの場所と同じである。
+    </small></p>
+    <p>
+      また、
+      <pre><code>plot <i>data1</i> u <i>xcol1</i>:<i>ycol1</i>, <i>data2</i> u <i>xcol2</i>:<i>ycol2</i></code></pre>
+      のようにコンマで区切ることで複数のグラフを同時にプロットすることもできる。
+      但し、参照ファイル<i>data2</i>がひとつ前の参照<i>data1</i>と同一であれば      
+      <pre><code>plot <i>data1</i> u <i>xcol1</i>:<i>ycol1</i>, "" u <i>xcol2</i>:<i>ycol2</i></code></pre>
+      のように省略が可能である。
+    </p>
+    <p>
+      例えば上に示したデータ(data.csvとする)を
+      <pre><code>set datafile separator ","
+plot "data.csv" u 1:2, "" u 1:3</code></pre>
+      として描画すると...
+    </p>
+    <img src="images/1-4_fig1.png">
+    <p>
+      このようになる。なお、オプションで"w l"を指定すると隣り合うデータ点どうしを線分で結んで折れ線グラフにすることもできる：
+    </p>
+    <pre><code>set datafile separator ","
+plot "data.csv" u 1:2 w l, "" u 1:3 w l</code></pre>
+    <img src="images/1-4_fig2.png">
+    <p></p>
+    <div class="point-box">
+      <ul>
+        <li>2次元データを読み込む際、区切り文字と文字コードを確認する必要がある。</li>
+        <li>plotコマンドにより、2次元データの指定した2列の関係をプロットできる。</li>
+        <li>オプション"w l"により折れ線グラフにすることができる。</li>
+      </ul>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+fetch("gnu_list.json")
+  .then(res => res.json())
+  .then(data => {
+    const nav = document.getElementById("gnu-nav");
+
+    data.forEach(chapter => {
+      // ===== 章 =====
+      const li = document.createElement("li");
+
+      const title = document.createElement("div");
+      title.textContent = "第" + chapter.chapter + "章: " + chapter.title;
+      title.style.fontWeight = "bold";
+      title.style.marginTop = "10px";
+
+      li.appendChild(title);
+
+      // ===== ページリスト =====
+      const ul = document.createElement("ul");
+      ul.classList.add("subnav");
+
+      chapter.pages.forEach(page => {
+        const subLi = document.createElement("li");
+        const a = document.createElement("a");
+
+        const num = page.file.match(/(\d+-\d+)/)[1];
+
+        a.href = page.file;
+        a.textContent = num + ". " + page.title;
+
+        subLi.appendChild(a);
+        ul.appendChild(subLi);
+      });
+
+      li.appendChild(ul);
+      nav.appendChild(li);
+    });
+  })
+  .catch(err => {
+    console.error("JSON読み込み失敗:", err);
+  });
+</script>
+
+</body>
+</html>

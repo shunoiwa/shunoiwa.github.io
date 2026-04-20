@@ -1,0 +1,190 @@
+<!-- このファイルがひな形 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Gnuplot備忘録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<div class="container">
+
+  <!-- サイドバー -->
+  <aside class="sidebar">
+    <h1>ナビゲーション</h1>
+
+    <ul class="nav">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="../res.html">研究</a></li>
+
+      <li>
+        <a href="gnu.html">Gnuplot備忘録</a>
+        <ul class="subnav" id="gnu-nav">
+          <!-- JSで生成 -->
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ここから編集OK -->
+  <main class="main">
+    <h1>3-1. 近似曲線</h1>
+    <p>このセクションでは、データを近似する曲線について紹介する。</p>
+    <hr>
+    <h2>fitコマンド</h2>
+    <p>
+      Gnuplotでは、データの近似曲線を生成するfitコマンドが用意されている。
+    </p>
+    <pre><code>fit <i>func</i> <i>data</i> u <i>xcol</i>:<i>ycol</i>{:<i>err</i>} via <i>vars</i> </code></pre>
+    <div class="card">
+      <div class="arg-table">
+        <table>
+          <thead>
+            <tr>
+              <th>値</th>
+              <th>値の種類</th>
+              <th>説明</th>
+              <th>例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code><i>func</i></code></td>
+              <td>関数</td>
+              <td>事前に定義した、フィッティング対象の関数</td>
+              <td><code>f(x)</code></td>
+            </tr>
+
+            <tr>
+              <td><code><i>data</i></code></td>
+              <td>文字列</td>
+              <td>データファイル</td>
+              <td><code>"data.dat"</code></td>
+            </tr>
+
+            <tr>
+              <td><code><i>xcol</i></code></td>
+              <td>数値</td>
+              <td>xの値として使う列番号</td>
+              <td><code>1</code></td>
+            </tr>
+
+            <tr>
+              <td><code><i>ycol</i></code></td>
+              <td>数値</td>
+              <td>yの値として使う列番号</td>
+              <td><code>2</code></td>
+            </tr>
+
+            <tr>
+              <td><code><i>err</i></code></td>
+              <td>数値</td>
+              <td>データの誤差（エラーバー）を表す列</td>
+              <td><code>3</code></td>
+            </tr>
+
+            <tr>
+              <td><code><i>vars</i></code></td>
+              <td>変数リスト</td>
+              <td>変分パラメータ</td>
+              <td><code>a,b,c</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p>
+      フィッティング関数および変分パラメータの初期値はあらかじめ定義しておく必要があり、例えば
+    </p>
+    <pre><code>a = 1; b = 1
+f(x) = a * x + b
+fit f(x) "data.csv" u 1:2 via a,b
+plot "data.csv", f(x)</code></pre>
+    <p>のように書く必要がある。なお、fitコマンドは変分パラメータとして指定された変数の値を決定するコマンドであり、
+      変数の形を直接変化させるものではない。従って、例えば
+    </p>
+    <pre><code>a = 1; b = 1
+f(x) = a * x + b
+fit f(x) "data.csv" u 1:2 via a,b
+a = 3; b = 3
+plot "data.csv", f(x)</code></pre>
+    <p>
+      のようにしてしまうとfitの結果がplot時点で消えてしまうことに注意。
+    </p>
+    <p>フィッティングの結果はインタラクティブモードであれば簡単に確認できるので、近似式を求めたいだけであれば単に
+<pre><code>$ a = 1; b = 1
+$ f(x) = a * x + b
+$ fit f(x) "data.csv" u 1:2 via a,b</code></pre>
+      とすれば最終的な変数の値を確認できる。
+    </p>
+    <h2>実行例</h2>
+<pre><code>set datafile separator ","
+a = 1; b = 1
+f(x) = a**x + b
+fit f(x) "data.csv" u 1:2 via a,b
+plot "data.csv" ps 2, f(x) dt (5,5)</code></pre>
+    <img src="images/3-1_fig1.png">
+    <p>なお、インタラクティブモードにおいてfitコマンドに対する結果は次のように出る：</p>
+    <img src="images/3-1_fig2.png">
+    <p>赤枠で囲んだ場所の表示が、最終的な変数の値である。ここを見ると、近似曲線は \( y = 1.99166^x + 1.5996\) であることがわかる。</p>
+
+    <div class="point-box">
+      <ul>
+        <li>fitコマンドはあらかじめ定義された変分パラメータ入りの変数を最適化する。</li>
+        <li>近似式だけを知りたければ、インタラクティブモードを使うとよい。</li>
+      </ul>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+fetch("gnu_list.json")
+  .then(res => res.json())
+  .then(data => {
+    const nav = document.getElementById("gnu-nav");
+
+    data.forEach(chapter => {
+      // ===== 章 =====
+      const li = document.createElement("li");
+
+      const title = document.createElement("div");
+      title.textContent = "第" + chapter.chapter + "章: " + chapter.title;
+      title.style.fontWeight = "bold";
+      title.style.marginTop = "10px";
+
+      li.appendChild(title);
+
+      // ===== ページリスト =====
+      const ul = document.createElement("ul");
+      ul.classList.add("subnav");
+
+      chapter.pages.forEach(page => {
+        const subLi = document.createElement("li");
+        const a = document.createElement("a");
+
+        const num = page.file.match(/(\d+-\d+)/)[1];
+
+        a.href = page.file;
+        a.textContent = num + ". " + page.title;
+
+        subLi.appendChild(a);
+        ul.appendChild(subLi);
+      });
+
+      li.appendChild(ul);
+      nav.appendChild(li);
+    });
+  })
+  .catch(err => {
+    console.error("JSON読み込み失敗:", err);
+  });
+</script>
+
+</body>
+</html>

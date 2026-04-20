@@ -1,0 +1,230 @@
+<!-- このファイルがひな形 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Gnuplot備忘録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<div class="container">
+
+  <!-- サイドバー -->
+  <aside class="sidebar">
+    <h1>ナビゲーション</h1>
+
+    <ul class="nav">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="../res.html">研究</a></li>
+
+      <li>
+        <a href="gnu.html">Gnuplot備忘録</a>
+        <ul class="subnav" id="gnu-nav">
+          <!-- JSで生成 -->
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ここから編集OK -->
+  <main class="main">
+    <h1>1-3. 関数グラフを書く</h1>
+    <p>このセクションでは、\(y = f(x)\) 型の関数を表示する方法について紹介する。</p>
+    <hr>
+    <h2>変数・関数の定義</h2>
+    <p>多くのプログラミング言語と同様、変数(または定数)や関数を定義することができる。例えば
+      <pre><code>e = 2.7</code></pre>
+      と書くと文字 \(e\) はこれ以降数値2.7として扱われる(変数の定義)。Gnuplotでは数値だけでなく
+      文字列も扱うことができる：
+    </p>
+    <pre><code>text = "String"</code></pre>
+    <p>文字列の処理についてはこのセクションでは取り上げない。</p>
+    <p>関数を定義する際は、やはり関数名(引数)の形で宣言すればよい：</p>
+    <pre><code>f(x) = x**2 + 3*x</code></pre>
+    <p>これは関数 \(f(x) = x^2 + 3x\) を定義する命令である。Gnuplotで利用できる演算子は次のとおりである：</p>
+    <details class="toggle-box">
+      <summary>演算子一覧</summary>
+
+      <div class="card">
+        <table class="gnu-table">
+          <thead>
+            <tr>
+              <th>分類</th>
+              <th>演算子</th>
+              <th>意味</th>
+              <th>例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>算術</td><td>+</td><td>加算</td><td>a + b</td></tr>
+            <tr><td>算術</td><td>-</td><td>減算</td><td>a - b</td></tr>
+            <tr><td>算術</td><td>*</td><td>乗算</td><td>a * b</td></tr>
+            <tr><td>算術</td><td>/</td><td>除算</td><td>a / b</td></tr>
+            <tr><td>算術</td><td>%</td><td>剰余</td><td>a % b</td></tr>
+            <tr><td>算術</td><td>**</td><td>べき乗</td><td>a ** b</td></tr>
+
+            <tr><td>比較</td><td>==</td><td>等しい</td><td>a == b</td></tr>
+            <tr><td>比較</td><td>!=</td><td>等しくない</td><td>a != b</td></tr>
+            <tr><td>比較</td><td>&lt;</td><td>小なり</td><td>a &lt; b</td></tr>
+            <tr><td>比較</td><td>&lt;=</td><td>以下</td><td>a &lt;= b</td></tr>
+            <tr><td>比較</td><td>&gt;</td><td>大なり</td><td>a &gt; b</td></tr>
+            <tr><td>比較</td><td>&gt;=</td><td>以上</td><td>a &gt;= b</td></tr>
+
+            <tr><td>論理</td><td>&amp;&amp;</td><td>論理AND</td><td>(a &gt; 0) &amp;&amp; (b &gt; 0)</td></tr>
+            <tr><td>論理</td><td>||</td><td>論理OR</td><td>(a &gt; 0) || (b &gt; 0)</td></tr>
+            <tr><td>論理</td><td>!</td><td>否定</td><td>!(a == b)</td></tr>
+
+            <tr><td>条件</td><td>?:</td><td>三項演算子</td><td>(a &gt; 0) ? a : -a</td></tr>
+
+            <tr><td>ビット</td><td>&amp;</td><td>ビットAND</td><td>a &amp; b</td></tr>
+            <tr><td>ビット</td><td>|</td><td>ビットOR</td><td>a | b</td></tr>
+            <tr><td>ビット</td><td>^</td><td>ビットXOR</td><td>a ^ b</td></tr>
+            <tr><td>ビット</td><td>~</td><td>ビット反転</td><td>~a</td></tr>
+            <tr><td>ビット</td><td>&lt;&lt;</td><td>左シフト</td><td>a &lt;&lt; 1</td></tr>
+            <tr><td>ビット</td><td>&gt;&gt;</td><td>右シフト</td><td>a &gt;&gt; 1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <p>Gnuplotではあらかじめ予約された名があり、これらを変数・関数名として用いることはできない。
+      次によく用いられる定数・文字および初等関数の一覧を示す：
+    </p>
+    <details class="toggle-box">
+      <summary>予約名一覧</summary>
+
+      <div class="card">
+        <table class="gnu-table">
+          <thead>
+            <tr>
+              <th>分類</th>
+              <th>名前</th>
+              <th>意味</th>
+              <th>例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 変数 -->
+            <tr><td>文字</td><td>x / y / z</td><td>標準変数</td><td> - </td></tr>
+            <!-- 定数 -->
+            <tr><td>定数</td><td>pi</td><td>円周率</td><td>plot sin(pi*x)</td></tr>
+            <tr><td>定数</td><td>NaN</td><td>非数（未定義）</td><td>0/0</td></tr>
+
+            <!-- 基本関数 -->
+            <tr><td>基本</td><td>abs(x)</td><td>絶対値</td><td>abs(-3)</td></tr>
+            <tr><td>基本</td><td>sgn(x)</td><td>符号</td><td>sgn(-5)</td></tr>
+            <tr><td>基本</td><td>sqrt(x)</td><td>平方根</td><td>sqrt(4)</td></tr>
+
+            <!-- 三角関数 -->
+            <tr><td>三角</td><td>sin(x)</td><td>正弦</td><td>sin(x)</td></tr>
+            <tr><td>三角</td><td>cos(x)</td><td>余弦</td><td>cos(x)</td></tr>
+            <tr><td>三角</td><td>tan(x)</td><td>正接</td><td>tan(x)</td></tr>
+            <tr><td>三角</td><td>asin(x)</td><td>逆正弦</td><td>asin(1)</td></tr>
+            <tr><td>三角</td><td>acos(x)</td><td>逆余弦</td><td>acos(0)</td></tr>
+            <tr><td>三角</td><td>atan(x)</td><td>逆正接</td><td>atan(1)</td></tr>
+
+            <!-- 指数・対数 -->
+            <tr><td>指数</td><td>exp(x)</td><td>指数関数</td><td>exp(1)</td></tr>
+            <tr><td>対数</td><td>log(x)</td><td>自然対数</td><td>log(10)</td></tr>
+            <tr><td>対数</td><td>log10(x)</td><td>常用対数</td><td>log10(100)</td></tr>
+
+            <!-- 双曲線関数 -->
+            <tr><td>双曲線</td><td>sinh(x)</td><td>双曲線正弦</td><td>sinh(x)</td></tr>
+            <tr><td>双曲線</td><td>cosh(x)</td><td>双曲線余弦</td><td>cosh(x)</td></tr>
+            <tr><td>双曲線</td><td>tanh(x)</td><td>双曲線正接</td><td>tanh(x)</td></tr>
+
+            <!-- 切り上げ・切り捨て -->
+            <tr><td>丸め</td><td>floor(x)</td><td>切り捨て</td><td>floor(2.7)</td></tr>
+            <tr><td>丸め</td><td>ceil(x)</td><td>切り上げ</td><td>ceil(2.3)</td></tr>
+            <tr><td>丸め</td><td>int(x)</td><td>整数化</td><td>int(2.9)</td></tr>
+
+            <!-- その他 -->
+            <tr><td>その他</td><td>rand(x)</td><td>乱数</td><td>rand(0)</td></tr>
+            <tr><td>その他</td><td>column(n)</td><td>データ列参照</td><td>column(2)</td></tr>
+
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <p>これ以外の特殊関数については、Gnuplotの公式マニュアルを確認してほしい。</p>
+    <h2>plotコマンド</h2>
+    <p>Gnuplotで陽関数 \(y = f(x)\) の形を描画するために、plotコマンドを用いる。
+      <pre><code>plot f(x)</code></pre>
+      と書くと、 \(y=f(x)\)のグラフを描画できる。なお、f(x)の部分は事前に定義した関数を
+      書いても良いし、直接 \(x\) の式を書いてしまってもよい。
+      <pre><code>f(x) = abs(sin(x))
+plot f(2*x)</code></pre>
+      </p>
+      <img src="images/1-3_fig1.png">
+      <p>
+        これをプロットしてみると分かるが、上の図のようになんだか形が粗い。実際にはGnuplotのグラフは曲線ではなく、一定間隔で
+        \( (x,f(x)) \)を計算して折れ線グラフを描画している。点の生成数(サンプル数)が少ないとこのような
+        見た目になってしまう。これを解決するために
+        <pre><code>set samples {<i>value</i>}</code></pre>
+        を先頭に挿入してみる。サンプル数<i>value</i>を10000程度にすれば...
+      </p>
+      <img src="images/1-3_fig2.png">
+      <p>このように滑らかなグラフを得られる。但し、サンプル数を大きくすると
+        epsのようなベクター画像で保存する際ファイルサイズが大きくなることに注意。
+      </p>
+    </p>
+    <div class="point-box">
+      <ul>
+        <li>変数や関数を多くのプログラミング言語と同様に定義できる。</li>
+        <li>plotコマンドにより \(y = f(x)\) のグラフを描画できる。</li>
+        <li>サンプル数を調整することで、滑らかなグラフを描画できる。</li>
+      </ul>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+fetch("gnu_list.json")
+  .then(res => res.json())
+  .then(data => {
+    const nav = document.getElementById("gnu-nav");
+
+    data.forEach(chapter => {
+      // ===== 章 =====
+      const li = document.createElement("li");
+
+      const title = document.createElement("div");
+      title.textContent = "第" + chapter.chapter + "章: " + chapter.title;
+      title.style.fontWeight = "bold";
+      title.style.marginTop = "10px";
+
+      li.appendChild(title);
+
+      // ===== ページリスト =====
+      const ul = document.createElement("ul");
+      ul.classList.add("subnav");
+
+      chapter.pages.forEach(page => {
+        const subLi = document.createElement("li");
+        const a = document.createElement("a");
+
+        const num = page.file.match(/(\d+-\d+)/)[1];
+
+        a.href = page.file;
+        a.textContent = num + ". " + page.title;
+
+        subLi.appendChild(a);
+        ul.appendChild(subLi);
+      });
+
+      li.appendChild(ul);
+      nav.appendChild(li);
+    });
+  })
+  .catch(err => {
+    console.error("JSON読み込み失敗:", err);
+  });
+</script>
+
+</body>
+</html>
