@@ -1,0 +1,158 @@
+<!-- このファイルがひな形 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Gnuplot備忘録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<div class="container">
+
+  <!-- サイドバー -->
+  <aside class="sidebar">
+    <h1>ナビゲーション</h1>
+
+    <ul class="nav">
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="../res.html">研究</a></li>
+
+      <li>
+        <a href="gnu.html">Gnuplot備忘録</a>
+        <ul class="subnav" id="gnu-nav">
+          <!-- JSで生成 -->
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ここから編集OK -->
+  <main class="main">
+    <h1>2-2. データ点と線</h1>
+    <p>このセクションでは、グラフのデザイン方法について紹介する。</p>
+    <hr>
+    <h2>plotコマンドのオプション</h2>
+    <p>
+      グラフの線および点のデザインはplotコマンドのオプションとして指定できる。
+    </p>
+    <pre><code>plot <i>data</i> {u <i>xcol</i>:<i>ycol</i>} <i>option1</i> {<i>value1</i>} <i>option2</i> {<i>value2</i>} ...</code></pre>
+    <p>
+      複数のオプションを指定する際は、カンマで区切らずに続けて書く。次にグラフデザインに関する
+      オプションの一覧を示す。：
+    </p>
+    <details class="toggle-box">
+      <summary>plotのオプション一覧</summary>
+      <div class="card">
+        <table class="gnu-table">
+          <thead>
+            <tr>
+              <th><i>option</i></th>
+              <th><i>value</i>の種類</th>
+              <th>デフォルト値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td>w</td>
+              <td>l / p / lp</td>
+              <td><i>data</i>が関数または数式なら l <br>そうでなければ p</td>
+              <td>データのプロットを線(l)にするか点(p)にするかを指定する。lpなら点を線で結ぶ。</td>
+            </tr>
+
+            <tr>
+              <td>lw</td>
+              <td>数値</td>
+              <td>1</td>
+              <td>線の太さを設定する。</td>
+            </tr>
+
+            <tr>
+              <td>ps</td>
+              <td>数値</td>
+              <td>1</td>
+              <td>点の大きさを設定する。</td>
+            </tr>
+
+            <tr>
+              <td rowspan="2">dt</td>
+              <td>数値</td>
+              <td>-1</td>
+              <td>破線パターンを選択する。-1は実線、0はduty比1:1の破線である。</td>
+            </tr>
+
+            <tr>
+              <!-- dt -->
+              <td>偶数個の数値タプル</td>
+              <td>(なし)</td>
+              <td>
+                破線パターンを具体的に指定する。(<i>l1</i>,<i>s1</i>)はduty比
+                <i>l1</i>:<i>s1</i>の破線であり、(<i>l1</i>,<i>s1</i>,<i>l2</i>,<i>s2</i>, ... )はduty比
+                <i>l1</i>,<i>s1</i>, <i>l2</i>,<i>s2</i>, ... の破線をこの順に繰り返し接続する。
+              </td>
+            </tr>
+            
+
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <div class="point-box">
+      
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+fetch("gnu_list.json")
+  .then(res => res.json())
+  .then(data => {
+    const nav = document.getElementById("gnu-nav");
+
+    data.forEach(chapter => {
+      // ===== 章 =====
+      const li = document.createElement("li");
+
+      const title = document.createElement("div");
+      title.textContent = "第" + chapter.chapter + "章: " + chapter.title;
+      title.style.fontWeight = "bold";
+      title.style.marginTop = "10px";
+
+      li.appendChild(title);
+
+      // ===== ページリスト =====
+      const ul = document.createElement("ul");
+      ul.classList.add("subnav");
+
+      chapter.pages.forEach(page => {
+        const subLi = document.createElement("li");
+        const a = document.createElement("a");
+
+        const num = page.file.match(/(\d+-\d+)/)[1];
+
+        a.href = page.file;
+        a.textContent = num + ". " + page.title;
+
+        subLi.appendChild(a);
+        ul.appendChild(subLi);
+      });
+
+      li.appendChild(ul);
+      nav.appendChild(li);
+    });
+  })
+  .catch(err => {
+    console.error("JSON読み込み失敗:", err);
+  });
+</script>
+
+</body>
+</html>
