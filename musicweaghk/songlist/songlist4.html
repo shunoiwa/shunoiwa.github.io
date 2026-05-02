@@ -1069,7 +1069,7 @@ function filterTable() {
         if (title && !titlePool.includes(title)) show = false;
         if (idQuery && !songId.includes(idQuery)) show = false;
         if (diff && level !== diff) show = false;
-        if (size && (song.party || []).length !== Number(size)) show = false;
+        if (size && effectivePartyCount(song) !== Number(size)) show = false;
         if (durationRange && !matchesDurationRange(song.duration, durationRange)) show = false;
 
         if (expanded.length > 0) {
@@ -1103,8 +1103,8 @@ function matchesDurationRange(seconds, range) {
 }
 
 function renderSections(filtered, checkedCount) {
-    const solo = filtered.filter(song => (song.party || []).length <= 2);
-    const ensemble = filtered.filter(song => (song.party || []).length > 2);
+    const solo = filtered.filter(song => effectivePartyCount(song) <= 2);
+    const ensemble = filtered.filter(song => effectivePartyCount(song) > 2);
 
     document.getElementById("result-count").textContent = t("pieceCount", filtered.length);
     document.getElementById("active-filters").textContent = t("activeFilters", checkedCount);
@@ -1273,7 +1273,7 @@ function formatHeading(song, lang = state.lang) {
     const formCode = song.id?.form || "";
     const formName = state.formNames[lang]?.[formCode] || formCode;
     const title = song.title?.[lang] || song.title?.en || song.title?.ja || "";
-    const count = (song.party || []).length;
+    const count = effectivePartyCount(song);
 
     if (lang === "ja") {
         const size = count === 1 ? "独奏" : `${count}重奏`;
@@ -1282,6 +1282,15 @@ function formatHeading(song, lang = state.lang) {
 
     const size = ensembleNamesEn[count] || `${count}-part Ensemble`;
     return `${formName} ${size} - "${title}"`;
+}
+
+function effectivePartyCount(song) {
+    const counted = (song.party || []).filter(part => !isAccompanimentPart(part)).length;
+    return counted || (song.party || []).length;
+}
+
+function isAccompanimentPart(part) {
+    return /\(accomp\.\)/i.test(String(part || ""));
 }
 
 function formatSongId(song) {
