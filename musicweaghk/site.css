@@ -428,6 +428,22 @@ p {
   max-width: 640px;
 }
 
+.embed-panel {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.embed-panel iframe {
+  width: 100%;
+  min-height: 760px;
+  border: 0;
+  display: block;
+  background: #fff;
+}
+
 @media (max-width: 860px) {
   .nav-wrap {
     min-height: auto;
@@ -459,6 +475,10 @@ p {
   .section-head {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .embed-panel iframe {
+    min-height: 680px;
   }
 }
 
