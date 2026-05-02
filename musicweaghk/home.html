@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MUSIC WEAGHK</title>
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="home.html"><span class="brand-mark">MW</span><span>MUSIC WEAGHK</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="is-current" href="home.html">ホーム</a>
+        <a href="scores.html">楽譜販売</a>
+        <a href="information.html">情報</a>
+        <a href="songlist/songlist4.html">楽曲リスト</a>
+        <a href="notes.html">問題解決ノート</a>
+        <a href="bgm.html">BGM</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Composer / Arranger / Sheet Music</p>
+        <h1 class="home-title">ウィークの物置</h1>
+        <p class="lead">ようこそ。ここは weaghk（大岩峻）のサイトです。オリジナル楽曲、アンサンブル楽譜、BGMなどを公開しています。作曲や編曲の依頼はE-mailかSNSまで。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="songlist/songlist4.html">楽曲リストを見る</a>
+          <a class="button" href="scores.html">楽譜販売について</a>
+          <a class="button dark" href="https://www.youtube.com/channel/UCMZ-iIj2BMkTeximnGh7IEA" target="_blank" rel="noopener noreferrer">YouTube</a>
+        </div>
+      </div>
+      <figure class="hero-visual video-panel">
+        <div class="hero-video-frame">
+          <iframe id="hero-video" title="MUSIC WEAGHK random video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <figcaption class="visual-caption video-caption">
+          <span id="hero-video-title">YouTubeからランダムに選曲中...</span>
+          <button class="video-refresh" id="refresh-video" type="button" aria-label="動画を切り替える">&#8635;</button>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>リンクいろいろ</h2>
+        <p class="lead">動画、販売、SNSへの導線です。</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <span class="meta">Video</span>
+          <h3>YouTube</h3>
+          <p>いろんなオリジナル楽曲を公開しています。参考動画の確認にもどうぞ。</p>
+          <div class="action-row"><a class="button" href="https://www.youtube.com/channel/UCMZ-iIj2BMkTeximnGh7IEA" target="_blank" rel="noopener noreferrer">開く</a></div>
+        </article>
+        <article class="card">
+          <span class="meta">Shop</span>
+          <h3>BOOTH</h3>
+          <p>楽譜はBOOTHで販売しています。販売ページは楽曲リストからも確認できます。</p>
+          <div class="action-row"><a class="button" href="https://weaghk.booth.pm/" target="_blank" rel="noopener noreferrer">開く</a></div>
+        </article>
+        <article class="card">
+          <span class="meta">SNS</span>
+          <h3>Instagram / Twitter</h3>
+          <p>@weaghk はYouTubeチャンネル対応、@shunoiwa は対外用の個人アカウントです。</p>
+          <div class="action-row">
+            <a class="button" href="https://www.instagram.com/music_weaghk/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a class="button" href="https://twitter.com/weaghk" target="_blank" rel="noopener noreferrer">@weaghk</a>
+            <a class="button" href="https://twitter.com/shunoiwa" target="_blank" rel="noopener noreferrer">@shunoiwa</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>サイト内メニュー</h2>
+        <p class="lead">必要なページへすぐ移動できます。</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3>楽譜販売</h3>
+          <p>難度設定、販売価格、購入前の確認事項をまとめています。</p>
+          <div class="action-row"><a class="button" href="scores.html">読む</a></div>
+        </article>
+        <article class="card">
+          <h3>情報</h3>
+          <p>楽譜の利用範囲、編曲、著作権、Q&Aをまとめています。</p>
+          <div class="action-row"><a class="button" href="information.html">読む</a></div>
+        </article>
+        <article class="card">
+          <h3>楽曲リスト</h3>
+          <p>販売中の楽曲を、編成・難度・楽器数・IDから検索できます。</p>
+          <div class="action-row"><a class="button primary" href="songlist/songlist4.html">開く</a></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>MUSIC WEAGHK</span>
+      <span>Contact: <a href="mailto:weaghk@icloud.com">weaghk@icloud.com</a> / Twitter: <a href="https://twitter.com/weaghk" target="_blank" rel="noopener noreferrer">@weaghk</a> または <a href="https://twitter.com/shunoiwa" target="_blank" rel="noopener noreferrer">@shunoiwa</a></span>
+    </div>
+  </footer>
+  <script type="application/json" id="youtube-fallback">[{"id":"J4Mg3p4XZe8","title":"Dynasty of Legend"},{"id":"7XLL3qL7Lfk","title":"フラウィ・ドルチェ"},{"id":"0e_5DNdRaDE","title":"DECOY"},{"id":"p3j5XRJiOtk","title":"星の呼び声"},{"id":"dHT0biC5voY","title":"剣戟"},{"id":"YauM6ts7Bz8","title":"英雄"},{"id":"j-KSDGL8js0","title":"神秘の森"},{"id":"gSo-yPN0ZJM","title":"決戦"},{"id":"DbM-kfjshRQ","title":"Rook"},{"id":"Uhxl_VSIhHM","title":"堕天"},{"id":"TknXOhNtNTI","title":"蠱惑"},{"id":"6o6DcVDNPT8","title":"狩猟の歌"},{"id":"WbplOpM1Jp0","title":"JACK"},{"id":"MlukbxjB1cg","title":"水墨"},{"id":"bXN7jys_pUo","title":"The SATAN"},{"id":"0lOB0TixuII","title":"レムリアの伝説"},{"id":"etnuGvMkogg","title":"GANZ"},{"id":"YYR2x4sIvB8","title":"諸刃の剣"},{"id":"hVnbhlPhf34","title":"雨世の月"},{"id":"Mx8rtT6J694","title":"インコンプレート"},{"id":"Iw0SoDl39tk","title":"ポルカ"},{"id":"AAr-wwkZoDg","title":"ファンタジアIII"},{"id":"sYDI7w-RxrE","title":"森のさえずり"},{"id":"QbtZ4wlWQkk","title":"アレグロ"},{"id":"2VxtU08lAwA","title":"赤光"},{"id":"bJjm0mrdTYo","title":"マリオネット"},{"id":"GubjzyJvN84","title":"偏愛"},{"id":"BZuERH3mXPs","title":"新世界の息吹"},{"id":"__MnYiTwnf0","title":"Popping!"},{"id":"1yhiv_6ud4M","title":"倭宴"},{"id":"deK9fKTzqRw","title":"Immortal Days"},{"id":"tpeo4hSR_CQ","title":"Reunion"},{"id":"Y10bUP3n_hI","title":"砂の王国"},{"id":"Hsj4sqgh-Uk","title":"巡礼"},{"id":"7WJ8rCyKdsM","title":"ご注文どうぞ！"},{"id":"RJVFH_YOtRI","title":"静かな畔"},{"id":"2Uc4yLkQ6Qo","title":"Eldritch"},{"id":"2ZfUb4xtjvM","title":"聖なる鐘"},{"id":"FxWd4dHrUpQ","title":"夜の物語"},{"id":"gvurqNw5Fd4","title":"Allegro Moderato"},{"id":"5BhKWQ81Oy0","title":"Andante"},{"id":"xpGeSXTJ0O4","title":"トリップ・アウト"},{"id":"XHy2wpKg0Yg","title":"一悪、華を添えて"},{"id":"OQtY7H66Ue8","title":"White Glittering Morning"},{"id":"BlVbw5dIzbg","title":"煌けり太陽の凋落"},{"id":"ZD_vOyBakGM","title":"月の予言と滅びの詩"},{"id":"pIh8dhWGQMg","title":"讃頌"},{"id":"xjjMAsO5cSs","title":"熱砂の狂宴"},{"id":"lsmQuhbTxQE","title":"塵界のサバト"},{"id":"mHds0srPW0k","title":"夜神"}]</script>
+  <script>
+    const fallbackYoutubeVideos = JSON.parse(document.getElementById("youtube-fallback").textContent || "[]");
+    const heroVideo = document.getElementById("hero-video");
+    const heroVideoTitle = document.getElementById("hero-video-title");
+    const refreshVideo = document.getElementById("refresh-video");
+    let youtubeVideos = [];
+    let currentVideoIndex = -1;
+
+    initHeroVideo();
+
+    async function initHeroVideo() {
+      youtubeVideos = await loadYoutubeVideos();
+      if (!youtubeVideos.length) {
+        heroVideoTitle.textContent = "表示できる動画が見つかりませんでした。";
+        refreshVideo.disabled = true;
+        return;
+      }
+      showRandomVideo();
+      refreshVideo.addEventListener("click", showRandomVideo);
+    }
+
+    async function loadYoutubeVideos() {
+      try {
+        const response = await fetch("songlist/songdatas.json", { cache: "no-store" });
+        if (!response.ok) throw new Error(response.status);
+        const songs = await response.json();
+        return extractYoutubeVideos(songs);
+      } catch (error) {
+        return fallbackYoutubeVideos;
+      }
+    }
+
+    function extractYoutubeVideos(songs) {
+      return songs
+        .map(song => {
+          const videoId = getYoutubeId(song.sells && song.sells.youtube);
+          if (!videoId) return null;
+          return {
+            id: videoId,
+            title: song.title && (song.title.ja || song.title.en) ? (song.title.ja || song.title.en) : "MUSIC WEAGHK"
+          };
+        })
+        .filter(Boolean);
+    }
+
+    function showRandomVideo() {
+      if (!youtubeVideos.length) return;
+      let nextIndex = Math.floor(Math.random() * youtubeVideos.length);
+      if (youtubeVideos.length > 1) {
+        while (nextIndex === currentVideoIndex) {
+          nextIndex = Math.floor(Math.random() * youtubeVideos.length);
+        }
+      }
+      currentVideoIndex = nextIndex;
+      const video = youtubeVideos[currentVideoIndex];
+      heroVideo.src = `https://www.youtube-nocookie.com/embed/${video.id}?rel=0`;
+      heroVideoTitle.textContent = video.title;
+    }
+
+    function getYoutubeId(url) {
+      if (!url) return "";
+      try {
+        const parsed = new URL(url);
+        if (parsed.hostname.includes("youtu.be")) {
+          return parsed.pathname.split("/").filter(Boolean)[0] || "";
+        }
+        if (parsed.searchParams.get("v")) {
+          return parsed.searchParams.get("v");
+        }
+        const embedMatch = parsed.pathname.match(/\/embed\/([^/?]+)/);
+        return embedMatch ? embedMatch[1] : "";
+      } catch (error) {
+        return "";
+      }
+    }
+  </script>
+</body>
+</html>

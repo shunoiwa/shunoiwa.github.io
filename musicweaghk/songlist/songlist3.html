@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>販売曲リスト</title>
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f8fafc;
+    color: #333;
+    margin: 40px;
+}
+h1 {
+    text-align: center;
+    margin-top: 50px;
+    color: #1e3a8a;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+th, td {
+    padding: 10px 12px;
+    text-align: center;
+}
+th {
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    color: white;
+    font-weight: 600;
+}
+tr:nth-child(even) { background: #f1f5f9; }
+tr:hover { background: #e0f2fe; }
+
+#filter-area {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+#instrument-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+#instrument-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 180px;
+    overflow-y: auto;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #93c5fd;
+}
+label {
+    font-weight: 600;
+    color: #1e40af;
+}
+input[type="text"], select {
+    padding: 6px 10px;
+    border: 1px solid #93c5fd;
+    border-radius: 6px;
+    outline: none;
+}
+input[type="checkbox"] {
+    transform: scale(1.1);
+    margin-right: 4px;
+}
+input:focus, select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 4px rgba(37,99,235,0.3);
+}
+button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+button:hover {
+    background: #2563eb;
+}
+details summary {
+    cursor: pointer;
+}
+#no-results {
+    display: none;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #dc2626;
+    margin-top: 40px;
+}
+</style>
+</head>
+<body>
+<p>(*)第2稿です。改定前の楽譜はご利用いただけません。</p>
+
+<!-- フィルタ -->
+<div id="filter-area">
+    <div class="filter-row">
+        <label>曲名：</label>
+        <input type="text" id="filter-title" placeholder="例：祈り">
+        <label>難易度：</label>
+        <select id="filter-difficulty">
+            <option value="">すべて</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+        </select>
+    </div>
+
+    <div class="filter-row">
+        <label>楽器：</label>
+        <div style="flex: 1;">
+            <div id="instrument-controls">
+                <button id="select-all">全選択</button>
+                <button id="clear-all">全解除</button>
+                <span style="margin-left:20px; font-weight:600; color:#1e40af;">モード：</span>
+                <label style="font-weight:normal;">
+                    <input type="radio" name="logic-mode" value="OR" checked> OR（いずれかを含む）
+                </label>
+                <label style="font-weight:normal;">
+                    <input type="radio" name="logic-mode" value="AND"> AND（すべて含む）
+                </label>
+            </div>
+            <div id="instrument-boxes"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 結果なしメッセージ -->
+<div id="no-results">⚠️ 該当する曲がありません</div>
+
+<h1>ソロ</h1>
+        <table class="design12">
+            <thead>
+                <tr>
+                    <th><b>曲名</b></th>
+                    <th><b>形態</b></th>
+                    <th><b>演奏時間目安</b></th>
+                    <th><b>難度</b></th>
+                    <th><b>動画URL</b></th>
+                    <th><b>販売ページ</b></th>
+                    <th><b>価格</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>糸吊りの人形</td>
+                    <td>Trumpet (+Pf.)</td>
+                    <td>3:33</td>
+                    <td>E</td>
+                    <td><a href="https://www.youtube.com/watch?v=OSAhu9cWVOo&list=PLTFhr8J9_gzIITIq8uNM6u58-U6Lq4tvQ">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5542033">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>せせらぎ</td>
+                    <td>Harp</td>
+                    <td>2:19</td>
+                    <td>C</td>
+                    <td><a href="https://www.youtube.com/watch?v=YTnzhXoKGPY">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>祈り</td>
+                    <td>English Horn (+Pf.)</td>
+                    <td>2:56</td>
+                    <td>A</td>
+                    <td><a href="https://www.youtube.com/watch?v=cgqq-SvR41g">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Leonhard *</td>
+                    <td>Bassoon (+Pf.)</td>
+                    <td>3:41</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=dEaccPZaYE8">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5542018">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>400年の軌跡</td>
+                    <td>Horn (+Pf.)</td>
+                    <td>3:09</td>
+                    <td>C</td>
+                    <td><a href="https://www.youtube.com/watch?v=79UXmw10v0M">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5542024">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>スペイン奇想曲</td>
+                    <td>Horn (+Pf.)</td>
+                    <td>4:41</td>
+                    <td>F</td>
+                    <td><a href="https://www.youtube.com/watch?v=Bak7KrOT-sY&list=PLTFhr8J9_gzIITIq8uNM6u58-U6Lq4tvQ&index=10">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/6018606">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>タランテラ</td>
+                    <td>B♭ Clarinet (+Pf.)</td>
+                    <td>4:22</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=VVsMup9F6Q8">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5536831">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>悪魔のささやき</td>
+                    <td>B♭ Clarinet (+Pf.)</td>
+                    <td>3:47</td>
+                    <td>E</td>
+                    <td><a href="https://youtu.be/bsYhY8j7DMo?si=6o6XISSjvK_VsleH">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/6857423">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>Valse I</td>
+                    <td>Viola (+Pf.)</td>
+                    <td>3:27</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=OLUHB7jTJR8">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5536783">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>深海からの誘い</td>
+                    <td>Flute (+Pf.)</td>
+                    <td>2:43</td>
+                    <td>A</td>
+                    <td><a href="https://www.youtube.com/watch?v=s3X7HNsHImA">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5536777">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>任務</td>
+                    <td>Alto Saxophone (+Pf.)</td>
+                    <td>3:01</td>
+                    <td>G</td>
+                    <td><a href="https://www.youtube.com/watch?v=mxCtJL01Hlc">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5536760">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>The Elegance</td>
+                    <td>Alto Saxophone (+Pf.)</td>
+                    <td>1:32</td>
+                    <td>C</td>
+                    <td><a href="https://youtu.be/aXhyK3thQqY">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/8263515">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>悋気のアリア</td>
+                    <td>Oboe (+Pf.)</td>
+                    <td>5:51</td>
+                    <td>E</td>
+                    <td><a href="https://youtu.be/0z5e4LQqyGM?si=Qg8phN1ziXY3LW1a">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>サバンナの風</td>
+                    <td>Baritone Saxophone (+Pf.)</td>
+                    <td>2:42</td>
+                    <td>D</td>
+                    <td><a href="https://youtu.be/3LawyFz0Xgw">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7605621">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <h1>アンサンブル</h1>
+        <p>詳しい編成は「形態」列をクリックすると確認できます。</p>
+        <table class="design12">
+            <thead>
+                <tr>
+                    <th><b>曲名</b></th>
+                    <th><b>形態</b></th>
+                    <th><b>演奏時間目安</b></th>
+                    <th><b>難度</b></th>
+                    <th><b>動画URL</b></th>
+                    <th><b>販売ページ</b></th>
+                    <th><b>価格</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="midashi">
+                    <td colspan="7">
+                        <b>打楽器</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dynasty of Legend</td>
+                    <td>
+                        <details>
+                        <summary>打楽器5重奏</summary>
+                        [1] Timpani, Cymbal, Snare Drum<br/>
+                        [2] Vibraphone<br/>
+                        [3] Xylophone, Glockenspiel<br/>
+                        [4] Marimba<br>
+                        [5] Contrabass<br>
+                        </details>
+                    </td>
+                    <td>6:06</td>
+                    <td>E</td>
+                    <td><a href="https://www.youtube.com/watch?v=J4Mg3p4XZe8">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>フラウィ・ドルチェ</td>
+                    <td>
+                        <details>
+                        <summary>打楽器3重奏</summary>
+                        [1] Marimba 1(連弾)<br/>
+                        [2] Marimba 2(連弾)<br/>
+                        [3] Marimba 3(連弾)<br/>
+                        </details>
+                    </td>
+                    <td>2:01</td>
+                    <td>A</td>
+                    <td><a href="https://www.youtube.com/watch?v=7XLL3qL7Lfk">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>DECOY</td>
+                    <td>
+                        <details>
+                        <summary>打楽器6重奏</summary>
+                        [1] Xylophone<br/>
+                        [2] Vibraphone<br/>
+                        [3] Chime<br/>
+                        [4] Marimba<br/>
+                        [5] Drumset<br/>
+                        [6] Timpani<br/>
+                        </details>
+                    </td>
+                    <td>4:04</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=0e_5DNdRaDE">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/4223353">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>星の呼び声</td>
+                    <td>
+                        <details>
+                        <summary>打楽器6重奏</summary>
+                        [1] Xylophone, Glockenspiel<br/>
+                        [2] Vibraphone<br/>
+                        [3] Marimba<br/>
+                        [4] Chime<br/>
+                        [5] Timpani<br/>
+                        [6] Drumset<br/>
+                        </details>
+                    </td>
+                    <td>5:07</td>
+                    <td>F</td>
+                    <td><a href="https://www.youtube.com/watch?v=p3j5XRJiOtk">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/4615798">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>剣戟</td>
+                    <td>
+                        <details>
+                        <summary>打楽器6重奏</summary>
+                        [1] Xylophone, Glockenspiel<br/>
+                        [2] Vibraphone<br/>
+                        [3] Marimba<br/>
+                        [4] Chime<br/>
+                        [5] Timpani<br/>
+                        [6] Drumset<br/>
+                        </details>
+                    </td>
+                    <td>4:08</td>
+                    <td>E</td>
+                    <td><a href="https://www.youtube.com/watch?v=dHT0biC5voY">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5537442">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>英雄</td>
+                    <td>
+                        <details>
+                        <summary>打楽器5重奏</summary>
+                        [1] Xylophone, Chime, Glockenspiel<br/>
+                        [2] Vibraphone<br/>
+                        [3] Marimba<br/>
+                        [4] Timpani<br/>
+                        [5] Drumset<br/>
+                        </details>
+                    </td>
+                    <td>3:08</td>
+                    <td>G</td>
+                    <td><a href="https://www.youtube.com/watch?v=YauM6ts7Bz8">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/4044475">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>神秘の森</td>
+                    <td>
+                        <details>
+                        <summary>打楽器6重奏</summary>
+                        [1] Xylophone, Glockenspiel<br/>
+                        [2] Vibraphone<br/>
+                        [3] Marimba<br/>
+                        [4] Chime<br/>
+                        [5] Timpani<br/>
+                        [6] Drumset<br/>
+                        </details>
+                    </td>
+                    <td>3:50</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=j-KSDGL8js0">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5976909">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>決戦</td>
+                    <td>
+                        <details>
+                        <summary>打楽器5重奏</summary>
+                        [1] Glockenspiel, Xylophone<br/>
+                        [2] Vibraphone<br/>
+                        [3] Marimba<br/>
+                        [4] Timpani<br/>
+                        [5] Cymbal, Toms, Bass Drum<br/>
+                        </details>
+                    </td>
+                    <td>4:02</td>
+                    <td>E</td>
+                    <td><a href="https://www.youtube.com/watch?v=gSo-yPN0ZJM">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5984293">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>Rook</td>
+                    <td>
+                        <details>
+                        <summary>打楽器5重奏</summary>
+                        [1] Glockenspiel, Xylophone<br/>
+                        [2] Vibraphone<br/>
+                        [3] Marimba<br/>
+                        [4] Chime<br/>
+                        [5] Timpani<br/>
+                        </details>
+                    </td>
+                    <td>5:00</td>
+                    <td>C</td>
+                    <td><a href="https://www.youtube.com/watch?v=DbM-kfjshRQ">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5984293">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr id="midashi">
+                    <td colspan="7">
+                        <b>金管楽器</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>堕天</td>
+                    <td>
+                        <details>
+                        <summary>ホルン4重奏</summary>
+                        [1] F Horn 1<br/>
+                        [2] F Horn 2<br/>
+                        [3] F Horn 3<br/>
+                        [4] F Horn 4<br/>
+                        </details>
+                    </td>
+                    <td>3:37</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=Uhxl_VSIhHM">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/6800228">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>蠱惑 *</td>
+                    <td>
+                        <details>
+                        <summary>金管5重奏</summary>
+                        [1] B♭ Trumpet<br/>
+                        [2] F Horn<br/>
+                        [3] Trombone<br/>
+                        [4] Euphonium<br/>
+                        [5] Tuba<br/>
+                        </details>
+                    </td>
+                    <td>4:25</td>
+                    <td>D</td>
+                    <td><a href="https://youtu.be/TknXOhNtNTI">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7413495">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>狩猟の歌</td>
+                    <td>
+                        <details>
+                        <summary>金管7重奏</summary>
+                        [1] B♭ Cornet<br/>
+                        [2] F Horn 1<br/>
+                        [3] F Horn 2<br/>
+                        [4] Trombone 1<br/>
+                        [5] Trombone 2<br/>
+                        [6] Bass Trombone <br>
+                        [7] Tuba <br>
+                        </details>
+                    </td>
+                    <td>4:04</td>
+                    <td>C</td>
+                    <td><a href="https://www.youtube.com/watch?v=6o6DcVDNPT8">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>JACK</td>
+                    <td>
+                        <details>
+                        <summary>金管5重奏</summary>
+                        [1] B♭ Trumpet<br/>
+                        [2] F Horn<br/>
+                        [3] Trombone<br/>
+                        [4] Euphonium<br/>
+                        [5] Tuba<br/>
+                        </details>
+                    </td>
+                    <td>3:47</td>
+                    <td>E</td>
+                    <td><a href="https://www.youtube.com/watch?v=WbplOpM1Jp0">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>水墨</td>
+                    <td>
+                        <details>
+                        <summary>金管4重奏</summary>
+                        [1] Euphonium 1<br/>
+                        [2] Euphonium 2<br/>
+                        [3] Tuba 1<br/>
+                        [4] Tuba 2<br/>
+                        </details>
+                    </td>
+                    <td>1:51</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=MlukbxjB1cg">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>The SATAN</td>
+                    <td>
+                        <details>
+                        <summary>トロンボーン5重奏</summary>
+                        [1] Alto Trombone (1)<br/>
+                        [2] Trombone 2<br/>
+                        [3] Trombone 3<br/>
+                        [4] Bass Trombone 1<br/>
+                        [5] Bass Trombone 2<br/>
+                        </details>
+                    </td>
+                    <td>3:08</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=bXN7jys_pUo">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr id="midashi">
+                    <td colspan="7">
+                        <b>木管楽器</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>レムリアの伝説</td>
+                    <td>
+                        <details>
+                        <summary>リコーダー6重奏</summary>
+                        [1] Sopranino Recorder <br>
+                        [2] Soprano Recorder <br>
+                        [3] Alto Recorder 1 <br>
+                        [4] Alto Recorder 2 <br>
+                        [5] Tenor Recorder <br>
+                        [6] Bass Recorder <br>
+                        </details>
+                    </td>
+                    <td>6:44</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=0lOB0TixuII">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5542039">こちら</a></td>
+                    <td>3500円</td>
+                </tr>
+                <tr>
+                    <td>GANZ</td>
+                    <td>
+                        <details>
+                        <summary>クラリネット5重奏</summary>
+                        [1] E♭ Clarinet <br>
+                        [2] B♭ Clarinet 1 <br>
+                        [3] B♭ Clarinet 2 <br>
+                        [4] Alto Clarinet <br>
+                        [5] Bass Clarinet <br>
+                        </details>
+                    </td>
+                    <td>4:00</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=etnuGvMkogg">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>雨世の月</td>
+                    <td>
+                        <details>
+                        <summary>木管4重奏</summary>
+                        [1] Flute <br>
+                        [2] B♭ Clarinet <br>
+                        [3] Alto Saxophone <br>
+                        [4] Bassoon <br>
+                        </details>
+                    </td>
+                    <td>4:46</td>
+                    <td>B</td>
+                    <td><a href="https://www.youtube.com/watch?v=hVnbhlPhf34">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>インコンプレート</td>
+                    <td>
+                        <details>
+                        <summary>クラリネット4重奏</summary>
+                        [1] B♭ Clarinet 1<br/>
+                        [2] B♭ Clarinet 2<br/>
+                        [3] B♭ Clarinet 3<br/>
+                        [4] Bass Clarinet<br/>
+                        </details>
+                    </td>
+                    <td>4:20</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=Mx8rtT6J694">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>ポルカ</td>
+                    <td>
+                        <details>
+                        <summary>木管5重奏</summary>
+                        [1] Flute <br>
+                        [2] Oboe <br>
+                        [3] B♭ Clarinet <br>
+                        [4] F Horn <br>
+                        [5] Bassoon <br>
+                        </details>
+                    </td>
+                    <td>1:40</td>
+                    <td>A</td>
+                    <td><a href="https://www.youtube.com/watch?v=Iw0SoDl39tk">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>ファンタジアIII</td>
+                    <td>
+                        <details>
+                        <summary>バスーン3重奏</summary>
+                        [1] Bassoon 1 <br>
+                        [2] Bassoon 2 <br>
+                        [3] Bassoon 3 <br>
+                        </details>
+                    </td>
+                    <td>1:44</td>
+                    <td>B</td>
+                    <td><a href="https://www.youtube.com/watch?v=AAr-wwkZoDg">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>森のさえずり</td>
+                    <td>
+                        <details>
+                        <summary>フルート4重奏</summary>
+                        [1] Flute 1 <br>
+                        [2] Flute 2 <br>
+                        [3] Flute 3 <br>
+                        [4] Alto Flute <br>
+                        </details>
+                    </td>
+                    <td>2:03</td>
+                    <td>C</td>
+                    <td><a href="https://www.youtube.com/watch?v=sYDI7w-RxrE">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>アレグロ</td>
+                    <td>
+                        <details>
+                        <summary>サキソフォン4重奏</summary>
+                        [1] Soprano Saxophone <br>
+                        [2] Alto Saxophone <br>
+                        [3] Tenor Saxophone <br>
+                        [4] Baritone Saxophone <br>
+                        </details>
+                    </td>
+                    <td>2:05</td>
+                    <td>B</td>
+                    <td><a href="https://www.youtube.com/watch?v=QbtZ4wlWQkk">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>赤光</td>
+                    <td>
+                        <details>
+                        <summary>クラリネット5重奏</summary>
+                        [1] B♭ Clarinet 1<br/>
+                        [2] B♭ Clarinet 2<br/>
+                        [3] B♭ Clarinet 3<br/>
+                        [4] B♭ Clarinet 4 <br>
+                        [5] Bass Clarinet <br>
+                        </details>
+                    </td>
+                    <td>1:57</td>
+                    <td>E</td>
+                    <td><a href="https://www.youtube.com/watch?v=2VxtU08lAwA">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>マリオネット</td>
+                    <td>
+                        <details>
+                        <summary>バスーン4重奏</summary>
+                        [1] Bassoon 1 <br>
+                        [2] Bassoon 2 <br>
+                        [3] Bassoon 3 <br>
+                        [4] Contrabassoon <br>
+                        </details>
+                    </td>
+                    <td>3:36</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=bJjm0mrdTYo&list=PLTFhr8J9_gzLDonm5tWUV9xW3MzEO0_4R&index=11">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>偏愛</td>
+                    <td>
+                        <details>
+                        <summary>木管5重奏</summary>
+                        [1] Flute <br>
+                        [2] Oboe <br>
+                        [3] B♭ Clarinet <br>
+                        [4] F Horn <br>
+                        [5] Bassoon <br>
+                        </details>
+                    </td>
+                    <td>3:37</td>
+                    <td>C</td>
+                    <td><a href="https://www.youtube.com/watch?v=GubjzyJvN84&list=PLTFhr8J9_gzLDonm5tWUV9xW3MzEO0_4R&index=15">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/6312028">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>新世界の息吹</td>
+                    <td>
+                        <details>
+                        <summary>木管8重奏</summary>
+                        [1] Flute <br>
+                        [2] Oboe <br>
+                        [3] English Horn <br>
+                        [4] Bassoon <br>
+                        [5] B♭ Clarinet 1 <br>
+                        [6] B♭ Clarinet 2 <br>
+                        [7] Alto Clarinet <br>
+                        [8] Bass Clarinet <br>
+                        </details>
+                    </td>
+                    <td>3:37</td>
+                    <td>C</td>
+                    <td><a href="https://www.youtube.com/watch?v=BZuERH3mXPs&list=PLTFhr8J9_gzLDonm5tWUV9xW3MzEO0_4R&index=13">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/4822866">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>Popping！</td>
+                    <td>
+                        <details>
+                        <summary>サキソフォン4重奏</summary>
+                        [1] Soprano Saxophone <br>
+                        [2] Alto Saxophone <br>
+                        [3] Tenor Saxophone <br>
+                        [4] Baritone Saxophone <br>
+                        </details>
+                    </td>
+                    <td>2:50</td>
+                    <td>E</td>
+                    <td><a href="https://www.youtube.com/watch?v=__MnYiTwnf0&list=PLTFhr8J9_gzLDonm5tWUV9xW3MzEO0_4R&index=14">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5976890">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>倭宴</td>
+                    <td>
+                        <details>
+                        <summary>ダブルリード4重奏</summary>
+                        [1] Oboe 1 <br>
+                        [2] Oboe 2 <br>
+                        [3] Bassoon 1 <br>
+                        [4] Bassoon 2 <br>
+                        </details>
+                    </td>
+                    <td>4:13</td>
+                    <td>C</td>
+                    <td><a href="https://youtu.be/1yhiv_6ud4M?si=SBkJdypEPVamkX4z">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Immortal Days</td>
+                    <td>
+                        <details>
+                        <summary>クラリネット6重奏</summary>
+                        [1] E♭ Clarinet <br>
+                        [2] B♭ Clarinet 1 <br>
+                        [3] B♭ Clarinet 2 <br>
+                        [4] Alto Clarinet <br>
+                        [5] Bass Clarinet 1 <br>
+                        [6] Bass Clarinet 2 <br>
+                        </details>
+                    </td>
+                    <td>6:07</td>
+                    <td>D</td>
+                    <td><a href="https://youtu.be/deK9fKTzqRw?si=B77Iuuz3v3nvI9IJ">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/6349777">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>Reunion</td>
+                    <td>
+                        <details>
+                        <summary>サキソフォン4重奏</summary>
+                        [1] Soprano Saxophone <br>
+                        [2] Alto Saxophone <br>
+                        [3] Tenor Saxophone <br>
+                        [4] Baritone Saxophone <br>
+                        </details>
+                    </td>
+                    <td>3:27</td>
+                    <td>C</td>
+                    <td><a href="https://youtu.be/tpeo4hSR_CQ?si=2rqjE6R6M4I8WmhG">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/6636276">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>砂の王国</td>
+                    <td>
+                        <details>
+                        <summary>クラリネット6重奏</summary>
+                        [1] E♭ Clarinet <br>
+                        [2] B♭ Clarinet 1 <br>
+                        [3] B♭ Clarinet 2 <br>
+                        [4] B♭ Clarinet 3 <br>
+                        [5] Alto Clarinet<br>
+                        [6] Bass Clarinet <br>
+                        </details>
+                    </td>
+                    <td>5:52</td>
+                    <td>C</td>
+                    <td><a href="https://youtu.be/Y10bUP3n_hI?si=6lQr05SGrTPM0pJe">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/6733985">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>巡礼</td>
+                    <td>
+                        <details>
+                        <summary>クラリネット4重奏</summary>
+                        [1] B♭ Clarinet 1 <br>
+                        [2] B♭ Clarinet 2 <br>
+                        [3] B♭ Clarinet 3 <br>
+                        [4] Bass Clarinet <br>
+                        </details>
+                    </td>
+                    <td>4:05</td>
+                    <td>F</td>
+                    <td><a href="https://youtu.be/Hsj4sqgh-Uk">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7299452">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>ご注文どうぞ！</td>
+                    <td>
+                        <details>
+                        <summary>バスーン3重奏</summary>
+                        [1] Bassoon 1 <br>
+                        [2] Bassoon 2 <br>
+                        [3] Bassoon 3 <br>
+                        </details>
+                    </td>
+                    <td>1:42</td>
+                    <td>A</td>
+                    <td><a href="https://youtu.be/7WJ8rCyKdsM">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7300117">こちら</a></td>
+                    <td>2000円</td>
+                </tr>
+                <tr>
+                    <td>静かな畔</td>
+                    <td>
+                        <details>
+                        <summary>フルート4重奏</summary>
+                        [1] Flute 1 <br>
+                        [2] Flute 2 <br>
+                        [3] Flute 3 <br>
+                        [4] Alto Flute <br>
+                        </details>
+                    </td>
+                    <td>1:45</td>
+                    <td>A</td>
+                    <td><a href="https://youtu.be/RJVFH_YOtRI">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7313405">こちら</a></td>
+                    <td>2000円</td>
+                </tr>
+                <tr>
+                    <td>Eldritch</td>
+                    <td>
+                        <details>
+                        <summary>サキソフォン5重奏</summary>
+                        [1] Soprano Saxophone <br>
+                        [2] Alto Saxophone <br>
+                        [3] Tenor Saxophone 1 <br>
+                        [4] Tenor Saxophone 2 <br>
+                        [5] Baritone Saxophone <br>
+                        </details>
+                    </td>
+                    <td>4:45</td>
+                    <td>D</td>
+                    <td><a href="https://youtu.be/2Uc4yLkQ6Qo">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7475503">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>諸刃の剣</td>
+                    <td>
+                        <details>
+                        <summary>サキソフォン5重奏*</summary>
+                        [1] Soprano Saxophone <br>
+                        [2] Alto Saxophone <br>
+                        [3] Tenor Saxophone 1 <br>
+                        [4] Tenor Saxophone 2 <br>
+                        [5] Baritone Saxophone <br>
+                        </details>
+                    </td>
+                    <td>4:17</td>
+                    <td>D</td>
+                    <td><a href="https://youtu.be/YYR2x4sIvB8">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7729767">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>聖なる鐘</td>
+                    <td>
+                        <details>
+                        <summary>クラリネット6重奏</summary>
+                        [1] E♭ Clarinet <br>
+                        [2] B♭ Clarinet 1 <br>
+                        [3] B♭ Clarinet 2 <br>
+                        [4] B♭ Clarinet 3 <br>
+                        [5] Alto Clarinet<br>
+                        [6] Bass Clarinet <br>
+                        </details>
+                    </td>
+                    <td>4:12</td>
+                    <td>D</td>
+                    <td><a href="https://youtu.be/2ZfUb4xtjvM">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7753370">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr id="midashi">
+                    <td colspan="7">
+                        <b>弦楽器</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>夜の物語</td>
+                    <td>
+                        <details>
+                        <summary>弦楽5重奏</summary>
+                        [1] Violin <br>
+                        [2] Viola <br>
+                        [3] Violoncello 1<br>
+                        [4] Violoncello 2<br>
+                        [5] Contrabass <br>
+                        </details>
+                    </td>
+                    <td>4:32</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=FxWd4dHrUpQ&list=PLTFhr8J9_gzK68jmw_uFLOYD1yRrTIcTb">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Allegro Moderato</td>
+                    <td>
+                        <details>
+                        <summary>弦楽3重奏</summary>
+                        [1] Violoncello 1 <br>
+                        [2] Violoncello 2 <br>
+                        [3] Contrabass <br>
+                        </details>
+                    </td>
+                    <td>4:43</td>
+                    <td>C</td>
+                    <td><a href="https://www.youtube.com/watch?v=gvurqNw5Fd4">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Andante *</td>
+                    <td>
+                        <details>
+                        <summary>弦楽3重奏</summary>
+                        [1] Violoncello 1 <br>
+                        [2] Violoncello 2 <br>
+                        [3] Contrabass <br>
+                        </details>
+                    </td>
+                    <td>3:34</td>
+                    <td>C</td>
+                    <td><a href="https://youtu.be/5BhKWQ81Oy0">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/8295394">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>トリップ・アウト</td>
+                    <td>
+                        <details>
+                        <summary>コントラバス3重奏</summary>
+                        [1] Contrabass 1 <br>
+                        [2] Contrabass 2 <br>
+                        [3] Contrabass 3 <br>
+                        </details>
+                    </td>
+                    <td>2:14</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=xpGeSXTJ0O4">こちら</a></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr id="midashi">
+                    <td colspan="7">
+                        <b>混合編成・フレキシブル</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>一悪、華を添えて</td>
+                    <td>
+                        <details>
+                        <summary>混合8重奏</summary>
+                        [1] Flute <br>
+                        [2] B♭ Clarinet <br>
+                        [3] Tenor Saxophone <br>
+                        [4] B♭ Trumpet <br>
+                        [5] Trombone <br>
+                        [6] F Horn / Euphonium<br>
+                        [7] Contrabass / Tuba<br>
+                        [8] Drumset, Vibraphone <br>
+                        </details>
+                    </td>
+                    <td>4:00</td>
+                    <td>C</td>
+                    <td><a href="https://www.youtube.com/watch?v=XHy2wpKg0Yg&list=PLTFhr8J9_gzJk1CueMH5S_egM7Q1wAqC4">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5201200">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>White Glittering Morning</td>
+                    <td>
+                        <details>
+                        <summary>混合7重奏</summary>
+                        [1] B♭ Trumpet <br>
+                        [2] Trombone <br>
+                        [3] Alto Saxophone <br>
+                        [4] Tenor Saxophone <br>
+                        [5] Contrabass <br>
+                        [6] Pianoforte <br>
+                        [7] Drumset <br>
+                        </details>
+                    </td>
+                    <td>2:21</td>
+                    <td>D</td>
+                    <td><a href="https://www.youtube.com/watch?v=OQtY7H66Ue8">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/5364785">こちら</a></td>
+                    <td>3200円</td>
+                </tr>
+                <tr>
+                    <td>煌けり太陽の凋落</td>
+                    <td>
+                        <details>
+                        <summary>混合8重奏</summary>
+                        [1] Flute <br>
+                        [2] B♭ Clarinet <br>
+                        [3] Tenor Saxophone <br>
+                        [4] B♭ Trumpet <br>
+                        [5] F Horn <br>
+                        [6] Trombone <br>
+                        [7] Tuba <br>
+                        [8] Timpani, Tambourine, Toms,<br>
+                            Glockenspiel, Xylophone<br>
+                        </details>
+                    </td>
+                    <td>7:20</td>
+                    <td>E</td>
+                    <td><a href="https://youtu.be/BlVbw5dIzbg?si=Nq1ZJWZfKCQ52j9b">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7145172">こちら</a></td>
+                    <td>3500円</td>
+                </tr>
+                <tr>
+                    <td>夜神</td>
+                    <td>
+                        <details>
+                        <summary>混合8重奏</summary>
+                        [1] Flute <br>
+                        [2] Oboe <br>
+                        [3] B♭ Clarinet <br>
+                        [4] Bassoon <br>
+                        [5] B♭ Trumpet <br>
+                        [6] Trombone <br>
+                        [7] Tuba <br>
+                        [8] Drumset, Glockenspiel<br>
+                        </details>
+                    </td>
+                    <td>4:34</td>
+                    <td>G</td>
+                    <td><a href="https://youtu.be/mHds0srPW0k">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7345471">こちら</a></td>
+                    <td>3000円</td>
+                </tr>
+                <tr>
+                    <td>月の予言と滅びの詩</td>
+                    <td>
+                        <details>
+                        <summary>混合8重奏</summary>
+                        [1] Flute <br>
+                        [2] B♭ Clarinet <br>
+                        [3] Tenor Saxophone,<br>
+                            Soprano Saxophone <br>
+                        [4] B♭ Trumpet <br>
+                        [5] F Horn <br>
+                        [6] Trombone <br>
+                        [7] Tuba <br>
+                        [8] Glockenspiel, Triangle,<br>
+                            Toms, Suspended Cymbal<br>
+                        </details>
+                    </td>
+                    <td>7:06</td>
+                    <td>F</td>
+                    <td><a href="https://youtu.be/ZD_vOyBakGM">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7404316">こちら</a></td>
+                    <td>3500円</td>
+                </tr>
+                <tr>
+                    <td>讃頌</td>
+                    <td>
+                        <details>
+                        <summary>混合8重奏</summary>
+                        [1] Flute <br>
+                        [2] B♭ Clarinet <br>
+                        [3] Tenor Saxophone<br>
+                        [4] B♭ Trumpet <br>
+                        [5] F Horn <br>
+                        [6] Trombone <br>
+                        [7] Tuba <br>
+                        [8] Timpani, Tambourine, Triangle,<br>
+                            Snare Drum, Chime<br>
+                        </details>
+                    </td>
+                    <td>6:00</td>
+                    <td>E</td>
+                    <td><a href="https://youtu.be/pIh8dhWGQMg">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/7828684">こちら</a></td>
+                    <td>3500円</td>
+                </tr>
+                <tr>
+                    <td>熱砂の狂宴</td>
+                    <td>
+                        <details>
+                        <summary>混合8重奏</summary>
+                        [1] Flute <br>
+                        [2] B♭ Clarinet <br>
+                        [3] Tenor Saxophone<br>
+                        [4] B♭ Trumpet <br>
+                        [5] F Horn <br>
+                        [6] Trombone <br>
+                        [7] Tuba <br>
+                        [8] Timpani, Drumset, Triangle,<br>
+                            Snare Drum, Suspended Cymbal,<br>
+                            Glockenspiel (, Tam-Tam)
+                        </details>
+                    </td>
+                    <td>6:14</td>
+                    <td>E</td>
+                    <td><a href="https://youtu.be/xjjMAsO5cSs">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/8045768">こちら</a></td>
+                    <td>3500円</td>
+                </tr>
+                <tr>
+                    <td>塵界のサバト</td>
+                    <td>
+                        <details>
+                        <summary>混合8重奏</summary>
+                        [1] Flute <br>
+                        [2] B♭ Clarinet <br>
+                        [3] Tenor Saxophone,<br>
+                            Soprano Saxophone<br>
+                        [4] B♭ Trumpet <br>
+                        [5] F Horn <br>
+                        [6] Trombone <br>
+                        [7] Tuba <br>
+                        [8] Timpani, Vibraphone<br>
+                        </details>
+                    </td>
+                    <td>7:20</td>
+                    <td>E</td>
+                    <td><a href="https://youtu.be/lsmQuhbTxQE">こちら</a></td>
+                    <td><a href="https://weaghk.booth.pm/items/8107776">こちら</a></td>
+                    <td>3500円</td>
+                </tr>
+            </tbody>
+        </table>
+<script>
+// --- 楽器の固定リスト ---
+const instrumentList = [
+    "Piccolo","Flute","Alto Flute","E♭ Clarinet","B♭ Clarinet","Alto Clarinet","Bass Clarinet",
+    "Oboe","English Horn","Bassoon","Contrabassoon",
+    "Soprano Saxophone","Alto Saxophone","Tenor Saxophone","Baritone Saxophone","Bass Saxophone",
+    "Piccolo Trumpet","Trumpet","Cornet","Trombone","Bass Trombone","Horn","Flugel Horn","Euphonium","Tuba",
+    "Violin","Viola","Violoncello","Contrabass","Percussions"
+];
+
+// Percussionsが含む楽器
+const percussionGroup = [
+    "Marimba","Xylophone","Vibraphone","Glockenspiel","Chime","Timpani",
+    "Drumset","Cymbal","Toms","Bass Drum","Snare Drum"
+];
+
+// --- チェックボックス生成 ---
+document.addEventListener("DOMContentLoaded", () => {
+    const box = document.getElementById("instrument-boxes");
+    instrumentList.forEach(inst => {
+        const label = document.createElement("label");
+        label.style.fontWeight = "normal";
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = inst;
+        cb.addEventListener("change", filterTable);
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(inst));
+        box.appendChild(label);
+    });
+
+    // 全選択・全解除ボタン
+    document.getElementById("select-all").addEventListener("click", () => {
+        document.querySelectorAll("#instrument-boxes input").forEach(cb => cb.checked = true);
+        filterTable();
+    });
+    document.getElementById("clear-all").addEventListener("click", () => {
+        document.querySelectorAll("#instrument-boxes input").forEach(cb => cb.checked = false);
+        filterTable();
+    });
+
+    // AND/ORモード変更
+    document.querySelectorAll('input[name="logic-mode"]').forEach(r => {
+        r.addEventListener("change", filterTable);
+    });
+});
+
+// --- フィルタ処理 ---
+function filterTable() {
+    const title = document.getElementById("filter-title").value.toLowerCase();
+    const diff = document.getElementById("filter-difficulty").value;
+    const checked = [...document.querySelectorAll("#instrument-boxes input:checked")].map(c => c.value);
+    const mode = document.querySelector('input[name="logic-mode"]:checked').value; // AND or OR
+
+    // Percussionsが含まれていたら展開
+    let expanded = [...checked];
+    if (checked.includes("Percussions")) {
+        expanded = expanded.filter(x => x !== "Percussions").concat(percussionGroup);
+    }
+
+    let visibleAny = false; // 1曲でも表示されたか
+
+    const allTables = document.querySelectorAll("table");
+
+    allTables.forEach(table => {
+        const rows = table.querySelectorAll("tbody tr");
+
+        rows.forEach(tr => {
+            const cols = tr.querySelectorAll("td");
+            if (cols.length < 4) return; // ヘッダ・見出し除外
+
+            const name = cols[0].textContent.toLowerCase();
+            const form = cols[1].textContent;
+            const level = cols[3].textContent.trim();
+
+            let show = true;
+            if (title && !name.includes(title)) show = false;
+            if (diff && level !== diff) show = false;
+
+            if (expanded.length > 0) {
+                if (mode === "OR") {
+                    // どれか1つでも含まれればOK
+                    const match = expanded.some(inst => form.includes(inst));
+                    if (!match) show = false;
+                } else {
+                    // すべて含まれていなければNG
+                    const matchAll = expanded.every(inst => form.includes(inst));
+                    if (!matchAll) show = false;
+                }
+            }
+
+            tr.style.display = show ? "" : "none";
+            if (show) visibleAny = true;
+        });
+
+        // 各見出し(id=midashi)の表示制御
+        const headers = table.querySelectorAll("tr#midashi");
+        headers.forEach(header => {
+            let hasVisible = false;
+            let next = header.nextElementSibling;
+            while (next && !next.id?.includes("midashi")) {
+                if (next.style.display !== "none") {
+                    hasVisible = true;
+                    break;
+                }
+                next = next.nextElementSibling;
+            }
+            header.style.display = hasVisible ? "" : "none";
+        });
+    });
+
+    // 結果なしメッセージ表示
+    document.getElementById("no-results").style.display = visibleAny ? "none" : "block";
+}
+
+// --- イベント登録 ---
+document.getElementById("filter-title").addEventListener("input", filterTable);
+document.getElementById("filter-difficulty").addEventListener("change", filterTable);
+</script>
+</body>
+</html>

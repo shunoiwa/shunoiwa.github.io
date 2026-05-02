@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>販売曲リスト</title>
+<style>
+:root {
+    color-scheme: light;
+    --bg: #f7f9fc;
+    --ink: #172033;
+    --muted: #64748b;
+    --line: #d8e1ee;
+    --panel: #ffffff;
+    --blue: #2563eb;
+    --blue-dark: #1e40af;
+    --blue-soft: #eff6ff;
+    --green: #0f766e;
+    --gold: #b7791f;
+    --shadow: 0 16px 38px rgba(30, 41, 59, 0.11);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Noto Sans JP", "Yu Gothic UI", "Meiryo", "Segoe UI", sans-serif;
+    font-weight: 400;
+    color: var(--ink);
+    background:
+        linear-gradient(180deg, rgba(239, 246, 255, 0.9), rgba(247, 249, 252, 0.65) 260px),
+        var(--bg);
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    border: 0;
+}
+
+a {
+    color: inherit;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid rgba(216, 225, 238, 0.9);
+    background: rgba(247, 249, 252, 0.88);
+    backdrop-filter: blur(14px);
+}
+
+.nav-wrap {
+    width: min(1180px, calc(100% - 32px));
+    min-height: 72px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 650;
+}
+
+.brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.84rem;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    padding: 8px 10px;
+    border-radius: 7px;
+    color: #334155;
+    font-size: 0.92rem;
+    text-decoration: none;
+}
+
+.nav-links a:hover,
+.nav-links a.is-current {
+    background: #e8eef8;
+    color: var(--blue-dark);
+}
+
+.page-shell {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 34px 0 56px;
+}
+
+.topbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.eyebrow {
+    margin: 0 0 6px;
+    color: var(--blue-dark);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(2rem, 6vw, 3.9rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+.subtitle {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 0.98rem;
+}
+
+.language-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    background: #e2e8f0;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+}
+
+.language-switch button {
+    min-width: 48px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: transparent;
+    color: #334155;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.language-switch button.is-active {
+    background: var(--panel);
+    color: var(--blue-dark);
+    box-shadow: 0 2px 9px rgba(15, 23, 42, 0.12);
+}
+
+#filter-area {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    background: var(--blue-soft);
+    border: 1px solid #bfdbfe;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    margin-bottom: 24px;
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#instrument-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+#instrument-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 180px;
+    overflow-y: auto;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #93c5fd;
+}
+
+label {
+    font-weight: 600;
+    color: var(--blue-dark);
+}
+
+.checkbox-label,
+.radio-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+    color: #1f2937;
+}
+
+input[type="text"],
+select {
+    padding: 7px 10px;
+    border: 1px solid #93c5fd;
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+}
+
+input[type="text"] {
+    min-width: min(280px, 100%);
+}
+
+input[type="checkbox"] {
+    transform: scale(1.1);
+}
+
+input:focus,
+select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 4px rgba(37,99,235,0.3);
+}
+
+.filter-button {
+    background: #3b82f6;
+    color: white;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.filter-button:hover {
+    background: var(--blue);
+}
+
+.mode-label {
+    margin-left: 10px;
+    font-weight: 600;
+    color: var(--blue-dark);
+}
+
+.result-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.section {
+    margin-top: 28px;
+}
+
+.section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 10px;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+.section-count {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.song-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+}
+
+.song-item {
+    min-width: 0;
+}
+
+.detail-row {
+    grid-column: 1 / -1;
+    min-width: 0;
+}
+
+.summary-card {
+    width: 100%;
+    min-height: 104px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    padding: 18px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: 0 6px 20px rgba(30, 41, 59, 0.07);
+    color: var(--ink);
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    animation: cardIn 0.28s ease both;
+}
+
+.summary-card:hover,
+.summary-card:focus-visible {
+    border-color: #93c5fd;
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.summary-card.is-active {
+    border-color: #60a5fa;
+    background: #f8fbff;
+    box-shadow: 0 10px 26px rgba(37, 99, 235, 0.13);
+}
+
+.summary-title {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+.summary-id {
+    display: block;
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.summary-mark {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: var(--blue-dark);
+    font-size: 1.35rem;
+    font-weight: 500;
+    transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.summary-card.is-active .summary-mark {
+    background: #dbeafe;
+    transform: rotate(45deg);
+}
+
+.detail-card {
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    box-shadow: var(--shadow);
+    animation: detailIn 0.26s ease both;
+}
+
+.detail-card[hidden],
+.section[hidden],
+#no-results[hidden] {
+    display: none;
+}
+
+.detail-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.detail-title {
+    margin: 0;
+    font-size: 1.22rem;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.close-detail {
+    flex: 0 0 auto;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #e2e8f0;
+    color: #0f172a;
+    font-size: 1.15rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.close-detail:hover {
+    background: #cbd5e1;
+    transform: translateY(-1px);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.info-block {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.info-block.is-wide {
+    grid-column: span 2;
+}
+
+.info-block.is-full {
+    grid-column: 1 / -1;
+}
+
+.info-label {
+    margin: 0 0 6px;
+    color: var(--muted);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.info-value {
+    margin: 0;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.comment-text {
+    white-space: pre-line;
+}
+
+.party-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px;
+    margin: 0;
+}
+
+.party-part {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    align-items: start;
+    padding: 9px 10px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+}
+
+.part-number {
+    color: var(--green);
+    font-weight: 600;
+}
+
+.link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sell-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 104px;
+    min-height: 38px;
+    padding: 8px 13px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.sell-button:not(.is-disabled):hover {
+    transform: translateY(-1px);
+    filter: brightness(1.04);
+}
+
+.sell-button.youtube {
+    background: #ff2b2b;
+    color: #111827;
+}
+
+.sell-button.instagram {
+    background: #d62976;
+    color: #fff;
+}
+
+.sell-button.booth {
+    background: #ef4444;
+    color: #fff;
+}
+
+.sell-button.is-disabled {
+    background: #cbd5e1;
+    color: #64748b;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+#no-results {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #b91c1c;
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    border-radius: 8px;
+    padding: 22px;
+    margin-top: 22px;
+}
+
+.loading,
+.error-message {
+    padding: 28px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-weight: 600;
+    text-align: center;
+}
+
+.error-message {
+    color: #b91c1c;
+    background: #fff1f2;
+    border-color: #fecdd3;
+}
+
+.notice-message {
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes detailIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (max-width: 780px) {
+    .nav-wrap {
+        min-height: auto;
+        padding: 14px 0;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .nav-links {
+        justify-content: flex-start;
+    }
+
+    .page-shell {
+        width: min(100% - 22px, 1180px);
+        padding-top: 22px;
+    }
+
+    .topbar,
+    .result-meta,
+    .section-header,
+    .detail-head {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .language-switch {
+        align-self: flex-start;
+    }
+
+    .filter-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    #instrument-controls {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .mode-label {
+        margin-left: 0;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-block.is-wide,
+    .info-block.is-full {
+        grid-column: auto;
+    }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+    <div class="nav-wrap">
+        <a class="brand" href="../home.html"><span class="brand-mark">MW</span><span>MUSIC WEAGHK</span></a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="../home.html">ホーム</a>
+            <a href="../scores.html">楽譜販売</a>
+            <a href="../information.html">情報</a>
+            <a class="is-current" href="songlist4.html">楽曲リスト</a>
+            <a href="../notes.html">問題解決ノート</a>
+            <a href="../bgm.html">BGM</a>
+        </nav>
+    </div>
+</header>
+<main class="page-shell">
+    <div class="topbar">
+        <div>
+            <p class="eyebrow" data-i18n="eyebrow">MUSIC WEAGHK</p>
+            <h1 data-i18n="pageTitle">販売曲リスト</h1>
+            <p class="subtitle" data-i18n="subtitle">編成から探して、詳細と販売リンクを確認できます。</p>
+        </div>
+        <div class="language-switch" aria-label="Language">
+            <button type="button" class="is-active" data-lang="ja">JA</button>
+            <button type="button" data-lang="en">EN</button>
+        </div>
+    </div>
+
+    <div id="filter-area">
+        <div class="filter-row">
+            <label for="filter-title" data-i18n="titleFilter">曲名：</label>
+            <input type="text" id="filter-title" placeholder="例：祈り">
+            <label for="filter-id" data-i18n="idFilter">ID：</label>
+            <input type="text" id="filter-id" placeholder="例：PER0001">
+            <label for="filter-difficulty" data-i18n="difficultyFilter">難易度：</label>
+            <select id="filter-difficulty">
+                <option value="" data-i18n="allDifficulties">すべて</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+            </select>
+            <label for="filter-size" data-i18n="sizeFilter">楽器数：</label>
+            <select id="filter-size">
+                <option value="" data-i18n="allSizes">すべて</option>
+            </select>
+        </div>
+
+        <div class="filter-row">
+            <label data-i18n="instrumentFilter">楽器：</label>
+            <div style="flex: 1;">
+                <div id="instrument-controls">
+                    <button type="button" class="filter-button" id="select-all" data-i18n="selectAll">全選択</button>
+                    <button type="button" class="filter-button" id="clear-all" data-i18n="clearAll">全解除</button>
+                    <span class="mode-label" data-i18n="mode">モード：</span>
+                    <label class="radio-label">
+                        <input type="radio" name="logic-mode" value="OR" checked>
+                        <span data-i18n="orMode">OR（いずれかを含む）</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="logic-mode" value="AND">
+                        <span data-i18n="andMode">AND（すべて含む）</span>
+                    </label>
+                </div>
+                <div id="instrument-boxes"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-meta">
+        <span id="result-count">0 pieces</span>
+        <span id="active-filters"></span>
+    </div>
+
+    <div id="loading" class="loading" data-i18n="loading">読み込み中...</div>
+    <div id="notice-message" class="notice-message" hidden></div>
+    <div id="error-message" class="error-message" hidden></div>
+    <div id="no-results" hidden data-i18n="noResults">該当する曲がありません</div>
+
+    <section class="section" id="solo-section" hidden>
+        <div class="section-header">
+            <h2 class="section-title">SOLO &amp; DUO</h2>
+            <span class="section-count" id="solo-count">0</span>
+        </div>
+        <div class="song-list" id="solo-list"></div>
+    </section>
+
+    <section class="section" id="ensemble-section" hidden>
+        <div class="section-header">
+            <h2 class="section-title">ENSEMBLE</h2>
+            <span class="section-count" id="ensemble-count">0</span>
+        </div>
+        <div class="song-list" id="ensemble-list"></div>
+    </section>
+</main>
+
+<script type="application/json" id="songdatas-fallback">[{"id":{"form":"PER","number":1,"mov":null},"title":{"ja":"Dynasty of Legend","en":"Dynasty of Legend"},"party":["Timpani, Cymbal, Snare Drum","Vibraphone","Xylophone, Glockenspiel","Marimba","Contrabass"],"duration":366,"difficulty":5,"sells":{"youtube":"https://www.youtube.com/watch?v=J4Mg3p4XZe8","booth":null,"instagram":null,"price":null},"comment":"test comment."},{"id":{"form":"PER","number":2,"mov":null},"title":{"ja":"フラウィ・ドルチェ","en":"Flowy Dolce"},"party":["Marimba 1(連弾)","Marimba 2(連弾)","Marimba 3(連弾)"],"duration":121,"difficulty":1,"sells":{"youtube":"https://www.youtube.com/watch?v=7XLL3qL7Lfk","booth":null,"instagram":null,"price":null},"comment":{"ja":"test ja.","en":"test en."}},{"id":{"form":"PER","number":3,"mov":null},"title":{"ja":"DECOY","en":"DECOY"},"party":["Xylophone","Vibraphone","Chime","Marimba","Drumset","Timpani"],"duration":244,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=0e_5DNdRaDE","booth":"https://weaghk.booth.pm/items/4223353","instagram":null,"price":3000},"comment":null},{"id":{"form":"PER","number":4,"mov":null},"title":{"ja":"星の呼び声","en":"Call of Star"},"party":["Xylophone, Glockenspiel","Vibraphone","Marimba","Chime","Timpani","Drumset"],"duration":307,"difficulty":6,"sells":{"youtube":"https://www.youtube.com/watch?v=p3j5XRJiOtk","booth":"https://weaghk.booth.pm/items/4615798","instagram":null,"price":3000},"comment":null},{"id":{"form":"PER","number":5,"mov":null},"title":{"ja":"剣戟","en":"Swordplay"},"party":["Xylophone, Glockenspiel","Vibraphone","Marimba","Chime","Timpani","Drumset"],"duration":248,"difficulty":5,"sells":{"youtube":"https://www.youtube.com/watch?v=dHT0biC5voY","booth":"https://weaghk.booth.pm/items/5537442","instagram":null,"price":3000},"comment":null},{"id":{"form":"PER","number":6,"mov":null},"title":{"ja":"英雄","en":"Heroic "},"party":["Xylophone, Chime, Glockenspiel","Vibraphone","Marimba","Timpani","Drumset"],"duration":188,"difficulty":7,"sells":{"youtube":"https://www.youtube.com/watch?v=YauM6ts7Bz8","booth":"https://weaghk.booth.pm/items/4044475","instagram":null,"price":3000},"comment":null},{"id":{"form":"PER","number":7,"mov":null},"title":{"ja":"神秘の森","en":"Mystic Forest"},"party":["Xylophone, Glockenspiel","Vibraphone","Marimba","Chime","Timpani","Drumset"],"duration":230,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=j-KSDGL8js0","booth":"https://weaghk.booth.pm/items/5976909","instagram":null,"price":3000},"comment":null},{"id":{"form":"PER","number":8,"mov":null},"title":{"ja":"決戦","en":"Armageddon"},"party":["Glockenspiel, Xylophone","Vibraphone","Marimba","Timpani","Cymbal, Toms, Bass Drum"],"duration":242,"difficulty":5,"sells":{"youtube":"https://www.youtube.com/watch?v=gSo-yPN0ZJM","booth":"https://weaghk.booth.pm/items/5984293","instagram":null,"price":3000},"comment":null},{"id":{"form":"PER","number":9,"mov":null},"title":{"ja":"Rook","en":"Rook"},"party":["Glockenspiel, Xylophone","Vibraphone","Marimba","Chime","Timpani"],"duration":300,"difficulty":3,"sells":{"youtube":"https://www.youtube.com/watch?v=DbM-kfjshRQ","booth":"https://weaghk.booth.pm/items/5984293","instagram":null,"price":3000},"comment":null},{"id":{"form":"BRA","number":1,"mov":null},"title":{"ja":"堕天","en":"Fallen"},"party":["F Horn 1","F Horn 2","F Horn 3","F Horn 4"],"duration":217,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=Uhxl_VSIhHM","booth":"https://weaghk.booth.pm/items/6800228","instagram":null,"price":3000},"comment":null},{"id":{"form":"BRA","number":2,"mov":null},"title":{"ja":"蠱惑","en":"Fascinate"},"party":["B♭ Trumpet","F Horn","Trombone","Euphonium","Tuba"],"duration":265,"difficulty":4,"sells":{"youtube":"https://youtu.be/TknXOhNtNTI","booth":"https://weaghk.booth.pm/items/7413495","instagram":null,"price":3000},"comment":null},{"id":{"form":"BRA","number":3,"mov":null},"title":{"ja":"狩猟の歌","en":"Bloodsong of the Hunt"},"party":["B♭ Cornet","F Horn 1","F Horn 2","Trombone 1","Trombone 2","Bass Trombone","Tuba"],"duration":244,"difficulty":3,"sells":{"youtube":"https://www.youtube.com/watch?v=6o6DcVDNPT8","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"BRA","number":4,"mov":null},"title":{"ja":"JACK","en":"JACK"},"party":["B♭ Trumpet","F Horn","Trombone","Euphonium","Tuba"],"duration":227,"difficulty":5,"sells":{"youtube":"https://www.youtube.com/watch?v=WbplOpM1Jp0","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"BRA","number":5,"mov":null},"title":{"ja":"水墨","en":"Monochrome Serenity"},"party":["Euphonium 1","Euphonium 2","Tuba 1","Tuba 2"],"duration":111,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=MlukbxjB1cg","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"BRA","number":6,"mov":null},"title":{"ja":"The SATAN","en":"The SATAN"},"party":["Alto Trombone / Trombone 1","Trombone 2","Trombone 3","Bass Trombone 1","Bass Trombone 2"],"duration":188,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=bXN7jys_pUo","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":1,"mov":null},"title":{"ja":"レムリアの伝説","en":"Legend of Lemuria"},"party":["Sopranino Recorder","Soprano Recorder","Alto Recorder 1","Alto Recorder 2","Tenor Recorder","Bass Recorder"],"duration":404,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=0lOB0TixuII","booth":"https://weaghk.booth.pm/items/5542039","instagram":null,"price":3500},"comment":null},{"id":{"form":"WOD","number":2,"mov":null},"title":{"ja":"GANZ","en":"GANZ"},"party":["E♭ Clarinet","B♭ Clarinet 1","B♭ Clarinet 2","Alto Clarinet","Bass Clarinet"],"duration":240,"difficulty":3,"sells":{"youtube":"https://www.youtube.com/watch?v=etnuGvMkogg","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":3,"mov":null},"title":{"ja":"諸刃の剣","en":"Double-edged Sword"},"party":["Soprano Saxophone","Alto Saxophone","Tenor Saxophone 1","Tenor Saxophone 2","Baritone Saxophone"],"duration":257,"difficulty":4,"sells":{"youtube":"https://youtu.be/YYR2x4sIvB8","booth":"https://weaghk.booth.pm/items/7729767","instagram":null,"price":3000},"comment":null},{"id":{"form":"WOD","number":4,"mov":null},"title":{"ja":"雨世の月","en":"Rainy Night Moon"},"party":["Flute","B♭ Clarinet","Alto Saxophone","Bassoon"],"duration":286,"difficulty":2,"sells":{"youtube":"https://www.youtube.com/watch?v=hVnbhlPhf34","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":5,"mov":null},"title":{"ja":"インコンプレート","en":"Incomplete"},"party":["B♭ Clarinet 1","B♭ Clarinet 2","B♭ Clarinet 3","Bass Clarinet"],"duration":260,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=Mx8rtT6J694","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":6,"mov":null},"title":{"ja":"ポルカ","en":"Polka"},"party":["Flute","Oboe","B♭ Clarinet","F Horn","Bassoon"],"duration":100,"difficulty":1,"sells":{"youtube":"https://www.youtube.com/watch?v=Iw0SoDl39tk","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":7,"mov":null},"title":{"ja":"ファンタジアIII","en":"Fantasia III"},"party":["Bassoon 1","Bassoon 2","Bassoon 3"],"duration":104,"difficulty":2,"sells":{"youtube":"https://www.youtube.com/watch?v=AAr-wwkZoDg","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":8,"mov":null},"title":{"ja":"森のさえずり","en":"Chirping on forest"},"party":["Flute 1","Flute 2","Flute 3","Alto Flute"],"duration":123,"difficulty":3,"sells":{"youtube":"https://www.youtube.com/watch?v=sYDI7w-RxrE","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":9,"mov":null},"title":{"ja":"アレグロ","en":"Allegro"},"party":["Soprano Saxophone","Alto Saxophone","Tenor Saxophone","Baritone Saxophone"],"duration":125,"difficulty":2,"sells":{"youtube":"https://www.youtube.com/watch?v=QbtZ4wlWQkk","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":10,"mov":null},"title":{"ja":"赤光","en":"Red Light"},"party":["B♭ Clarinet 1","B♭ Clarinet 2","B♭ Clarinet 3","B♭ Clarinet 4","Bass Clarinet"],"duration":117,"difficulty":5,"sells":{"youtube":"https://www.youtube.com/watch?v=2VxtU08lAwA","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":11,"mov":null},"title":{"ja":"マリオネット","en":"Marionette"},"party":["Bassoon 1","Bassoon 2","Bassoon 3","Contrabassoon"],"duration":216,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=bJjm0mrdTYo&list=PLTFhr8J9_gzLDonm5tWUV9xW3MzEO0_4R&index=11","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":12,"mov":null},"title":{"ja":"偏愛","en":"Eccentric Love"},"party":["Flute","Oboe","B♭ Clarinet","F Horn","Bassoon"],"duration":217,"difficulty":3,"sells":{"youtube":"https://www.youtube.com/watch?v=GubjzyJvN84&list=PLTFhr8J9_gzLDonm5tWUV9xW3MzEO0_4R&index=15","booth":"https://weaghk.booth.pm/items/6312028","instagram":null,"price":3000},"comment":null},{"id":{"form":"WOD","number":13,"mov":null},"title":{"ja":"新世界の息吹","en":"Breath of a New World"},"party":["Flute","Oboe","English Horn","Bassoon","B♭ Clarinet 1","B♭ Clarinet 2","Alto Clarinet","Bass Clarinet"],"duration":217,"difficulty":3,"sells":{"youtube":"https://www.youtube.com/watch?v=BZuERH3mXPs&list=PLTFhr8J9_gzLDonm5tWUV9xW3MzEO0_4R&index=13","booth":"https://weaghk.booth.pm/items/4822866","instagram":null,"price":3000},"comment":null},{"id":{"form":"WOD","number":14,"mov":null},"title":{"ja":"Popping!","en":"Popping!"},"party":["Soprano Saxophone","Alto Saxophone","Tenor Saxophone","Baritone Saxophone"],"duration":170,"difficulty":5,"sells":{"youtube":"https://www.youtube.com/watch?v=__MnYiTwnf0&list=PLTFhr8J9_gzLDonm5tWUV9xW3MzEO0_4R&index=14","booth":"https://weaghk.booth.pm/items/5976890","instagram":null,"price":3000},"comment":null},{"id":{"form":"WOD","number":15,"mov":null},"title":{"ja":"倭宴","en":"Banquet"},"party":["Oboe 1","Oboe 2","Bassoon 1","Bassoon 2"],"duration":253,"difficulty":3,"sells":{"youtube":"https://youtu.be/1yhiv_6ud4M?si=SBkJdypEPVamkX4z","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"WOD","number":16,"mov":null},"title":{"ja":"Immortal Days","en":"Immortal Days"},"party":["E♭ Clarinet","B♭ Clarinet 1","B♭ Clarinet 2","Alto Clarinet","Bass Clarinet 1","Bass Clarinet 2"],"duration":367,"difficulty":4,"sells":{"youtube":"https://youtu.be/deK9fKTzqRw?si=B77Iuuz3v3nvI9IJ","booth":"https://weaghk.booth.pm/items/6349777","instagram":null,"price":3000},"comment":null},{"id":{"form":"WOD","number":17,"mov":null},"title":{"ja":"Reunion","en":"Reunion"},"party":["Soprano Saxophone","Alto Saxophone","Tenor Saxophone","Baritone Saxophone"],"duration":207,"difficulty":3,"sells":{"youtube":"https://youtu.be/tpeo4hSR_CQ?si=2rqjE6R6M4I8WmhG","booth":"https://weaghk.booth.pm/items/6636276","instagram":null,"price":3000},"comment":null},{"id":{"form":"WOD","number":18,"mov":null},"title":{"ja":"砂の王国","en":"Dunes"},"party":["E♭ Clarinet","B♭ Clarinet 1","B♭ Clarinet 2","B♭ Clarinet 3","Alto Clarinet","Bass Clarinet"],"duration":352,"difficulty":3,"sells":{"youtube":"https://youtu.be/Y10bUP3n_hI?si=6lQr05SGrTPM0pJe","booth":"https://weaghk.booth.pm/items/6733985","instagram":null,"price":3000},"comment":null},{"id":{"form":"WOD","number":19,"mov":null},"title":{"ja":"巡礼","en":"Pilgrimage"},"party":["B♭ Clarinet 1","B♭ Clarinet 2","B♭ Clarinet 3","Bass Clarinet"],"duration":245,"difficulty":6,"sells":{"youtube":"https://youtu.be/Hsj4sqgh-Uk","booth":"https://weaghk.booth.pm/items/7299452","instagram":null,"price":3000},"comment":null},{"id":{"form":"WOD","number":20,"mov":null},"title":{"ja":"ご注文どうぞ！","en":"Order please!"},"party":["Bassoon 1","Bassoon 2","Bassoon 3"],"duration":102,"difficulty":1,"sells":{"youtube":"https://youtu.be/7WJ8rCyKdsM","booth":"https://weaghk.booth.pm/items/7300117","instagram":null,"price":2000},"comment":null},{"id":{"form":"WOD","number":21,"mov":null},"title":{"ja":"静かな畔","en":"Tranquil Bank"},"party":["Flute 1","Flute 2","Flute 3","Alto Flute"],"duration":105,"difficulty":1,"sells":{"youtube":"https://youtu.be/RJVFH_YOtRI","booth":"https://weaghk.booth.pm/items/7313405","instagram":null,"price":2000},"comment":null},{"id":{"form":"WOD","number":22,"mov":null},"title":{"ja":"Eldritch","en":"Eldritch"},"party":["Soprano Saxophone","Alto Saxophone","Tenor Saxophone 1","Tenor Saxophone 2","Baritone Saxophone"],"duration":285,"difficulty":4,"sells":{"youtube":"https://youtu.be/2Uc4yLkQ6Qo","booth":"https://weaghk.booth.pm/items/7475503","instagram":null,"price":3000},"comment":null},{"id":{"form":"WOD","number":23,"mov":null},"title":{"ja":"聖なる鐘","en":"The Hallowed Bell"},"party":["E♭ Clarinet","B♭ Clarinet 1","B♭ Clarinet 2","B♭ Clarinet 3","Alto Clarinet","Bass Clarinet"],"duration":252,"difficulty":4,"sells":{"youtube":"https://youtu.be/2ZfUb4xtjvM","booth":"https://weaghk.booth.pm/items/7753370","instagram":null,"price":3000},"comment":null},{"id":{"form":"STR","number":1,"mov":null},"title":{"ja":"夜の物語","en":"Night Stories"},"party":["Violin","Viola","Violoncello 1","Violoncello 2","Contrabass"],"duration":272,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=FxWd4dHrUpQ&list=PLTFhr8J9_gzK68jmw_uFLOYD1yRrTIcTb","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"STR","number":2,"mov":null},"title":{"ja":"Allegro Moderato","en":"Allegro Moderato"},"party":["Violoncello 1","Violoncello 2","Contrabass"],"duration":283,"difficulty":3,"sells":{"youtube":"https://www.youtube.com/watch?v=gvurqNw5Fd4","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"STR","number":3,"mov":null},"title":{"ja":"Andante","en":"Andante"},"party":["Violoncello 1","Violoncello 2","Contrabass"],"duration":214,"difficulty":3,"sells":{"youtube":"https://youtu.be/5BhKWQ81Oy0","booth":"https://weaghk.booth.pm/items/8295394","instagram":null,"price":3000},"comment":null},{"id":{"form":"STR","number":4,"mov":null},"title":{"ja":"トリップ・アウト","en":"Trip-Out"},"party":["Contrabass 1","Contrabass 2","Contrabass 3"],"duration":134,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=xpGeSXTJ0O4","booth":null,"instagram":null,"price":null},"comment":null},{"id":{"form":"MIX","number":1,"mov":null},"title":{"ja":"一悪、華を添えて","en":"Hardboiled"},"party":["Flute","B♭ Clarinet","Tenor Saxophone","B♭ Trumpet","Trombone","F Horn / Euphonium","Contrabass / Tuba","Drumset, Vibraphone"],"duration":240,"difficulty":3,"sells":{"youtube":"https://www.youtube.com/watch?v=XHy2wpKg0Yg&list=PLTFhr8J9_gzJk1CueMH5S_egM7Q1wAqC4","booth":"https://weaghk.booth.pm/items/5201200","instagram":null,"price":3000},"comment":null},{"id":{"form":"MIX","number":2,"mov":null},"title":{"ja":"White Glittering Morning","en":"White Glittering Morning"},"party":["B♭ Trumpet","Trombone","Alto Saxophone","Tenor Saxophone","Contrabass","Pianoforte","Drumset"],"duration":141,"difficulty":4,"sells":{"youtube":"https://www.youtube.com/watch?v=OQtY7H66Ue8","booth":"https://weaghk.booth.pm/items/5364785","instagram":null,"price":3200},"comment":null},{"id":{"form":"MIX","number":3,"mov":1},"title":{"ja":"煌けり太陽の凋落","en":"Eclipse of the Glorious Sun"},"party":["Flute","B♭ Clarinet","Tenor Saxophone","B♭ Trumpet","F Horn","Trombone","Tuba","Timpani, Tambourine, Toms, Glockenspiel, Xylophone"],"duration":440,"difficulty":5,"sells":{"youtube":"https://youtu.be/BlVbw5dIzbg?si=Nq1ZJWZfKCQ52j9b","booth":"https://weaghk.booth.pm/items/7145172","instagram":null,"price":3500},"comment":null},{"id":{"form":"MIX","number":3,"mov":2},"title":{"ja":"月の予言と滅びの詩","en":"The Lunar Prophecy and the Elegy of Ruin"},"party":["Flute","B♭ Clarinet","Tenor Saxophone, Soprano Saxophone","B♭ Trumpet","F Horn","Trombone","Tuba","Glockenspiel, Triangle, Toms, Suspended Cymbal"],"duration":426,"difficulty":6,"sells":{"youtube":"https://youtu.be/ZD_vOyBakGM","booth":"https://weaghk.booth.pm/items/7404316","instagram":null,"price":3500},"comment":null},{"id":{"form":"MIX","number":3,"mov":3},"title":{"ja":"讃頌","en":"Hymn"},"party":["Flute","B♭ Clarinet","Tenor Saxophone","B♭ Trumpet","F Horn","Trombone","Tuba","Timpani, Tambourine, Triangle, Snare Drum, Chime"],"duration":360,"difficulty":5,"sells":{"youtube":"https://youtu.be/pIh8dhWGQMg","booth":"https://weaghk.booth.pm/items/7828684","instagram":null,"price":3500},"comment":null},{"id":{"form":"MIX","number":3,"mov":4},"title":{"ja":"熱砂の狂宴","en":"Scorching Rite"},"party":["Flute","B♭ Clarinet","Tenor Saxophone","B♭ Trumpet","F Horn","Trombone","Tuba","Timpani, Drumset, Triangle, Snare Drum, Suspended Cymbal, Glockenspiel (, Tam-Tam)"],"duration":374,"difficulty":5,"sells":{"youtube":"https://youtu.be/xjjMAsO5cSs","booth":"https://weaghk.booth.pm/items/8045768","instagram":null,"price":3500},"comment":null},{"id":{"form":"MIX","number":3,"mov":5},"title":{"ja":"塵界のサバト","en":"Sabbath of the filthy world"},"party":["Flute","B♭ Clarinet","Tenor Saxophone, Soprano Saxophone","B♭ Trumpet","F Horn","Trombone","Tuba","Timpani, Vibraphone"],"duration":440,"difficulty":5,"sells":{"youtube":"https://youtu.be/lsmQuhbTxQE","booth":"https://weaghk.booth.pm/items/8107776","instagram":null,"price":3500},"comment":null},{"id":{"form":"MIX","number":4,"mov":null},"title":{"ja":"夜神","en":"Nyx"},"party":["Flute","Oboe","B♭ Clarinet","Bassoon","B♭ Trumpet","Trombone","Tuba","Drumset, Glockenspiel"],"duration":274,"difficulty":7,"sells":{"youtube":"https://youtu.be/mHds0srPW0k","booth":"https://weaghk.booth.pm/items/7345471","instagram":null,"price":3000},"comment":null}]</script>
+<script type="application/json" id="hyp-fallback">[{"kind":"form","ja":{"PER":"打楽器","BRA":"金管","WOD":"木管","STR":"弦楽","MIX":"混合","TRP":"トランペット","TBN":"トロンボーン","HRN":"ホルン","EPH":"ユーフォニアム","TBA":"テューバ","PIC":"ピッコロ","FLU":"フルート","CLA":"クラリネット","ECL":"Esクラリネット","ACL":"アルトクラリネット","BCL":"バスクラリネット","OBE":"オーボエ","EHR":"イングリッシュホルン","BSN":"バスーン","SSX":"ソプラノサキソフォン","ASX":"アルトサキソフォン","TSX":"テナーサキソフォン","BSX":"バリトンサキソフォン","VLN":"ヴァイオリン","VLA":"ヴィオラ","VCE":"チェロ","CBA":"コントラバス","HRP":"ハープ"},"en":{"PER":"Percussion","BRA":"Brass","WOD":"Woodwind","STR":"String","MIX":"Mix","TRP":"Trumpet","TBN":"Trombone","HRN":"Horn","EPH":"Euphonium","TBA":"Tuba","PIC":"Piccolo","FLU":"Flute","CLA":"B Clarinet","ECL":"Es Clarinet","ACL":"Alto Clarinet","BCL":"Bass Clarinet","OBE":"Oboe","EHR":"English Horn","BSN":"Bassoon","SSX":"Soprano Saxophone","ASX":"Alto Saxophone","TSX":"Tenor Saxophone","BSX":"Baritone Saxophone","VLN":"Violin","VLA":"Viola","VCE":"Violoncello","CBA":"Contrabass","HRP":"Harp"}}]</script>
+<script>
+const texts = {
+    ja: {
+        eyebrow: "MUSIC WEAGHK",
+        pageTitle: "販売曲リスト",
+        subtitle: "編成から探して、詳細と販売リンクを確認できます。",
+        titleFilter: "曲名：",
+        titlePlaceholder: "例：祈り",
+        idFilter: "ID：",
+        idPlaceholder: "例：PER0001",
+        difficultyFilter: "難易度：",
+        allDifficulties: "すべて",
+        sizeFilter: "楽器数：",
+        allSizes: "すべて",
+        instrumentFilter: "楽器：",
+        selectAll: "全選択",
+        clearAll: "全解除",
+        mode: "モード：",
+        orMode: "OR（いずれかを含む）",
+        andMode: "AND（すべて含む）",
+        loading: "読み込み中...",
+        localFallback: "ローカルファイルとして開いているため、HTML内のバックアップデータを表示しています。公開時はJSONファイルを読み込みます。",
+        noResults: "該当する曲がありません",
+        pieceCount: count => `${count}曲`,
+        activeFilters: count => count ? `楽器フィルタ ${count}件` : "楽器フィルタなし",
+        id: "楽曲ID",
+        formTitle: "編成とタイトル",
+        duration: "演奏時間",
+        difficulty: "難度",
+        party: "詳細な編成",
+        links: "動画および販売リンク",
+        price: "値段",
+        comment: "コメント",
+        notOnSale: "未販売",
+        close: "閉じる",
+        loadError: "曲データを読み込めませんでした。JSONファイルの場所と形式を確認してください。"
+    },
+    en: {
+        eyebrow: "MUSIC WEAGHK",
+        pageTitle: "Song List",
+        subtitle: "Find pieces by instrumentation, then open details and shop links.",
+        titleFilter: "Title:",
+        titlePlaceholder: "Example: Prayer",
+        idFilter: "ID:",
+        idPlaceholder: "Example: PER0001",
+        difficultyFilter: "Difficulty:",
+        allDifficulties: "All",
+        sizeFilter: "Parts:",
+        allSizes: "All",
+        instrumentFilter: "Instrument:",
+        selectAll: "Select all",
+        clearAll: "Clear all",
+        mode: "Mode:",
+        orMode: "OR (any selected)",
+        andMode: "AND (all selected)",
+        loading: "Loading...",
+        localFallback: "Opened as a local file, so the embedded backup data is being displayed. Published pages will load the JSON files.",
+        noResults: "No pieces found",
+        pieceCount: count => `${count} piece${count === 1 ? "" : "s"}`,
+        activeFilters: count => count ? `${count} instrument filter${count === 1 ? "" : "s"}` : "No instrument filters",
+        id: "Song ID",
+        formTitle: "Instrumentation and Title",
+        duration: "Duration",
+        difficulty: "Difficulty",
+        party: "Detailed Instrumentation",
+        links: "Video and Shop Links",
+        price: "Price",
+        comment: "Comment",
+        notOnSale: "Not on sale",
+        close: "Close",
+        loadError: "Could not load song data. Check the JSON file paths and format."
+    }
+};
+
+const instrumentList = [
+    "Piccolo","Flute","Alto Flute","E♭ Clarinet","B♭ Clarinet","Alto Clarinet","Bass Clarinet",
+    "Oboe","English Horn","Bassoon","Contrabassoon",
+    "Soprano Saxophone","Alto Saxophone","Tenor Saxophone","Baritone Saxophone","Bass Saxophone",
+    "Piccolo Trumpet","Trumpet","Cornet","Trombone","Bass Trombone","Horn","Flugel Horn","Euphonium","Tuba",
+    "Violin","Viola","Violoncello","Contrabass","Percussions"
+];
+
+const percussionGroup = [
+    "Marimba","Xylophone","Vibraphone","Glockenspiel","Chime","Timpani",
+    "Drumset","Cymbal","Toms","Bass Drum","Snare Drum"
+];
+
+const ensembleNamesEn = {
+    1: "Solo",
+    2: "Duo",
+    3: "Trio",
+    4: "Quartet",
+    5: "Quintet",
+    6: "Sextet",
+    7: "Septet",
+    8: "Octet",
+    9: "Nonet",
+    10: "Decet"
+};
+
+const state = {
+    lang: "ja",
+    songs: [],
+    formNames: { ja: {}, en: {} },
+    openId: null
+};
+
+document.addEventListener("DOMContentLoaded", init);
+
+async function init() {
+    buildInstrumentCheckboxes();
+    bindControls();
+    updateStaticText();
+
+    try {
+        const [songs, hyp, usedFallback] = await loadData();
+        const formData = hyp.find(item => item.kind === "form") || {};
+        state.songs = songs;
+        state.formNames = {
+            ja: formData.ja || {},
+            en: formData.en || {}
+        };
+        document.getElementById("loading").hidden = true;
+        if (usedFallback) {
+            showNotice(t("localFallback"));
+        }
+        filterTable();
+    } catch (error) {
+        console.error(error);
+        document.getElementById("loading").hidden = true;
+        const errorBox = document.getElementById("error-message");
+        errorBox.textContent = t("loadError");
+        errorBox.hidden = false;
+    }
+}
+
+async function loadData() {
+    try {
+        const [songs, hyp] = await Promise.all([
+            fetchJson("songdatas.json"),
+            fetchJson("hyp.json")
+        ]);
+        return [songs, hyp, false];
+    } catch (error) {
+        const songs = parseFallbackJson("songdatas-fallback");
+        const hyp = parseFallbackJson("hyp-fallback");
+        if (songs.length && hyp.length) {
+            return [songs, hyp, true];
+        }
+        throw error;
+    }
+}
+
+async function fetchJson(path) {
+    const response = await fetch(path, { cache: "no-store" });
+    if (!response.ok) {
+        throw new Error(`${path}: ${response.status}`);
+    }
+    return response.json();
+}
+
+function parseFallbackJson(id) {
+    const node = document.getElementById(id);
+    if (!node) {
+        return [];
+    }
+    return JSON.parse(node.textContent || "[]");
+}
+
+function showNotice(message) {
+    const notice = document.getElementById("notice-message");
+    notice.textContent = message;
+    notice.hidden = false;
+}
+
+function bindControls() {
+    document.querySelectorAll("[data-lang]").forEach(button => {
+        button.addEventListener("click", () => {
+            state.lang = button.dataset.lang;
+            document.documentElement.lang = state.lang;
+            document.querySelectorAll("[data-lang]").forEach(btn => {
+                btn.classList.toggle("is-active", btn.dataset.lang === state.lang);
+            });
+            updateStaticText();
+            filterTable();
+        });
+    });
+
+    document.getElementById("select-all").addEventListener("click", () => {
+        document.querySelectorAll("#instrument-boxes input").forEach(cb => cb.checked = true);
+        filterTable();
+    });
+
+    document.getElementById("clear-all").addEventListener("click", () => {
+        document.querySelectorAll("#instrument-boxes input").forEach(cb => cb.checked = false);
+        filterTable();
+    });
+
+    document.querySelectorAll('input[name="logic-mode"]').forEach(radio => {
+        radio.addEventListener("change", filterTable);
+    });
+
+    document.getElementById("filter-title").addEventListener("input", filterTable);
+    document.getElementById("filter-id").addEventListener("input", filterTable);
+    document.getElementById("filter-difficulty").addEventListener("change", filterTable);
+    document.getElementById("filter-size").addEventListener("change", filterTable);
+}
+
+function buildInstrumentCheckboxes() {
+    const box = document.getElementById("instrument-boxes");
+    instrumentList.forEach(inst => {
+        const label = document.createElement("label");
+        label.className = "checkbox-label";
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = inst;
+        cb.addEventListener("change", filterTable);
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(inst));
+        box.appendChild(label);
+    });
+}
+
+function updateStaticText() {
+    document.querySelectorAll("[data-i18n]").forEach(node => {
+        node.textContent = t(node.dataset.i18n);
+    });
+    document.getElementById("filter-title").placeholder = t("titlePlaceholder");
+    document.getElementById("filter-id").placeholder = t("idPlaceholder");
+    updateSizeOptions();
+}
+
+function updateSizeOptions() {
+    const select = document.getElementById("filter-size");
+    const selected = select.value;
+    select.textContent = "";
+
+    const allOption = document.createElement("option");
+    allOption.value = "";
+    allOption.textContent = t("allSizes");
+    select.appendChild(allOption);
+
+    for (let count = 1; count <= 10; count += 1) {
+        const option = document.createElement("option");
+        option.value = String(count);
+        option.textContent = state.lang === "ja" ? String(count) : ensembleNamesEn[count];
+        select.appendChild(option);
+    }
+
+    select.value = selected;
+}
+
+function filterTable() {
+    const title = document.getElementById("filter-title").value.trim().toLowerCase();
+    const idQuery = document.getElementById("filter-id").value.trim().toUpperCase();
+    const diff = document.getElementById("filter-difficulty").value;
+    const size = document.getElementById("filter-size").value;
+    const checked = [...document.querySelectorAll("#instrument-boxes input:checked")].map(c => c.value);
+    const mode = document.querySelector('input[name="logic-mode"]:checked').value;
+
+    let expanded = [...checked];
+    if (checked.includes("Percussions")) {
+        expanded = expanded.filter(x => x !== "Percussions").concat(percussionGroup);
+    }
+
+    const filtered = state.songs.filter(song => {
+        const titlePool = [
+            song.title?.ja || "",
+            song.title?.en || "",
+            formatHeading(song, "ja"),
+            formatHeading(song, "en")
+        ].join(" ").toLowerCase();
+        const form = (song.party || []).join(" ");
+        const level = difficultyLetter(song.difficulty);
+        const songId = formatSongId(song).toUpperCase();
+
+        let show = true;
+        if (title && !titlePool.includes(title)) show = false;
+        if (idQuery && !songId.includes(idQuery)) show = false;
+        if (diff && level !== diff) show = false;
+        if (size && (song.party || []).length !== Number(size)) show = false;
+
+        if (expanded.length > 0) {
+            if (mode === "OR") {
+                const match = expanded.some(inst => form.includes(inst));
+                if (!match) show = false;
+            } else {
+                const matchAll = expanded.every(inst => form.includes(inst));
+                if (!matchAll) show = false;
+            }
+        }
+
+        return show;
+    });
+
+    renderSections(filtered, checked.length);
+}
+
+function renderSections(filtered, checkedCount) {
+    const solo = filtered.filter(song => (song.party || []).length <= 2);
+    const ensemble = filtered.filter(song => (song.party || []).length > 2);
+
+    document.getElementById("result-count").textContent = t("pieceCount", filtered.length);
+    document.getElementById("active-filters").textContent = t("activeFilters", checkedCount);
+    document.getElementById("solo-count").textContent = t("pieceCount", solo.length);
+    document.getElementById("ensemble-count").textContent = t("pieceCount", ensemble.length);
+
+    renderSongList(document.getElementById("solo-list"), solo);
+    renderSongList(document.getElementById("ensemble-list"), ensemble);
+
+    document.getElementById("solo-section").hidden = solo.length === 0;
+    document.getElementById("ensemble-section").hidden = ensemble.length === 0;
+    document.getElementById("no-results").hidden = filtered.length !== 0;
+}
+
+function renderSongList(container, songs) {
+    container.textContent = "";
+    const fragment = document.createDocumentFragment();
+    songs.forEach(song => {
+        fragment.appendChild(createSongItem(song));
+        if (state.openId === formatSongId(song)) {
+            const detailRow = document.createElement("div");
+            detailRow.className = "detail-row";
+            detailRow.appendChild(createDetailCard(song));
+            fragment.appendChild(detailRow);
+        }
+    });
+    container.appendChild(fragment);
+}
+
+function createSongItem(song) {
+    const id = formatSongId(song);
+    const item = document.createElement("article");
+    item.className = "song-item";
+    item.dataset.songId = id;
+
+    const summary = document.createElement("button");
+    summary.type = "button";
+    summary.className = "summary-card";
+    summary.classList.toggle("is-active", state.openId === id);
+    summary.setAttribute("aria-expanded", state.openId === id ? "true" : "false");
+    summary.innerHTML = `
+        <span>
+            <span class="summary-title">${escapeHtml(formatHeading(song))}</span>
+            <span class="summary-id">${escapeHtml(id)} / ${escapeHtml(formatDuration(song.duration))} / ${escapeHtml(difficultyLetter(song.difficulty))}</span>
+        </span>
+        <span class="summary-mark" aria-hidden="true">+</span>
+    `;
+    summary.addEventListener("click", () => {
+        state.openId = state.openId === id ? null : id;
+        filterTable();
+    });
+
+    item.appendChild(summary);
+    return item;
+}
+
+function createDetailCard(song) {
+    const id = formatSongId(song);
+    const card = document.createElement("div");
+    card.className = "detail-card";
+
+    const title = escapeHtml(formatHeading(song));
+    card.innerHTML = `
+        <div class="detail-head">
+            <h3 class="detail-title">${title}</h3>
+            <button type="button" class="close-detail" aria-label="${escapeHtml(t("close"))}">×</button>
+        </div>
+        <div class="detail-grid">
+            ${infoBlock(t("id"), id)}
+            ${infoBlock(t("duration"), formatDuration(song.duration))}
+            ${infoBlock(t("difficulty"), difficultyLetter(song.difficulty))}
+            ${infoBlock(t("price"), formatPrice(song.sells?.price))}
+            ${infoBlock(t("formTitle"), formatHeading(song), "is-wide")}
+            ${linksBlock(song.sells || {})}
+            ${partyBlock(song.party || [])}
+            ${commentBlock(song.comment)}
+        </div>
+    `;
+
+    card.querySelector(".close-detail").addEventListener("click", () => {
+        if (state.openId === id) {
+            state.openId = null;
+        }
+        filterTable();
+    });
+
+    return card;
+}
+
+function infoBlock(label, value, extraClass = "") {
+    return `
+        <div class="info-block ${extraClass}">
+            <p class="info-label">${escapeHtml(label)}</p>
+            <p class="info-value">${escapeHtml(value)}</p>
+        </div>
+    `;
+}
+
+function linksBlock(sells) {
+    return `
+        <div class="info-block is-wide">
+            <p class="info-label">${escapeHtml(t("links"))}</p>
+            <div class="link-row">
+                ${linkButton("Youtube", sells.youtube, "youtube")}
+                ${linkButton("Instagram", sells.instagram, "instagram")}
+                ${linkButton("Booth", sells.booth, "booth")}
+            </div>
+        </div>
+    `;
+}
+
+function linkButton(label, url, type) {
+    if (!url) {
+        return `<span class="sell-button ${type} is-disabled" aria-disabled="true">${escapeHtml(label)}</span>`;
+    }
+    return `<a class="sell-button ${type}" href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
+}
+
+function partyBlock(party) {
+    const items = party.map((part, index) => `
+        <div class="party-part">
+            <span class="part-number">[${index + 1}]</span>
+            <span>${escapeHtml(part)}</span>
+        </div>
+    `).join("");
+
+    return `
+        <div class="info-block is-full">
+            <p class="info-label">${escapeHtml(t("party"))}</p>
+            <div class="party-list">${items}</div>
+        </div>
+    `;
+}
+
+function commentBlock(comment) {
+    const text = formatComment(comment);
+    if (!text) {
+        return "";
+    }
+
+    return `
+        <div class="info-block is-full">
+            <p class="info-label">${escapeHtml(t("comment"))}</p>
+            <p class="info-value comment-text">${escapeHtml(text)}</p>
+        </div>
+    `;
+}
+
+function formatComment(comment) {
+    if (comment === null || comment === undefined || comment === "") {
+        return "";
+    }
+    if (typeof comment === "string" || typeof comment === "number") {
+        return String(comment);
+    }
+    if (Array.isArray(comment)) {
+        return comment.filter(Boolean).join("\n");
+    }
+    if (typeof comment === "object") {
+        return comment[state.lang] || comment.ja || comment.en || "";
+    }
+    return "";
+}
+
+function formatHeading(song, lang = state.lang) {
+    const formCode = song.id?.form || "";
+    const formName = state.formNames[lang]?.[formCode] || formCode;
+    const title = song.title?.[lang] || song.title?.en || song.title?.ja || "";
+    const count = (song.party || []).length;
+
+    if (lang === "ja") {
+        const size = count === 1 ? "独奏" : `${count}重奏`;
+        return `${formName}${size}「${title}」`;
+    }
+
+    const size = ensembleNamesEn[count] || `${count}-part Ensemble`;
+    return `${formName} ${size} - "${title}"`;
+}
+
+function formatSongId(song) {
+    const id = song.id || {};
+    const base = `${id.form || ""}${String(id.number ?? "").padStart(4, "0")}`;
+    return id.mov === null || id.mov === undefined ? base : `${base}-${id.mov}`;
+}
+
+function formatDuration(seconds) {
+    const total = Number(seconds) || 0;
+    const minutes = Math.floor(total / 60);
+    const secs = String(total % 60).padStart(2, "0");
+    return state.lang === "ja" ? `${minutes}分${secs}秒` : `${minutes}:${secs}`;
+}
+
+function difficultyLetter(value) {
+    const number = Number(value);
+    if (!Number.isFinite(number) || number < 1 || number > 7) {
+        return "";
+    }
+    return String.fromCharCode(64 + number);
+}
+
+function formatPrice(price) {
+    if (price === null || price === undefined || price === "") {
+        return t("notOnSale");
+    }
+    return `￥${price}`;
+}
+
+function t(key, ...args) {
+    const value = texts[state.lang][key] ?? texts.ja[key] ?? "";
+    return typeof value === "function" ? value(...args) : value;
+}
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function escapeAttribute(value) {
+    return escapeHtml(value).replace(/`/g, "&#096;");
+}
+</script>
+</body>
+</html>
