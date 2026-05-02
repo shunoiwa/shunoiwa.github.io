@@ -474,6 +474,25 @@ select:focus {
     white-space: pre-line;
 }
 
+.map-block.is-pending {
+    display: none;
+}
+
+.map-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px;
+    border: 1px solid #d8e1ee;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.map-image {
+    display: block;
+    max-width: none;
+    height: auto;
+}
+
 .party-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -838,6 +857,7 @@ const texts = {
         party: "詳細な編成",
         links: "動画および販売リンク",
         price: "値段",
+        map: "マップ",
         comment: "コメント",
         notOnSale: "未販売",
         close: "閉じる",
@@ -878,6 +898,7 @@ const texts = {
         party: "Detailed Instrumentation",
         links: "Video and Shop Links",
         price: "Price",
+        map: "Map",
         comment: "Comment",
         notOnSale: "Not on sale",
         close: "Close",
@@ -1191,7 +1212,8 @@ function createDetailCard(song) {
     const card = document.createElement("div");
     card.className = "detail-card";
 
-    const title = escapeHtml(formatHeading(song));
+    const heading = formatHeading(song);
+    const title = escapeHtml(heading);
     card.innerHTML = `
         <div class="detail-head">
             <h3 class="detail-title">${title}</h3>
@@ -1205,9 +1227,12 @@ function createDetailCard(song) {
             ${infoBlock(t("formTitle"), formatHeading(song), "is-wide")}
             ${linksBlock(song.sells || {})}
             ${partyBlock(song.party || [])}
+            ${mapBlock(id, heading)}
             ${commentBlock(song.comment)}
         </div>
     `;
+
+    initMapBlock(card);
 
     card.querySelector(".close-detail").addEventListener("click", () => {
         if (state.openId === id) {
@@ -1262,6 +1287,46 @@ function partyBlock(party) {
             <div class="party-list">${items}</div>
         </div>
     `;
+}
+
+function mapBlock(id, title) {
+    if (!id) {
+        return "";
+    }
+
+    const src = `maps/${encodeURIComponent(id)}.svg`;
+    return `
+        <div class="info-block is-full map-block is-pending" data-map-block>
+            <p class="info-label">${escapeHtml(t("map"))}</p>
+            <div class="map-scroll">
+                <img class="map-image" src="${escapeAttribute(src)}" alt="${escapeAttribute(`${t("map")}: ${title}`)}">
+            </div>
+        </div>
+    `;
+}
+
+function initMapBlock(card) {
+    const block = card.querySelector("[data-map-block]");
+    const image = block?.querySelector(".map-image");
+    if (!block || !image) {
+        return;
+    }
+
+    image.addEventListener("load", () => {
+        block.classList.remove("is-pending");
+    }, { once: true });
+
+    image.addEventListener("error", () => {
+        block.remove();
+    }, { once: true });
+
+    if (image.complete) {
+        if (image.naturalWidth === 0) {
+            block.remove();
+            return;
+        }
+        block.classList.remove("is-pending");
+    }
 }
 
 function commentBlock(comment) {
