@@ -77,7 +77,7 @@
       "mov": null
     },
     "title": {
-      "ja": "Leonhard *",
+      "ja": "Leonhard",
       "en": ""
     },
     "party": [
@@ -236,7 +236,7 @@
       "instagram": null,
       "price": 3000
     },
-    "comment": null
+    "comment": "大変さをすべて伴奏に押し付けたような曲です。"
   },
   {
     "id": {
@@ -284,7 +284,7 @@
       "instagram": null,
       "price": 3000
     },
-    "comment": null
+    "comment": "長めのアドリブがあります。この部分に高音がありますが、別に必須というわけではないので、難度は低めにしました。"
   },
   {
     "id": {
@@ -332,7 +332,7 @@
       "instagram": null,
       "price": 3000
     },
-    "comment": null
+    "comment": "ボサ・ノヴァのリズムを2倍速にしてみました。"
   },
   {
     "id": {
@@ -359,7 +359,7 @@
       "instagram": null,
       "price": null
     },
-    "comment": null
+    "comment": "編成にコントラバスを含みますが、あくまで打楽器の補助なので、打楽器6重奏ということにしました。"
   },
   {
     "id": {
@@ -384,7 +384,7 @@
       "instagram": null,
       "price": null
     },
-    "comment": null
+    "comment": "1台のマリンバがあれば演奏できる、とても準備が楽な曲です。"
   },
   {
     "id": {
@@ -412,7 +412,7 @@
       "instagram": null,
       "price": 3000
     },
-    "comment": null
+    "comment": "単純7拍子(複合ではなく)の曲を作ろう！という試みの結果です。"
   },
   {
     "id": {
@@ -495,7 +495,7 @@
       "instagram": null,
       "price": 3000
     },
-    "comment": null
+    "comment": "MUSIC WEAGHKで一番人気の曲ですが、それなりに難しいので購入時はご注意ください。"
   },
   {
     "id": {
@@ -1325,7 +1325,7 @@
       "instagram": null,
       "price": 3000
     },
-    "comment": null
+    "comment": "Eldritchは「超自然的な恐怖」という意味の単語です。主題と変奏の形式で作曲しました。"
   },
   {
     "id": {
@@ -1485,7 +1485,7 @@
       "instagram": null,
       "price": 3000
     },
-    "comment": null
+    "comment": "古典ジャズ風のリズムを主軸にした曲です。"
   },
   {
     "id": {
@@ -1514,7 +1514,7 @@
       "instagram": null,
       "price": 3200
     },
-    "comment": null
+    "comment": "クリスマスっぽい曲を作りました。明るめの曲。"
   },
   {
     "id": {
@@ -1544,7 +1544,7 @@
       "instagram": null,
       "price": 3500
     },
-    "comment": null
+    "comment": "組曲「Western」の第1曲です。金管が主役の、アフリカ風主題。"
   },
   {
     "id": {
@@ -1574,7 +1574,7 @@
       "instagram": null,
       "price": 3500
     },
-    "comment": null
+    "comment": "組曲「Western」の第2曲です。木管が主役の、アフリカ風主題。"
   },
   {
     "id": {
@@ -1604,7 +1604,7 @@
       "instagram": null,
       "price": 3500
     },
-    "comment": null
+    "comment": "組曲「Western」の第3曲です。5曲の中で唯一長調を基本とした曲。"
   },
   {
     "id": {
@@ -1634,7 +1634,7 @@
       "instagram": null,
       "price": 3500
     },
-    "comment": null
+    "comment": "組曲「Western」の第4曲です。アラビア風の主題。"
   },
   {
     "id": {
@@ -1664,7 +1664,7 @@
       "instagram": null,
       "price": 3500
     },
-    "comment": null
+    "comment": "組曲「Western」の第5曲です。あまり関わりたくない儀式のイメージ。"
   },
   {
     "id": {
@@ -1694,6 +1694,6 @@
       "instagram": null,
       "price": 3000
     },
-    "comment": null
+    "comment": "11拍子の曲を作ってみよう！という試みの結果です。パッセージ自体の難易度はそこまで高くありませんが、単純に11拍子のアンサンブルが難しいので、難度はGとしました。"
   }
 ]
