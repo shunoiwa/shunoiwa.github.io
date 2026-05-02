@@ -716,6 +716,13 @@ select:focus {
             <select id="filter-size">
                 <option value="" data-i18n="allSizes">すべて</option>
             </select>
+            <label for="filter-duration" data-i18n="durationFilter">演奏時間：</label>
+            <select id="filter-duration">
+                <option value="" data-i18n="allDurations">すべて</option>
+                <option value="short" data-i18n="durationShort">短め（～3:00）</option>
+                <option value="normal" data-i18n="durationNormal">普通（3:00～6:00）</option>
+                <option value="long" data-i18n="durationLong">長め（6:00～）</option>
+            </select>
         </div>
 
         <div class="filter-row">
@@ -782,6 +789,11 @@ const texts = {
         allDifficulties: "すべて",
         sizeFilter: "楽器数：",
         allSizes: "すべて",
+        durationFilter: "演奏時間：",
+        allDurations: "すべて",
+        durationShort: "短め（～3:00）",
+        durationNormal: "普通（3:00～6:00）",
+        durationLong: "長め（6:00～）",
         instrumentFilter: "楽器：",
         selectAll: "全選択",
         clearAll: "全解除",
@@ -817,6 +829,11 @@ const texts = {
         allDifficulties: "All",
         sizeFilter: "Parts:",
         allSizes: "All",
+        durationFilter: "Duration:",
+        allDurations: "All",
+        durationShort: "Short (up to 3:00)",
+        durationNormal: "Medium (3:00-6:00)",
+        durationLong: "Long (6:00+)",
         instrumentFilter: "Instrument:",
         selectAll: "Select all",
         clearAll: "Clear all",
@@ -974,6 +991,7 @@ function bindControls() {
     document.getElementById("filter-id").addEventListener("input", filterTable);
     document.getElementById("filter-difficulty").addEventListener("change", filterTable);
     document.getElementById("filter-size").addEventListener("change", filterTable);
+    document.getElementById("filter-duration").addEventListener("change", filterTable);
 }
 
 function buildInstrumentCheckboxes() {
@@ -1025,6 +1043,7 @@ function filterTable() {
     const idQuery = document.getElementById("filter-id").value.trim().toUpperCase();
     const diff = document.getElementById("filter-difficulty").value;
     const size = document.getElementById("filter-size").value;
+    const durationRange = document.getElementById("filter-duration").value;
     const checked = [...document.querySelectorAll("#instrument-boxes input:checked")].map(c => c.value);
     const mode = document.querySelector('input[name="logic-mode"]:checked').value;
 
@@ -1049,6 +1068,7 @@ function filterTable() {
         if (idQuery && !songId.includes(idQuery)) show = false;
         if (diff && level !== diff) show = false;
         if (size && (song.party || []).length !== Number(size)) show = false;
+        if (durationRange && !matchesDurationRange(song.duration, durationRange)) show = false;
 
         if (expanded.length > 0) {
             if (mode === "OR") {
@@ -1064,6 +1084,20 @@ function filterTable() {
     });
 
     renderSections(filtered, checked.length);
+}
+
+function matchesDurationRange(seconds, range) {
+    const duration = Number(seconds) || 0;
+    if (range === "short") {
+        return duration <= 180;
+    }
+    if (range === "normal") {
+        return duration > 180 && duration < 360;
+    }
+    if (range === "long") {
+        return duration >= 360;
+    }
+    return true;
 }
 
 function renderSections(filtered, checkedCount) {
