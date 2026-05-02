@@ -80,11 +80,9 @@ a {
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    display: grid;
-    place-items: center;
-    background: var(--ink);
-    color: #fff;
-    font-size: 0.84rem;
+    display: block;
+    object-fit: cover;
+    border: 1px solid rgba(23, 32, 51, 0.12);
 }
 
 .nav-links {
@@ -673,7 +671,7 @@ select:focus {
 <body>
 <header class="site-header">
     <div class="nav-wrap">
-        <a class="brand" href="../home.html"><span class="brand-mark">MW</span><span>MUSIC WEAGHK</span></a>
+        <a class="brand" href="../home.html"><img class="brand-mark" src="../cpi.jpg" alt="MUSIC WEAGHK"><span>MUSIC WEAGHK</span></a>
         <nav class="nav-links" aria-label="Main navigation">
             <a href="../home.html">ホーム</a>
             <a href="../scores.html">楽譜販売</a>
