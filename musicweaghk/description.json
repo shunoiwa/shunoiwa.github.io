@@ -1,0 +1,65 @@
+[
+    {
+        "content" : "musicid",
+        "ja" : "各楽曲に割り当てられた固有の番号です。",
+        "en" : "A unique number assigned to each piece."
+    },
+    {
+        "content" : "duration",
+        "ja" : "演奏にかかるおおよその時間です。厳密なテンポで演奏した場合の目安なので、数秒程度前後します。",
+        "en" : "The approximate performance time. It is an estimate based on a strict tempo, so it may vary by a few seconds."
+    },
+    {
+        "content" : "difficulty",
+        "ja" : {
+            "common" : "楽曲の難しさを表す、AからGまでの7段階の指標です。",
+            "A" : "難度Aは、入門書レベルの簡単な曲です。",
+            "B" : "難度Bは、基本的な音域のみの比較的簡単な曲です。",
+            "C" : "難度Cは、一般的な音域で構成される、標準的な難易度です。",
+            "D" : "難度Dは、一部にスキルを要求しますが、ほぼ標準的な難易度です。",
+            "E" : "難度Eは、中上級者向けの少し難しい曲です。",
+            "F" : "難度Fは、スキルに自信がある人向けの難しい曲です。",
+            "G" : "難度Gは、一部または全体的に超絶技巧を要求する、極めて難しい曲です。"
+        },
+        "en" : {
+            "common" : "A seven-level indicator, from A to G, showing the difficulty of the piece.",
+            "A" : "Difficulty A indicates an easy piece at an introductory method-book level.",
+            "B" : "Difficulty B indicates a relatively easy piece using only basic ranges.",
+            "C" : "Difficulty C indicates a standard level of difficulty, built around common ranges.",
+            "D" : "Difficulty D requires some skill in certain passages, but is mostly standard in difficulty.",
+            "E" : "Difficulty E indicates a slightly difficult piece for upper-intermediate players.",
+            "F" : "Difficulty F indicates a difficult piece for players confident in their technique.",
+            "G" : "Difficulty G indicates an extremely difficult piece that requires virtuoso technique in part or throughout."
+        }
+    },
+    {
+        "content" : "price",
+        "ja" : "楽譜の値段です。通常3000円ですが、長さや内容によって多少変化します。",
+        "en" : "The price of the score. It is usually 3000 yen, but may vary depending on the length and content."
+    },
+    {
+        "content" : "partytitle",
+        "ja" : "編成の種別と曲の題名です。同名の曲は「楽曲ID」で区別してください。",
+        "en" : "The instrumentation category and title of the piece. Pieces with the same title can be distinguished by Song ID."
+    },
+    {
+        "content" : "links",
+        "ja" : "各種リンクです。灰色のボタンは押せません。",
+        "en" : "Related links. Gray buttons are unavailable and cannot be clicked."
+    },
+    {
+        "content" : "parts", 
+        "ja" : "曲を演奏するのに必要な楽器一覧です。(accomp.)は伴奏楽器で、パート数には含まれず、このパート単独の難度は曲の難度に影響を与えません。",
+        "en" : "A list of instruments needed to perform the piece. Parts marked (accomp.) are accompaniment instruments; they are not counted in the number of parts, and the difficulty of that part alone does not affect the piece's difficulty rating."
+    },
+    {
+        "content" : "map",
+        "ja" : "楽曲の進行を表すマップです。Markはリハーサルマーク、Repeatは繰り返し記号、Keyは調号(実音表記における＃と♭の数を表しています)、Meterは拍子、Tempoはテンポ変化を表しています。最下部の数字は小節番号です(0はアウフタクト)。",
+        "en" : "A map showing the progression of the piece. Mark indicates rehearsal marks, Repeat indicates repeat signs, Key indicates the key signature as the number of sharps or flats in concert pitch, Meter indicates the time signature, and Tempo indicates tempo changes. The numbers at the bottom are measure numbers; 0 indicates a pickup measure."
+    },
+    {
+        "content" : "comment",
+        "ja" : "この曲に関するコメントです。",
+        "en" : "A comment about this piece."
+    }
+]
