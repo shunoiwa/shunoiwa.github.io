@@ -509,7 +509,7 @@ select:focus {
     padding: 10px 12px;
     border: 1px solid #bfdbfe;
     border-radius: 8px;
-    background: #0f172a;
+    background: rgba(15, 23, 42, 0.5);
     color: #f8fafc;
     box-shadow: 0 16px 34px rgba(15, 23, 42, 0.22);
     font-size: 0.78rem;
@@ -527,6 +527,41 @@ select:focus {
 
 .help-tip:hover .help-bubble,
 .help-tip:focus-visible .help-bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.link-warning-tip {
+    position: relative;
+    display: inline-flex;
+}
+
+.link-warning-bubble {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    z-index: 30;
+    width: max-content;
+    max-width: min(320px, calc(100vw - 40px));
+    padding: 10px 12px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: rgba(127, 29, 29, 0.5);
+    color: #fff;
+    box-shadow: 0 16px 34px rgba(127, 29, 29, 0.2);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.55;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 3px);
+    transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+}
+
+.link-warning-tip:hover .link-warning-bubble,
+.link-warning-tip:focus-within .link-warning-bubble {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
@@ -927,6 +962,7 @@ const texts = {
         price: "値段",
         map: "マップ",
         comment: "コメント",
+        highDifficultyWarning: "この曲は難易度が高めです。ご購入の際はご注意ください。",
         notOnSale: "未販売",
         close: "閉じる",
         loadError: "曲データを読み込めませんでした。JSONファイルの場所と形式を確認してください。"
@@ -969,6 +1005,7 @@ const texts = {
         price: "Price",
         map: "Map",
         comment: "Comment",
+        highDifficultyWarning: "This piece has a high difficulty level. Please keep this in mind before purchasing.",
         notOnSale: "Not on sale",
         close: "Close",
         loadError: "Could not load song data. Check the JSON file paths and format."
@@ -1315,7 +1352,7 @@ function createDetailCard(song) {
             ${infoBlock(t("difficulty"), difficultyLetter(song.difficulty), "", "difficulty", difficultyLetter(song.difficulty))}
             ${infoBlock(t("price"), formatPrice(song.sells?.price), "", "price")}
             ${infoBlock(t("formTitle"), formatHeading(song), "is-wide", "partytitle")}
-            ${linksBlock(song.sells || {})}
+            ${linksBlock(song.sells || {}, isHighDifficulty(song))}
             ${partyBlock(song.party || [])}
             ${mapBlock(id, heading)}
             ${commentBlock(song.comment)}
@@ -1343,24 +1380,38 @@ function infoBlock(label, value, extraClass = "", descriptionKey = "", descripti
     `;
 }
 
-function linksBlock(sells) {
+function linksBlock(sells, showDifficultyWarning = false) {
     return `
         <div class="info-block is-wide">
             ${labelWithHelp(t("links"), "links")}
             <div class="link-row">
-                ${linkButton("Youtube", sells.youtube, "youtube")}
-                ${linkButton("Instagram", sells.instagram, "instagram")}
-                ${linkButton("Booth", sells.booth, "booth")}
+                ${linkButton("Youtube", sells.youtube, "youtube", showDifficultyWarning)}
+                ${linkButton("Instagram", sells.instagram, "instagram", showDifficultyWarning)}
+                ${linkButton("Booth", sells.booth, "booth", showDifficultyWarning)}
             </div>
         </div>
     `;
 }
 
-function linkButton(label, url, type) {
-    if (!url) {
-        return `<span class="sell-button ${type} is-disabled" aria-disabled="true">${escapeHtml(label)}</span>`;
+function linkButton(label, url, type, showDifficultyWarning = false) {
+    const button = url
+        ? `<a class="sell-button ${type}" href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`
+        : `<span class="sell-button ${type} is-disabled" aria-disabled="true">${escapeHtml(label)}</span>`;
+
+    if (!showDifficultyWarning) {
+        return button;
     }
-    return `<a class="sell-button ${type}" href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
+
+    return `
+        <span class="link-warning-tip">
+            ${button}
+            <span class="link-warning-bubble" role="tooltip">${escapeHtml(t("highDifficultyWarning"))}</span>
+        </span>
+    `;
+}
+
+function isHighDifficulty(song) {
+    return Number(song.difficulty) >= 6;
 }
 
 function partyBlock(party) {
