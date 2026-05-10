@@ -1887,5 +1887,37 @@
             "ja": "11拍子の曲を作ってみよう！という試みの結果です。パッセージ自体の難易度はそこまで高くありませんが、単純に11拍子のアンサンブルが難しいので、難度はGとしました。",
             "en": "This is the result of an attempt to write a piece in 11/4 meter. The passages themselves are not especially difficult, but ensemble playing in simple 11/4 is inherently challenging, so I rated the difficulty as G."
         }
+    },
+    {
+        "id": {
+            "form": "BRA",
+            "number": 7,
+            "mov": null
+        },
+        "title": {
+            "ja": "SHINOBI",
+            "en": "SHINOBI"
+        },
+        "party": [
+            "B♭ Trumpet 1",
+            "B♭ Trumpet 2",
+            "F Horn",
+            "Trombone 1",
+            "Trombone 2",
+            "Euphonium",
+            "Tuba"
+        ],
+        "duration": 236,
+        "difficulty": 5,
+        "sells": {
+            "youtube": "https://youtu.be/MJKTP6eDjn0",
+            "booth": "https://weaghk.booth.pm/items/8343690",
+            "instagram": "https://www.instagram.com/p/DYJtHx2RNxv/",
+            "price": 3000
+        },
+        "comment": {
+            "ja": "9年前に作ってお蔵入りしていた曲を少し修正しました。",
+            "en": "I made a few tweaks to a song I wrote nine years ago that had been sitting on the shelf."
+        }
     }
 ]
