@@ -1,0 +1,163 @@
+[
+    {
+        "Flute": {
+            "name": "フルート",
+            "canname": true,
+            "insts": {
+                "Piccolo": "ピッコロ",
+                "Flute": "フルート",
+                "Alto Flute": "アルトフルート"
+            }
+        },
+        "Clarinet": {
+            "name": "クラリネット",
+            "canname": true,
+            "insts": {
+                "E♭ Clarinet": "Esクラリネット",
+                "B♭ Clarinet": "クラリネット",
+                "Alto Clarinet": "アルトクラリネット",
+                "Bass Clarinet": "バスクラリネット"
+            }
+        },
+        "Double-Reed": {
+            "name": "ダブルリード",
+            "canname": true,
+            "groups": {
+                "Oboe": {
+                    "name": "オーボエ",
+                    "canname": true,
+                    "insts": {
+                        "Oboe Musette": "オーボエ・ミュゼット",
+                        "Oboe": "オーボエ",
+                        "Oboe d'amore": "オーボエ・ダモーレ",
+                        "English Horn": "イングリッシュホルン"
+                    }
+                },
+                "Bassoon": {
+                    "name": "バスーン",
+                    "canname": true,
+                    "insts": {
+                        "Tenoroon": "テナルーン",
+                        "Bassoon": "バスーン",
+                        "Contrabassoon": "コントラバスーン"
+                    }
+                }
+            }
+        },
+        "Recorder": {
+            "name": "リコーダー",
+            "canname": true,
+            "insts": {
+                "Garklein Recorder": "ガークラインリコーダー",
+                "Sopranino Recorder": "ソプラニーノリコーダー",
+                "Soprano Recorder": "ソプラノリコーダー",
+                "Alto Recorder": "アルトリコーダー",
+                "Tenor Recorder": "テナーリコーダー",
+                "Bass Recorder": "バスリコーダー",
+                "Greatbass Recorder": "グレートバスリコーダー",
+                "Contrabass Recorder": "コントラバスリコーダー"
+            }
+        },
+        "Saxophone": {
+            "name": "サキソフォン",
+            "canname": true,
+            "insts": {
+                "Soprano Saxophone": "ソプラノサキソフォン",
+                "Alto Saxophone": "アルトサキソフォン",
+                "Tenor Saxophone": "テナーサキソフォン",
+                "Baritone Saxophone": "バリトンサキソフォン",
+                "Bass Saxophone": "バスサキソフォン"
+            }
+        },
+        "Tromba": {
+            "name": "トロンバ",
+            "canname": true,
+            "groups": {
+                "Trumpet": {
+                    "name": "トランペット",
+                    "canname": true,
+                    "insts": {
+                        "Piccolo Trumpet": "ピッコロトランペット",
+                        "B♭ Trumpet": "トランペット"
+                    }
+                },
+                "Trombone": {
+                    "name": "トロンボーン",
+                    "canname": true,
+                    "insts": {
+                        "Trombone": "トロンボーン",
+                        "Bass Trombone": "バストロンボーン",
+                        "Contrabass Trombone": "コントラバストロンボーン",
+                        "Cimbasso": "チンバッソ"
+                    }
+                }
+            }
+        },
+        "Bugle": {
+            "name": "ビューグル",
+            "canname": true,
+            "insts": {
+                "B♭ Cornet": "コルネット",
+                "Flugel Horn": "フリューゲルホルン",
+                "Ophicleide": "オフィクレイド"
+            }
+        },
+        "Horn": {
+            "name": "ホルン",
+            "canname": true,
+            "insts": {
+                "F Horn": "ホルン"
+            }
+        },
+        "Saxhorn": {
+            "name": "サクソルン",
+            "canname": true,
+            "insts": {
+                "Euphonium": "ユーフォニアム",
+                "Tuba": "テューバ",
+                "Baritone Horn": "バリトンホルン"
+            }
+        },
+        "String": {
+            "name": "弦楽",
+            "canname": true,
+            "insts": {
+                "Violin": "ヴァイオリン",
+                "Viola": "ヴィオラ",
+                "Violoncello": "チェロ",
+                "Contrabass": "コントラバス"
+            }
+        },
+        "Pizzs": {
+            "name": "撥弦・打弦楽器",
+            "canname": false,
+            "insts": {
+                "Pianoforte": "ピアノ",
+                "Harpsichord": "チェンバロ",
+                "Harp": "ハープ"
+            }
+        },
+        "Percussion": {
+            "name": "打楽器",
+            "canname": true,
+            "insts": {
+                "Marimba": "マリンバ",
+                "Xylophone": "シロフォン",
+                "Vibraphone": "ヴィブラフォン",
+                "Glockenspiel": "グロッケンシュピール",
+                "Chime": "チャイム",
+                "Timpani": "ティンパニ",
+                "Drumset": "ドラムセット",
+                "Cymbal": "シンバル",
+                "Toms": "タム",
+                "Bass Drum": "バスドラム",
+                "Snare Drum": "スネアドラム",
+                "Tam-Tam": "銅鑼",
+                "Triangle": "トライアングル",
+                "Tambourine": "タンバリン",
+                "Suspended Cymbal": "サスペンデッドシンバル",
+                "Castanets": "カスタネット"
+            }
+        }
+    }
+]
