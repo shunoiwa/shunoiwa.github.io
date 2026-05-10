@@ -1523,8 +1523,8 @@ function matchesDurationRange(seconds, range) {
 }
 
 function renderSections(filtered, checkedCount) {
-    const solo = filtered.filter(song => effectivePartyCount(song) <= 2);
-    const ensemble = filtered.filter(song => effectivePartyCount(song) > 2);
+    const solo = sortSongsById(filtered.filter(song => effectivePartyCount(song) <= 2));
+    const ensemble = sortSongsById(filtered.filter(song => effectivePartyCount(song) > 2));
 
     document.getElementById("result-count").textContent = t("pieceCount", filtered.length);
     document.getElementById("active-filters").textContent = t("activeFilters", checkedCount);
@@ -1537,6 +1537,10 @@ function renderSections(filtered, checkedCount) {
     document.getElementById("solo-section").hidden = solo.length === 0;
     document.getElementById("ensemble-section").hidden = ensemble.length === 0;
     document.getElementById("no-results").hidden = filtered.length !== 0;
+}
+
+function sortSongsById(songs) {
+    return [...songs].sort((a, b) => formatSongId(a).localeCompare(formatSongId(b), "en", { numeric: true }));
 }
 
 function renderSongList(container, songs) {
