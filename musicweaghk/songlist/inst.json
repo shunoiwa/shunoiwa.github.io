@@ -37,7 +37,7 @@
                     "name": "バスーン",
                     "canname": true,
                     "insts": {
-                        "Tenoroon": "テナルーン",
+                        "Tenor Bassoon": "テナーバスーン",
                         "Bassoon": "バスーン",
                         "Contrabassoon": "コントラバスーン"
                     }
