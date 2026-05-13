@@ -1919,5 +1919,34 @@
             "ja": "9年前に作ってお蔵入りしていた曲を少し修正しました。",
             "en": "I made a few tweaks to a song I wrote nine years ago that had been sitting on the shelf."
         }
+    },
+    {
+        "id": {
+            "form": "WOD",
+            "number": 24,
+            "mov": null
+        },
+        "title": {
+            "ja": "Mirage",
+            "en": "Mirage"
+        },
+        "party": [
+            "Tenor Bassoon",
+            "Bassoon 1",
+            "Bassoon 2",
+            "Contrabassoon"
+        ],
+        "duration": 219,
+        "difficulty": 5,
+        "sells": {
+            "youtube": "https://youtu.be/6msVVDg_ki8",
+            "booth": "https://weaghk.booth.pm/items/8355578",
+            "instagram": "https://www.instagram.com/p/DYRPrnsR1jG/",
+            "price": 3000
+        },
+        "comment": {
+            "ja": "アラビア成分を多分に含めました。",
+            "en": "This has a strong Arabian flavor to it."
+        }
     }
 ]
