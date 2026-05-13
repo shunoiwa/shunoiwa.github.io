@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>1-3. 関数グラフを書く - Gnuplot備忘録</title>
+  <title>2-4. 補助線とテキスト - Gnuplot備忘録</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <link rel="stylesheet" href="../style.css">
@@ -19,54 +19,48 @@
   </aside>
 
   <main class="main">
-    <h1>1-3. 関数グラフを書く</h1>
+    <h1>2-4. 補助線とテキスト</h1>
     <p>
-      関数グラフは <code>plot</code> に式を渡すだけで描けます。
-      ここでは変数・関数の定義、複数関数の同時描画、媒介変数表示をまとめます。
+      しきい値、基準線、注釈を入れると、図から読み取ってほしい点を明確にできます。
+      Gnuplotでは <code>set arrow</code>、<code>set label</code>、<code>set object</code> を使います。
     </p>
     <hr>
 
-    <h2>変数と関数を定義する</h2>
-    <pre><code>a = 2
-b = 0.5
-f(x) = a * sin(b * x)
-plot f(x)</code></pre>
+    <h2>水平線・垂直線</h2>
     <p>
-      定義した変数や関数は、その後の式で再利用できます。
-      実験条件や定数を先に名前で置いておくと、後から変更しやすくなります。
+      最も簡単な基準線は、定数関数として描く方法です。
+    </p>
+    <pre><code>plot "data.txt" using 1:2 with points title "data", \
+     1.0 with lines lc rgb "#888888" dt 2 title "threshold"</code></pre>
+    <p>
+      ただし凡例に含めたくない補助線なら、<code>set arrow</code> の方が整理しやすいです。
+    </p>
+    <pre><code>set arrow 1 from 0,1.0 to 10,1.0 nohead \
+    lc rgb "#888888" dt 2 lw 1</code></pre>
+
+    <h2>注釈を置く</h2>
+    <pre><code>set label 1 "peak" at 4.2,8.5 center
+set arrow 2 from 4.2,8.2 to 4.2,7.1 head</code></pre>
+    <p>
+      ラベル番号を付けておくと、あとから同じ番号で上書きできます。
+      消す場合は <code>unset label 1</code> や <code>unset arrow 2</code> を使います。
     </p>
 
-    <h2>複数の関数を描く</h2>
-    <pre><code>set xrange [0:2*pi]
-set yrange [-1.2:1.2]
-plot sin(x) title "sin" lw 2, \
-     cos(x) title "cos" lw 2</code></pre>
+    <h2>領域を塗る</h2>
     <p>
-      複数の系列はカンマで区切ります。
-      <code>title</code> は凡例名、<code>lw</code> は線の太さです。
+      範囲を強調したいときは矩形オブジェクトを使います。
     </p>
-
-    <figure>
-      <img src="images/1-3_fig1.png" alt="sinとcosの関数グラフ" style="max-width:100%;">
-    </figure>
-
-    <h2>媒介変数表示</h2>
+    <pre><code>set object 1 rect from 2, graph 0 to 4, graph 1 \
+    fc rgb "#fff2a8" fs solid 0.35 noborder</code></pre>
     <p>
-      \(x=t\) のような普通の関数ではなく、\(x=f(t), y=g(t)\) として描きたいときは
-      <code>set parametric</code> を使います。
-    </p>
-    <pre><code>set parametric
-set trange [0:2*pi]
-set size ratio -1
-plot cos(t), sin(t) title "circle"</code></pre>
-    <p>
-      <code>set size ratio -1</code> を入れると、x方向とy方向のスケールがそろい、円が円として表示されます。
+      <code>graph 0</code> から <code>graph 1</code> まで指定すると、y方向いっぱいの帯になります。
+      <code>fc</code> は塗り色、<code>fs solid</code> は透明度付きの塗り指定です。
     </p>
 
     <div class="point-box">
       <p>
-        関数を何度も使うなら <code>f(x)=...</code> と名前を付けるのが便利です。
-        式の意味が読みやすくなり、パラメータだけを差し替える作業も楽になります。
+        補助線や注釈は、図の主役を助けるために使います。
+        目立たせすぎるとデータより注釈が勝つので、薄い色や破線を選ぶと収まりが良いです。
       </p>
     </div>
   </main>

@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>2-2. データ点と線 - Gnuplot備忘録</title>
+  <title>2-3. 凡例 - Gnuplot備忘録</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <link rel="stylesheet" href="../style.css">
@@ -19,46 +19,48 @@
   </aside>
 
   <main class="main">
-    <h1>2-2. データ点と線</h1>
+    <h1>2-3. 凡例</h1>
     <p>
-      データ系列の見た目は <code>with</code>、線種、点種、色で指定します。
-      実験点と理論線を区別できるように、役割ごとに見た目を分けます。
+      凡例は、複数の系列を見分けるための案内です。
+      Gnuplotでは凡例を <code>key</code> と呼び、表示位置や枠の有無を設定できます。
     </p>
     <hr>
 
-    <h2>描画スタイル</h2>
-    <div class="arg-table">
-      <table>
-        <thead><tr><th>指定</th><th>意味</th></tr></thead>
-        <tbody>
-          <tr><td><code>with lines</code></td><td>線だけで描く</td></tr>
-          <tr><td><code>with points</code></td><td>点だけで描く</td></tr>
-          <tr><td><code>with linespoints</code></td><td>点と線を両方描く</td></tr>
-          <tr><td><code>with impulses</code></td><td>棒状の線で描く</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2>線の太さ・種類・色</h2>
-    <pre><code>plot "data.txt" using 1:2 with lines \
-     lw 2 lt 1 lc rgb "#1f77b4" title "sample"</code></pre>
+    <h2>凡例名を付ける</h2>
+    <pre><code>plot "data.txt" using 1:2 with points title "measurement", \
+     f(x) with lines title "fit"</code></pre>
     <p>
-      <code>lw</code> は線幅、<code>lt</code> は線種、<code>lc rgb</code> は線色です。
-      色を明示しておくと環境差が出にくくなります。
+      <code>title</code> が凡例に表示される名前です。
+      凡例を出したくない系列には <code>notitle</code> を付けます。
+    </p>
+    <pre><code>plot "data.txt" using 1:2 with points title "measurement", \
+     0 with lines lc rgb "#aaaaaa" notitle</code></pre>
+
+    <h2>位置を変える</h2>
+    <pre><code>set key top right
+set key bottom left
+set key outside right
+set key at graph 0.98,0.95</code></pre>
+    <p>
+      <code>top right</code> のような指定は手軽です。
+      細かく置きたい場合は <code>at graph x,y</code> を使います。
+      <code>graph</code> 座標では左下が <code>0,0</code>、右上が <code>1,1</code> です。
     </p>
 
-    <h2>点の種類と大きさ</h2>
-    <pre><code>plot "data.txt" using 1:2 with points \
-     pt 7 ps 1.2 lc rgb "#d62728" title "measurement"</code></pre>
+    <h2>枠と並び</h2>
+    <pre><code>set key box
+set key opaque
+set key spacing 1.2
+set key samplen 2</code></pre>
     <p>
-      <code>pt</code> は点種、<code>ps</code> は点サイズです。
-      実験値は点、理論値や近似曲線は線にすると読み分けやすくなります。
+      <code>box</code> は枠、<code>opaque</code> は背景を不透明にする指定です。
+      図中の線と重なる場合に使うと、凡例の文字が読みやすくなります。
     </p>
 
     <div class="point-box">
       <p>
-        点と線を盛りすぎると、図はすぐ読みにくくなります。
-        系列ごとの意味が違うところだけ、色・線種・点種を変えるのが見やすいです。
+        凡例が図のデータを隠すなら、外側へ出すか、そもそも図中に直接ラベルを書く方が読みやすいことがあります。
+        凡例は必ず置くものではなく、読み手が迷わないための道具です。
       </p>
     </div>
   </main>
