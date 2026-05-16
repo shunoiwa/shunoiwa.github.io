@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MUSIC WEAGHKではオリジナル楽曲の楽譜を販売中です。">
+<meta property="og:title" content="MUSIC WEAGHK">
+<meta property="og:description" content="楽譜販売中！">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shunoiwa.github.io/">
+<meta property="og:image" content="https://shunoiwa.github.io/songlist/ad.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MUSIC WEAGHK">
+<meta name="twitter:description" content="楽譜販売中！">
+<meta name="twitter:image" content="https://shunoiwa.github.io/songlist/ad.png">
 <title>楽曲リスト | MUSIC WEAGHK</title>
 <link rel="icon" type="image/jpeg" href="../cpi.jpg">
 <link rel="apple-touch-icon" href="../cpi.jpg">
@@ -78,6 +88,13 @@ a {
     font-weight: 650;
 }
 
+.brand-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
 .brand-mark {
     width: 32px;
     height: 32px;
@@ -85,6 +102,28 @@ a {
     display: block;
     object-fit: cover;
     border: 1px solid rgba(23, 32, 51, 0.12);
+}
+
+.share-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 7px 12px;
+    border-radius: 7px;
+    background: #111827;
+    color: #fff;
+    font-size: 0.84rem;
+    font-weight: 650;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 8px 20px rgba(17, 24, 39, 0.18);
+}
+
+.share-button:hover,
+.share-button:focus-visible {
+    background: #2458d3;
 }
 
 .nav-links {
@@ -912,7 +951,10 @@ select:focus {
 <body>
 <header class="site-header">
     <div class="nav-wrap">
-        <a class="brand" href="../index.html"><img class="brand-mark" src="../cpi.jpg" alt="MUSIC WEAGHK"><span>MUSIC WEAGHK</span></a>
+        <div class="brand-actions">
+            <a class="brand" href="../index.html"><img class="brand-mark" src="../cpi.jpg" alt="MUSIC WEAGHK"><span>MUSIC WEAGHK</span></a>
+            <a class="share-button" href="https://twitter.com/intent/tweet?text=%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0AMUSIC%20WEAGHK%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%E6%A5%BD%E8%AD%9C%E8%B2%A9%E5%A3%B2%E4%B8%AD%EF%BC%81%0A%23%E6%A5%BD%E8%AD%9C%20%23musicweaghk&amp;url=https%3A%2F%2Fshunoiwa.github.io%2F" target="_blank" rel="noopener noreferrer">Xでシェア</a>
+        </div>
         <nav class="nav-links" aria-label="Main navigation">
             <a href="../index.html">ホーム</a>
             <a href="../scores.html">楽譜販売</a>
@@ -1670,12 +1712,18 @@ function isHighDifficulty(song) {
 }
 
 function partyBlock(party) {
-    const items = party.map((part, index) => `
-        <div class="party-part">
-            <span class="part-number">[${index + 1}]</span>
-            <span>${escapeHtml(part)}</span>
-        </div>
-    `).join("");
+    const items = party.map((part, index) => {
+        const isAccompaniment = isAccompanimentPart(part);
+        const partNumber = isAccompaniment ? "a" : index + 1;
+        const partName = isAccompaniment ? displayAccompanimentPart(part) : part;
+
+        return `
+            <div class="party-part">
+                <span class="part-number">[${partNumber}]</span>
+                <span>${escapeHtml(partName)}</span>
+            </div>
+        `;
+    }).join("");
 
     return `
         <div class="info-block is-full">
@@ -1683,6 +1731,12 @@ function partyBlock(party) {
             <div class="party-list">${items}</div>
         </div>
     `;
+}
+
+function displayAccompanimentPart(part) {
+    return String(part || "")
+        .replace(/\s*\(accomp\.\)\s*/i, " ")
+        .trim();
 }
 
 function mapBlock(id, title) {
