@@ -340,9 +340,9 @@
         "difficulty": 5,
         "sells": {
             "youtube": "https://youtu.be/0z5e4LQqyGM?si=Qg8phN1ziXY3LW1a",
-            "booth": null,
+            "booth": "https://weaghk.booth.pm/items/8369039",
             "instagram": "https://www.instagram.com/p/DOZvN5QEYvy/",
-            "price": null
+            "price": 3000
         },
         "comment": {
             "ja": null,
