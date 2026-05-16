@@ -485,7 +485,7 @@ p {
   }
 
   .share-button {
-    position: fixed;
+    position: absolute;
     top: 12px;
     right: 16px;
     z-index: 30;
