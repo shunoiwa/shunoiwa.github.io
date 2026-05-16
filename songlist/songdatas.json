@@ -492,8 +492,8 @@
             "price": 3000
         },
         "comment": {
-            "ja": null,
-            "en": null
+            "ja": "この曲を楽譜通りに演奏するためには最低5台のティンパニーが必要だと予想されます。台数が足りない場合の楽譜変更はご自由にどうぞ。",
+            "en": "It is estimated that at least five timpani are required to perform this piece as written. Please feel free to make any necessary changes to the score if you do not have enough instruments."
         }
     },
     {
