@@ -1948,5 +1948,32 @@
             "ja": "テナーバスーンはin Fで書かれています。テナーバスーンはイングリッシュホルンまたは通常のバスーンで代替可能です。イングリッシュホルンの場合は1オクターブ高い音で吹いてください。",
             "en": "The tenor bassoon part is written in F. The tenor bassoon part can be played on an English horn or a standard bassoon. If using an English horn, please play the part one octave higher."
         }
+    },
+    {
+        "id": {
+            "form": "BCL",
+            "number": 1,
+            "mov": null
+        },
+        "title": {
+            "ja": "炎環",
+            "en": "Halo of flame"
+        },
+        "party": [
+            "Bass Clarinet",
+            "Pianoforte (accomp.)"
+        ],
+        "duration": 142,
+        "difficulty": 5,
+        "sells": {
+            "youtube": "https://youtu.be/vM7513fHamU",
+            "booth": "https://weaghk.booth.pm/items/8467763\n",
+            "instagram": "https://www.instagram.com/p/DZM2_3eRqB_/",
+            "price": 3000
+        },
+        "comment": {
+            "ja": "現代にありがちな和音をちりばめました。",
+            "en": "I've sprinkled in some chords that are common in contemporary music."
+        }
     }
 ]
