@@ -475,6 +475,18 @@ p {
   color: #fff;
   font-size: 1.4rem;
   font-weight: 760;
+  overflow: hidden;
+}
+
+.software-icon-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.software-tile-copy {
+  min-width: 0;
 }
 
 .software-toggle-icon {
@@ -499,13 +511,13 @@ p {
   transform: rotate(180deg);
 }
 
-.software-tile h2 {
+.software-tile-title {
   margin: 0 0 8px;
   font-size: 1.24rem;
   font-weight: 650;
 }
 
-.software-tile p {
+.software-tile-description {
   margin: 0;
   color: #475467;
   font-size: 0.95rem;
