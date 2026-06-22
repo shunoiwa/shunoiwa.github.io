@@ -377,6 +377,212 @@ p {
   line-height: 1.9;
 }
 
+.software-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.software-panel,
+.screenshot-carousel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(24, 33, 51, 0.05);
+}
+
+.software-panel {
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.software-panel .meta {
+  display: inline-flex;
+  margin-bottom: 12px;
+  color: var(--green);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.software-facts {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0 0;
+}
+
+.software-fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  color: #475467;
+}
+
+.software-fact strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.software-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.software-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.software-tile {
+  width: 100%;
+  min-height: 128px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(24, 33, 51, 0.05);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.software-tile:hover,
+.software-tile:focus-visible,
+.software-tile.is-active {
+  transform: translateY(-1px);
+  border-color: #93b4ee;
+  box-shadow: 0 12px 26px rgba(36, 88, 211, 0.12);
+}
+
+.software-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, rgba(36, 88, 211, 0.95), rgba(15, 118, 110, 0.9));
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 760;
+}
+
+.software-toggle-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #e8eef8;
+  color: var(--blue-dark);
+  font-size: 1.05rem;
+  line-height: 1;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.software-tile:hover .software-toggle-icon,
+.software-tile:focus-visible .software-toggle-icon {
+  background: #dbe8ff;
+}
+
+.software-tile.is-active .software-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.software-tile h2 {
+  margin: 0 0 8px;
+  font-size: 1.24rem;
+  font-weight: 650;
+}
+
+.software-tile p {
+  margin: 0;
+  color: #475467;
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.software-detail[hidden] {
+  display: none;
+}
+
+.carousel-viewport {
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.28s ease;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  min-height: 320px;
+  margin: 0;
+  padding: 18px;
+}
+
+.screenshot-placeholder {
+  min-height: 280px;
+  border: 1px dashed #93b4ee;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  text-align: center;
+  color: #334155;
+  background:
+    linear-gradient(135deg, rgba(36, 88, 211, 0.08), rgba(15, 118, 110, 0.08)),
+    #f8fbff;
+}
+
+.screenshot-placeholder strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--blue-dark);
+  font-size: 1.05rem;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.carousel-button {
+  min-width: 42px;
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--blue-dark);
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.carousel-button:hover {
+  border-color: #93b4ee;
+  background: #e8eef8;
+}
+
+.carousel-status {
+  color: #475467;
+  font-size: 0.92rem;
+}
+
 .difficulty-list {
   display: grid;
   gap: 9px;
@@ -498,8 +704,10 @@ p {
   }
 
   .hero,
+  .software-hero,
   .split,
   .grid,
+  .software-card-grid,
   .grid.two {
     grid-template-columns: 1fr;
   }
