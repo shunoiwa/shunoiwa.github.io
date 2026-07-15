@@ -815,16 +815,16 @@
             "Bass Trombone 1",
             "Bass Trombone 2"
         ],
-        "duration": 188,
-        "difficulty": 4,
+        "duration": 186,
+        "difficulty": 5,
         "sells": {
-            "youtube": "https://www.youtube.com/watch?v=bXN7jys_pUo",
-            "booth": null,
-            "instagram": null,
-            "price": null
+            "youtube": "https://youtu.be/hswfOJ9NuVg",
+            "booth": "https://weaghk.booth.pm/items/8616853",
+            "instagram": "https://www.instagram.com/p/Day7CYzRyO3/",
+            "price": 3000
         },
         "comment": {
-            "ja": null,
+            "ja": "アルトトロンボーンは一応通常のトロンボーンでも代用できます。一応、という程度ですが...。",
             "en": null
         }
     },
