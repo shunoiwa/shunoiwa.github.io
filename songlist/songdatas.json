@@ -809,7 +809,7 @@
             "en": "The SATAN"
         },
         "party": [
-            "Alto Trombone / Trombone 1",
+            ["Alto Trombone", "Trombone 1"],
             "Trombone 2",
             "Trombone 3",
             "Bass Trombone 1",
@@ -1641,8 +1641,8 @@
             "Tenor Saxophone",
             "B♭ Trumpet",
             "Trombone",
-            "F Horn / Euphonium",
-            "Contrabass / Tuba",
+            ["F Horn","Euphonium"],
+            ["Contrabass","Tuba"],
             "Drumset, Vibraphone"
         ],
         "duration": 240,
