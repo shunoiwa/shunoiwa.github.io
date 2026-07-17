@@ -85,6 +85,7 @@
                     "name": "トロンボーン",
                     "canname": true,
                     "insts": {
+                        "Alto Trombone" : "アルトトロンボーン",
                         "Trombone": "トロンボーン",
                         "Bass Trombone": "バストロンボーン",
                         "Contrabass Trombone": "コントラバストロンボーン",
