@@ -1975,5 +1975,34 @@
             "ja": "現代にありがちな和音をちりばめました。",
             "en": "I've sprinkled in some chords that are common in contemporary music."
         }
+    },
+    {
+        "id": {
+            "form": "BRA",
+            "number": 8,
+            "mov": null
+        },
+        "title": {
+            "ja": "The First Prizer",
+            "en": "The First Prizer"
+        },
+        "party": [
+            "Trombone 1",
+            "Trombone 2",
+            "Trombone 3",
+            "Bass Trombone"
+        ],
+        "duration": 146,
+        "difficulty": 4,
+        "sells": {
+            "youtube": "https://youtu.be/YVuhEFyjP5o",
+            "booth": "https://weaghk.booth.pm/items/8623776",
+            "instagram": "https://www.instagram.com/p/Da4jycYxI20/",
+            "price": 2500
+        },
+        "comment": {
+            "ja": "「ファーストプライザー」の第2稿です。",
+            "en": "This is the second version of \"The First Prior\"."
+        }
     }
 ]
