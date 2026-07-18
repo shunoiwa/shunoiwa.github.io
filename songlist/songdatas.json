@@ -809,7 +809,10 @@
             "en": "The SATAN"
         },
         "party": [
-            ["Alto Trombone", "Trombone 1"],
+            [
+                "Alto Trombone",
+                "Trombone 1"
+            ],
             "Trombone 2",
             "Trombone 3",
             "Bass Trombone 1",
@@ -876,17 +879,17 @@
             "Alto Clarinet",
             "Bass Clarinet"
         ],
-        "duration": 240,
-        "difficulty": 3,
+        "duration": 266,
+        "difficulty": 4,
         "sells": {
-            "youtube": "https://www.youtube.com/watch?v=etnuGvMkogg",
-            "booth": null,
-            "instagram": null,
-            "price": null
+            "youtube": "https://youtu.be/GWUDHOfm-Rc",
+            "booth": "https://weaghk.booth.pm/items/8628396",
+            "instagram": "https://www.instagram.com/p/Da73fg5xWuB/",
+            "price": 3000
         },
         "comment": {
-            "ja": null,
-            "en": null
+            "ja": "Esクラリネットが主役の曲です。平均すれば難度はDですが、Esクラに限ればFくらいかもしれません",
+            "en": "This piece features the E-flat clarinet as the lead instrument. On average, the difficulty level is a D, but for the E-flat clarinet specifically, it might be around an F."
         }
     },
     {
@@ -1641,8 +1644,14 @@
             "Tenor Saxophone",
             "B♭ Trumpet",
             "Trombone",
-            ["F Horn","Euphonium"],
-            ["Contrabass","Tuba"],
+            [
+                "F Horn",
+                "Euphonium"
+            ],
+            [
+                "Contrabass",
+                "Tuba"
+            ],
             "Drumset, Vibraphone"
         ],
         "duration": 240,
