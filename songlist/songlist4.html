@@ -1066,10 +1066,12 @@ select:focus {
                 <option value="normal" data-i18n="durationNormal">普通（3:00～6:00）</option>
                 <option value="long" data-i18n="durationLong">長め（6:00～）</option>
             </select>
-            <label class="checkbox-label">
-                <input type="checkbox" id="filter-on-sale">
-                <span data-i18n="onSaleFilter">販売中</span>
-            </label>
+            <label for="filter-sale-status" data-i18n="saleStatusFilter">販売状況：</label>
+            <select id="filter-sale-status">
+                <option value="" data-i18n="allSaleStatuses">すべて</option>
+                <option value="on-sale" data-i18n="onSaleFilter">販売中</option>
+                <option value="not-on-sale" data-i18n="notOnSale">未販売</option>
+            </select>
         </div>
 
         <div class="filter-row">
@@ -1160,6 +1162,8 @@ const texts = {
         durationShort: "短め（～3:00）",
         durationNormal: "普通（3:00～6:00）",
         durationLong: "長め（6:00～）",
+        saleStatusFilter: "販売状況：",
+        allSaleStatuses: "すべて",
         onSaleFilter: "販売中",
         instrumentFilter: "楽器：",
         instrumentPanelTitle: "楽器を選ぶ",
@@ -1211,6 +1215,8 @@ const texts = {
         durationShort: "Short (up to 3:00)",
         durationNormal: "Medium (3:00-6:00)",
         durationLong: "Long (6:00+)",
+        saleStatusFilter: "Sale status:",
+        allSaleStatuses: "All",
         onSaleFilter: "On sale",
         instrumentFilter: "Instrument:",
         instrumentPanelTitle: "Choose instruments",
@@ -1436,7 +1442,7 @@ function bindControls() {
     document.getElementById("filter-difficulty-max").addEventListener("change", filterTable);
     document.getElementById("filter-size").addEventListener("change", filterTable);
     document.getElementById("filter-duration").addEventListener("change", filterTable);
-    document.getElementById("filter-on-sale").addEventListener("change", filterTable);
+    document.getElementById("filter-sale-status").addEventListener("change", filterTable);
 }
 
 function buildInstrumentCheckboxes() {
@@ -1559,7 +1565,7 @@ function filterTable() {
     const diffMax = Number(document.getElementById("filter-difficulty-max").value) || 7;
     const size = document.getElementById("filter-size").value;
     const durationRange = document.getElementById("filter-duration").value;
-    const onSaleOnly = document.getElementById("filter-on-sale").checked;
+    const saleStatus = document.getElementById("filter-sale-status").value;
     const checked = [...document.querySelectorAll("#instrument-boxes input:checked")].map(c => c.value);
     const mode = document.querySelector('input[name="logic-mode"]:checked').value;
 
@@ -1581,7 +1587,8 @@ function filterTable() {
         if (difficulty < Math.min(diffMin, diffMax) || difficulty > Math.max(diffMin, diffMax)) show = false;
         if (size && effectivePartyCount(song) !== Number(size)) show = false;
         if (durationRange && !matchesDurationRange(song.duration, durationRange)) show = false;
-        if (onSaleOnly && !isOnSale(song)) show = false;
+        if (saleStatus === "on-sale" && !isOnSale(song)) show = false;
+        if (saleStatus === "not-on-sale" && isOnSale(song)) show = false;
 
         if (checked.length > 0) {
             if (mode === "OR") {
