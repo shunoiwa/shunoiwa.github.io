@@ -1534,14 +1534,14 @@
         "duration": 272,
         "difficulty": 4,
         "sells": {
-            "youtube": "https://www.youtube.com/watch?v=FxWd4dHrUpQ",
-            "booth": null,
-            "instagram": "https://www.instagram.com/p/DOZyBiikW8w/",
-            "price": null
+            "youtube": "https://youtu.be/afZNo6pV2YU",
+            "booth": "https://weaghk.booth.pm/items/8643657",
+            "instagram": "https://www.instagram.com/p/DbHyxuHRWwn/",
+            "price": 3000
         },
         "comment": {
-            "ja": null,
-            "en": null
+            "ja": "第2稿です。",
+            "en": "This is the second version."
         }
     },
     {
