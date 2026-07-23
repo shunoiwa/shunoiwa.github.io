@@ -2,7 +2,7 @@
 
 MUSIC WEAGHK site work history and handoff notes
 
-Last updated: 2026-05-16
+Last updated: 2026-07-23
 Root directory used in the latest work: `D:\shunoiwa.github.io`
 
 This file records the practical history of the site migration and the song list tool so another PC or another editor can continue the project without needing the full chat history.
@@ -25,9 +25,11 @@ Root files:
 - `information.html`
   - General information / rules / Q&A page.
   - Uses `site.css`.
-- `notes.html`
-  - Problem solving notes page.
+- `contact.html`
+  - Contact form page.
   - Uses `site.css`.
+  - Posts to a Google Apps Script web app URL configured in `CONTACT_ENDPOINT`.
+  - The receiver template is `scripts/contact-form.gs`.
 - `bgm.html`
   - Embeds a Google Apps Script app in an iframe.
   - Uses `site.css`.
@@ -84,8 +86,8 @@ Current main nav targets:
 - `index.html` - Home
 - `scores.html` - 楽譜販売
 - `information.html` - 情報
+- `contact.html` - お問い合わせ
 - `songlist/songlist4.html` - 楽曲リスト
-- `notes.html` - 問題解決ノート
 - `bgm.html` - BGM
 
 `songlist/songlist4.html` uses equivalent relative paths:
@@ -93,8 +95,8 @@ Current main nav targets:
 - `../index.html`
 - `../scores.html`
 - `../information.html`
+- `../contact.html`
 - `songlist4.html`
-- `../notes.html`
 - `../bgm.html`
 
 ## Home Page Details
@@ -121,6 +123,22 @@ If the hero video does not update on GitHub Pages, check:
 `https://script.google.com/macros/s/AKfycbyTd47ADWmA7iUEk7Prc8g5b-BK8kWFf5Swd3cdVXyn7iDYuXyHa6HdnbsIa5Xy10OD-kA/exec`
 
 Earlier in the project, a different GAS URL was discussed. The current file should be treated as the source of truth.
+
+## Contact Form Details
+
+`contact.html` provides a visitor-facing contact form.
+
+The page does not expose the recipient email address. It posts JSON to the Google Apps Script web app URL stored in `CONTACT_ENDPOINT` inside `contact.html`.
+
+The receiver template is `scripts/contact-form.gs`.
+
+Setup summary:
+
+- Create a Google Apps Script project.
+- Paste `scripts/contact-form.gs`.
+- Set Script property `CONTACT_TO` to the recipient email address.
+- Deploy as a web app with access set to Anyone.
+- Paste the deployed web app URL into `CONTACT_ENDPOINT` in `contact.html`.
 
 ## Song Data Format
 

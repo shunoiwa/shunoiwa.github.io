@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MUSIC WEAGHKへのお問い合わせフォームです。">
+  <meta property="og:title" content="お問い合わせ | MUSIC WEAGHK">
+  <meta property="og:description" content="楽譜、演奏、利用範囲などについてフォームから問い合わせできます。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shunoiwa.github.io/contact.html">
+  <meta property="og:image" content="https://shunoiwa.github.io/songlist/ad-card.png">
+  <meta property="og:image:secure_url" content="https://shunoiwa.github.io/songlist/ad-card.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="600">
+  <meta property="og:image:alt" content="MUSIC WEAGHK 楽譜販売中！">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="お問い合わせ | MUSIC WEAGHK">
+  <meta name="twitter:description" content="楽譜、演奏、利用範囲などについてフォームから問い合わせできます。">
+  <meta name="twitter:image" content="https://shunoiwa.github.io/songlist/ad-card.png">
+  <meta name="twitter:image:alt" content="MUSIC WEAGHK 楽譜販売中！">
+  <title>お問い合わせ | MUSIC WEAGHK</title>
+  <link rel="icon" type="image/jpeg" href="cpi.jpg">
+  <link rel="apple-touch-icon" href="cpi.jpg">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <div class="brand-actions">
+        <a class="brand" href="index.html"><img class="brand-mark" src="cpi.jpg" alt="MUSIC WEAGHK"><span>MUSIC WEAGHK</span></a>
+        <a class="share-button" href="https://twitter.com/intent/tweet?text=%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0AMUSIC%20WEAGHK%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%E6%A5%BD%E8%AD%9C%E8%B2%A9%E5%A3%B2%E4%B8%AD%EF%BC%81%0A%23%E6%A5%BD%E8%AD%9C%20%23musicweaghk&amp;url=https%3A%2F%2Fshunoiwa.github.io%2Fsonglist%2Fsonglist4.html" target="_blank" rel="noopener noreferrer">Xでシェア</a>
+      </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">ホーム</a>
+        <a href="scores.html">楽譜販売</a>
+        <a href="information.html">情報</a>
+        <a class="is-current" href="contact.html">お問い合わせ</a>
+        <a href="songlist/songlist4.html">楽曲リスト</a>
+        <a href="bgm.html">BGM</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="page-title">
+      <p class="eyebrow">Contact</p>
+      <h1>お問い合わせ</h1>
+      <p class="lead">楽譜、演奏、利用範囲、その他の連絡はこちらから送信できます。返信が必要な場合は、返信先メールアドレスを入力してください。</p>
+    </section>
+
+    <section class="section contact-layout">
+      <article class="policy-block">
+        <h2>フォーム</h2>
+        <form class="contact-form" id="contact-form">
+          <div class="form-field">
+            <label for="name">お名前</label>
+            <input id="name" name="name" type="text" autocomplete="name" required>
+          </div>
+
+          <div class="form-field">
+            <label for="reply-to">返信先メールアドレス</label>
+            <input id="reply-to" name="replyTo" type="email" autocomplete="email" placeholder="返信が必要な場合のみ">
+            <span class="field-hint">入力されたアドレスは返信目的にのみ使います。</span>
+          </div>
+
+          <div class="form-field">
+            <label for="category">お問い合わせ種別</label>
+            <select id="category" name="category" required>
+              <option value="楽譜について">楽譜について</option>
+              <option value="演奏・利用範囲について">演奏・利用範囲について</option>
+              <option value="販売ページについて">販売ページについて</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="subject">件名</label>
+            <input id="subject" name="subject" type="text" required>
+          </div>
+
+          <div class="form-field">
+            <label for="message">本文</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+
+          <div class="contact-honeypot" aria-hidden="true">
+            <label for="website">Webサイト</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <label class="privacy-check">
+            <input name="confirm" type="checkbox" required>
+            <span>入力内容をMUSIC WEAGHKへ送信することに同意します。</span>
+          </label>
+
+          <div class="contact-submit-row">
+            <button class="button primary" id="contact-submit" type="submit">送信する</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </article>
+
+      <aside class="card">
+        <span class="meta">Before Sending</span>
+        <h2>送信前に</h2>
+        <ul class="list">
+          <li>楽譜の購入前確認は、曲名や楽曲IDも書くと話が早いです。</li>
+          <li>未販売楽譜については、演奏したい曲名を本文に書いてください。</li>
+          <li>返信が必要な内容は、返信先メールアドレスを忘れずに入力してください。</li>
+        </ul>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>MUSIC WEAGHK</span>
+      <span><a href="contact.html">お問い合わせフォーム</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const CONTACT_ENDPOINT = "https://script.google.com/macros/s/AKfycbxzvKog53BVAXKqcGvgsinNf_UHed23Y_mD5Wq15z7vtvpf5bmavWXVB16dZrL6LQX_/exec";
+    const form = document.getElementById("contact-form");
+    const submitButton = document.getElementById("contact-submit");
+    const statusText = document.getElementById("form-status");
+    const submitLabel = submitButton.textContent;
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      setStatus("", "");
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      if (data.website) {
+        form.reset();
+        setStatus("送信しました。ありがとうございます。", "success");
+        return;
+      }
+
+      if (!CONTACT_ENDPOINT) {
+        setStatus("送信先の設定がまだです。Google Apps ScriptのURLを設定してください。", "error");
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = "送信中...";
+
+      try {
+        await fetch(CONTACT_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            name: data.name || "",
+            replyTo: data.replyTo || "",
+            category: data.category || "",
+            subject: data.subject || "",
+            message: data.message || "",
+            page: location.href,
+            sentAt: new Date().toISOString()
+          })
+        });
+        form.reset();
+        setStatus("送信しました。ありがとうございます。", "success");
+      } catch (error) {
+        setStatus("送信できませんでした。時間をおいてもう一度試してください。", "error");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = submitLabel;
+      }
+    });
+
+    function setStatus(message, type) {
+      statusText.textContent = message;
+      statusText.classList.toggle("is-success", type === "success");
+      statusText.classList.toggle("is-error", type === "error");
+    }
+  </script>
+</body>
+</html>
