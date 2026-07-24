@@ -713,9 +713,17 @@ p {
   font-weight: 620;
 }
 
-.required-mark {
+.field-requirement {
+  font-size: 0.9em;
+  font-weight: 700;
+}
+
+.field-requirement.is-required {
   color: var(--rose);
-  font-weight: 800;
+}
+
+.field-requirement.is-optional {
+  color: var(--ink);
 }
 
 .form-field input,
@@ -765,6 +773,12 @@ p {
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
+}
+
+.song-select-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.32fr) minmax(0, 1fr);
+  gap: 8px;
 }
 
 .privacy-check {
@@ -857,6 +871,10 @@ p {
   .section-head {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .song-select-row {
+    grid-template-columns: 1fr;
   }
 
   .embed-panel iframe {

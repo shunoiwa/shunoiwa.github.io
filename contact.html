@@ -54,18 +54,18 @@
         <h2>フォーム</h2>
         <form class="contact-form" id="contact-form">
           <div class="form-field">
-            <label for="name">お名前 <span class="required-mark" aria-hidden="true">*</span></label>
+            <label for="name">お名前 <span class="field-requirement is-required">（必須）</span></label>
             <input id="name" name="name" type="text" autocomplete="name" required>
           </div>
 
           <div class="form-field">
-            <label for="reply-to">返信先メールアドレス</label>
+            <label for="reply-to">返信先メールアドレス <span class="field-requirement is-optional">（任意）</span></label>
             <input id="reply-to" name="replyTo" type="email" autocomplete="email" placeholder="返信が必要な場合のみ">
             <span class="field-hint">入力されたアドレスは返信目的にのみ使います。</span>
           </div>
 
           <div class="form-field">
-            <label for="category">お問い合わせ種別 <span class="required-mark" aria-hidden="true">*</span></label>
+            <label for="category">お問い合わせ種別 <span class="field-requirement is-required">（必須）</span></label>
             <select id="category" name="category" required>
               <option value="不備・不具合報告">不備・不具合報告</option>
               <option value="楽曲についての質問">楽曲についての質問</option>
@@ -77,26 +77,24 @@
 
           <div class="song-field-panel" id="song-field-panel" aria-hidden="true">
             <div class="form-field">
-              <label for="song-search">楽曲検索 <span class="field-hint">IDまたは曲名の一部で絞り込み</span></label>
-              <input id="song-search" type="search" autocomplete="off" placeholder="例：ASX / 祈り / The SATAN" disabled>
-            </div>
-
-            <div class="form-field">
-              <label for="song-id">楽曲 <span class="required-mark" id="song-required-mark" aria-hidden="true" hidden>*</span></label>
-              <select id="song-id" name="songId" disabled>
-                <option value="">楽曲リストを読み込み中...</option>
-              </select>
+              <label for="song-id">楽曲 <span class="field-requirement is-optional" id="song-requirement">（任意）</span></label>
+              <div class="song-select-row">
+                <input id="song-search" type="search" autocomplete="off" aria-label="楽曲IDまたは曲名で絞り込み" placeholder="ID / 曲名" disabled>
+                <select id="song-id" name="songId" disabled>
+                  <option value="">楽曲リストを読み込み中...</option>
+                </select>
+              </div>
               <input id="song-label" name="songLabel" type="hidden" disabled>
             </div>
           </div>
 
           <div class="form-field">
-            <label for="subject">件名 <span class="required-mark" aria-hidden="true">*</span></label>
+            <label for="subject">件名 <span class="field-requirement is-required">（必須）</span></label>
             <input id="subject" name="subject" type="text" required>
           </div>
 
           <div class="form-field">
-            <label for="message">本文 <span class="required-mark" aria-hidden="true">*</span></label>
+            <label for="message">本文 <span class="field-requirement is-required">（必須）</span></label>
             <textarea id="message" name="message" required></textarea>
           </div>
 
@@ -107,7 +105,7 @@
 
           <label class="privacy-check">
             <input name="confirm" type="checkbox" required>
-            <span>入力内容をMUSIC WEAGHKへ送信することに同意します。<span class="required-mark" aria-hidden="true">*</span></span>
+            <span>入力内容をMUSIC WEAGHKへ送信することに同意します。<span class="field-requirement is-required">（必須）</span></span>
           </label>
 
           <div class="contact-submit-row">
@@ -118,14 +116,23 @@
       </article>
 
       <aside class="card">
-        <span class="meta">Before Sending</span>
         <h2>送信前に</h2>
         <ul class="list">
           <li>特定の楽譜についてのお問い合わせは、楽曲ID(ASX0001など)をご記入ください。もし不明な場合、編成と楽曲タイトルでも構いません。</li>
           <li>ご意見・ご感想もお待ちしております。</li>
           <li>返信が必要な場合、返信先メールアドレスをご記入ください。個人アドレスから返信いたしますので、引き続きやり取りが必要な場合はそのメールアドレスに返信をお願いします。</li>
+          <br><hr><br>
+        </ul>
+        <h2>お問い合わせ種別について</h2>
+        <ul class="list">
+          <li>「不備・不具合報告」...楽譜やVSTの不具合を報告</li>
+          <li>「楽曲についての質問」...不明瞭な表記や奏法、および使用範囲など、楽曲についての質問</li>
+          <li>「VSTについての質問」...VSTの利用方法や規約についての質問</li>
+          <li>「リクエスト」...こういう曲がほしい、などの要望はこちら(気分で採用するので無料)</li>
+          <li>「その他」...上記以外のお問い合わせ　種別を考えるのが面倒な場合もこちら</li>
         </ul>
       </aside>
+      
     </section>
   </main>
 
@@ -138,7 +145,7 @@
 
   <script>
     const CONTACT_ENDPOINT = "https://script.google.com/macros/s/AKfycbxw9N3yYqsWwE9PQ_h7T7pxZbuHm0FxD2RXush2X_PxqrE4yTv3Wo_ju9n2Lk3qaVpCCw/exec";
-    const SONG_FIELD_CATEGORIES = new Set(["楽曲についての質問", "リクエスト", "その他"]);
+    const SONGLESS_CATEGORY = "VSTについての質問";
     const REQUIRED_SONG_CATEGORY = "楽曲についての質問";
     const form = document.getElementById("contact-form");
     const categorySelect = document.getElementById("category");
@@ -146,7 +153,7 @@
     const songSearch = document.getElementById("song-search");
     const songSelect = document.getElementById("song-id");
     const songLabel = document.getElementById("song-label");
-    const songRequiredMark = document.getElementById("song-required-mark");
+    const songRequirement = document.getElementById("song-requirement");
     const submitButton = document.getElementById("contact-submit");
     const statusText = document.getElementById("form-status");
     const submitLabel = submitButton.textContent;
@@ -242,7 +249,7 @@
     }
 
     function updateSongPanel() {
-      const isVisible = SONG_FIELD_CATEGORIES.has(categorySelect.value);
+      const isVisible = categorySelect.value !== SONGLESS_CATEGORY;
       const isRequired = categorySelect.value === REQUIRED_SONG_CATEGORY;
       songPanel.classList.toggle("is-visible", isVisible);
       songPanel.setAttribute("aria-hidden", String(!isVisible));
@@ -250,7 +257,9 @@
       songSelect.disabled = !isVisible || songLoadFailed;
       songLabel.disabled = !isVisible || songLoadFailed;
       songSelect.required = isVisible && isRequired;
-      songRequiredMark.hidden = !isRequired;
+      songRequirement.textContent = isRequired ? "（必須）" : "（任意）";
+      songRequirement.classList.toggle("is-required", isRequired);
+      songRequirement.classList.toggle("is-optional", !isRequired);
       if (!isVisible) {
         songSearch.value = "";
         songSelect.value = "";

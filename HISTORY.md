@@ -134,7 +134,7 @@ The receiver script is kept locally under `scripts/`, which is intentionally ign
 
 Song field behavior:
 
-- The song field appears for `楽曲についての質問`, `リクエスト`, and `その他`.
+- The song field appears for every category except `VSTについての質問`.
 - The song field is required only for `楽曲についての質問`.
 - Song options are loaded from `songlist/songdatas.json`, `songlist/hyp.json`, and `songlist/inst.json`.
 - The visitor can filter options by partial song ID or title.
