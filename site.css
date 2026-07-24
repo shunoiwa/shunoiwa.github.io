@@ -713,6 +713,11 @@ p {
   font-weight: 620;
 }
 
+.required-mark {
+  color: var(--rose);
+  font-weight: 800;
+}
+
 .form-field input,
 .form-field select,
 .form-field textarea {
@@ -742,6 +747,24 @@ p {
   color: var(--muted);
   font-size: 0.86rem;
   line-height: 1.7;
+}
+
+.song-field-panel {
+  display: grid;
+  gap: 16px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-6px);
+  visibility: hidden;
+  transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+}
+
+.song-field-panel.is-visible {
+  max-height: 360px;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .privacy-check {

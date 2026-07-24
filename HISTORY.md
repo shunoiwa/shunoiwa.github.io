@@ -29,7 +29,7 @@ Root files:
   - Contact form page.
   - Uses `site.css`.
   - Posts to a Google Apps Script web app URL configured in `CONTACT_ENDPOINT`.
-  - The receiver template is `scripts/contact-form.gs`.
+  - The receiver script is kept locally under `scripts/`, which is intentionally ignored by Git.
 - `bgm.html`
   - Embeds a Google Apps Script app in an iframe.
   - Uses `site.css`.
@@ -130,12 +130,20 @@ Earlier in the project, a different GAS URL was discussed. The current file shou
 
 The page does not expose the recipient email address. It posts JSON to the Google Apps Script web app URL stored in `CONTACT_ENDPOINT` inside `contact.html`.
 
-The receiver template is `scripts/contact-form.gs`.
+The receiver script is kept locally under `scripts/`, which is intentionally ignored by Git so the script body is not published.
+
+Song field behavior:
+
+- The song field appears for `楽曲についての質問`, `リクエスト`, and `その他`.
+- The song field is required only for `楽曲についての質問`.
+- Song options are loaded from `songlist/songdatas.json`, `songlist/hyp.json`, and `songlist/inst.json`.
+- The visitor can filter options by partial song ID or title.
+- The selected song is posted as `songId` and `songLabel`.
 
 Setup summary:
 
 - Create a Google Apps Script project.
-- Paste `scripts/contact-form.gs`.
+- Paste the local receiver script from `scripts/`.
 - Set Script property `CONTACT_TO` to the recipient email address.
 - Deploy as a web app with access set to Anyone.
 - Paste the deployed web app URL into `CONTACT_ENDPOINT` in `contact.html`.

@@ -54,7 +54,7 @@
         <h2>フォーム</h2>
         <form class="contact-form" id="contact-form">
           <div class="form-field">
-            <label for="name">お名前</label>
+            <label for="name">お名前 <span class="required-mark" aria-hidden="true">*</span></label>
             <input id="name" name="name" type="text" autocomplete="name" required>
           </div>
 
@@ -65,22 +65,38 @@
           </div>
 
           <div class="form-field">
-            <label for="category">お問い合わせ種別</label>
+            <label for="category">お問い合わせ種別 <span class="required-mark" aria-hidden="true">*</span></label>
             <select id="category" name="category" required>
-              <option value="楽譜について">楽譜について</option>
-              <option value="演奏・利用範囲について">演奏・利用範囲について</option>
-              <option value="販売ページについて">販売ページについて</option>
+              <option value="不備・不具合報告">不備・不具合報告</option>
+              <option value="楽曲についての質問">楽曲についての質問</option>
+              <option value="VSTについての質問">VSTについての質問</option>
+              <option value="リクエスト">リクエスト</option>
               <option value="その他">その他</option>
             </select>
           </div>
 
+          <div class="song-field-panel" id="song-field-panel" aria-hidden="true">
+            <div class="form-field">
+              <label for="song-search">楽曲検索 <span class="field-hint">IDまたは曲名の一部で絞り込み</span></label>
+              <input id="song-search" type="search" autocomplete="off" placeholder="例：ASX / 祈り / The SATAN" disabled>
+            </div>
+
+            <div class="form-field">
+              <label for="song-id">楽曲 <span class="required-mark" id="song-required-mark" aria-hidden="true" hidden>*</span></label>
+              <select id="song-id" name="songId" disabled>
+                <option value="">楽曲リストを読み込み中...</option>
+              </select>
+              <input id="song-label" name="songLabel" type="hidden" disabled>
+            </div>
+          </div>
+
           <div class="form-field">
-            <label for="subject">件名</label>
+            <label for="subject">件名 <span class="required-mark" aria-hidden="true">*</span></label>
             <input id="subject" name="subject" type="text" required>
           </div>
 
           <div class="form-field">
-            <label for="message">本文</label>
+            <label for="message">本文 <span class="required-mark" aria-hidden="true">*</span></label>
             <textarea id="message" name="message" required></textarea>
           </div>
 
@@ -91,7 +107,7 @@
 
           <label class="privacy-check">
             <input name="confirm" type="checkbox" required>
-            <span>入力内容をMUSIC WEAGHKへ送信することに同意します。</span>
+            <span>入力内容をMUSIC WEAGHKへ送信することに同意します。<span class="required-mark" aria-hidden="true">*</span></span>
           </label>
 
           <div class="contact-submit-row">
@@ -105,9 +121,9 @@
         <span class="meta">Before Sending</span>
         <h2>送信前に</h2>
         <ul class="list">
-          <li>楽譜の購入前確認は、曲名や楽曲IDも書くと話が早いです。</li>
-          <li>未販売楽譜については、演奏したい曲名を本文に書いてください。</li>
-          <li>返信が必要な内容は、返信先メールアドレスを忘れずに入力してください。</li>
+          <li>特定の楽譜についてのお問い合わせは、楽曲ID(ASX0001など)をご記入ください。もし不明な場合、編成と楽曲タイトルでも構いません。</li>
+          <li>ご意見・ご感想もお待ちしております。</li>
+          <li>返信が必要な場合、返信先メールアドレスをご記入ください。個人アドレスから返信いたしますので、引き続きやり取りが必要な場合はそのメールアドレスに返信をお願いします。</li>
         </ul>
       </aside>
     </section>
@@ -121,11 +137,23 @@
   </footer>
 
   <script>
-    const CONTACT_ENDPOINT = "https://script.google.com/macros/s/AKfycbxzvKog53BVAXKqcGvgsinNf_UHed23Y_mD5Wq15z7vtvpf5bmavWXVB16dZrL6LQX_/exec";
+    const CONTACT_ENDPOINT = "https://script.google.com/macros/s/AKfycbxw9N3yYqsWwE9PQ_h7T7pxZbuHm0FxD2RXush2X_PxqrE4yTv3Wo_ju9n2Lk3qaVpCCw/exec";
+    const SONG_FIELD_CATEGORIES = new Set(["楽曲についての質問", "リクエスト", "その他"]);
+    const REQUIRED_SONG_CATEGORY = "楽曲についての質問";
     const form = document.getElementById("contact-form");
+    const categorySelect = document.getElementById("category");
+    const songPanel = document.getElementById("song-field-panel");
+    const songSearch = document.getElementById("song-search");
+    const songSelect = document.getElementById("song-id");
+    const songLabel = document.getElementById("song-label");
+    const songRequiredMark = document.getElementById("song-required-mark");
     const submitButton = document.getElementById("contact-submit");
     const statusText = document.getElementById("form-status");
     const submitLabel = submitButton.textContent;
+    let songOptions = [];
+    let songLoadFailed = false;
+
+    initSongFields();
 
     form.addEventListener("submit", async event => {
       event.preventDefault();
@@ -133,8 +161,14 @@
 
       const data = Object.fromEntries(new FormData(form).entries());
       if (data.website) {
-        form.reset();
+        resetContactForm();
         setStatus("送信しました。ありがとうございます。", "success");
+        return;
+      }
+
+      if (categorySelect.value === REQUIRED_SONG_CATEGORY && !songSelect.value) {
+        setStatus("楽曲を選択してください。", "error");
+        songSearch.focus();
         return;
       }
 
@@ -157,13 +191,15 @@
             name: data.name || "",
             replyTo: data.replyTo || "",
             category: data.category || "",
+            songId: data.songId || "",
+            songLabel: data.songLabel || "",
             subject: data.subject || "",
             message: data.message || "",
             page: location.href,
             sentAt: new Date().toISOString()
           })
         });
-        form.reset();
+        resetContactForm();
         setStatus("送信しました。ありがとうございます。", "success");
       } catch (error) {
         setStatus("送信できませんでした。時間をおいてもう一度試してください。", "error");
@@ -172,6 +208,227 @@
         submitButton.textContent = submitLabel;
       }
     });
+
+    async function initSongFields() {
+      categorySelect.addEventListener("change", updateSongPanel);
+      songSearch.addEventListener("input", () => renderSongOptions(songSearch.value));
+      songSelect.addEventListener("change", updateSongLabel);
+      updateSongPanel();
+
+      try {
+        const [songResponse, formResponse, instrumentResponse] = await Promise.all([
+          fetch("songlist/songdatas.json", { cache: "no-store" }),
+          fetch("songlist/hyp.json", { cache: "no-store" }),
+          fetch("songlist/inst.json", { cache: "no-store" })
+        ]);
+        if (!songResponse.ok || !formResponse.ok || !instrumentResponse.ok) {
+          throw new Error("song data fetch failed");
+        }
+        const songs = await songResponse.json();
+        const formData = await formResponse.json();
+        const instrumentData = await instrumentResponse.json();
+        songOptions = buildSongOptions(songs, formData, instrumentData);
+        renderSongOptions("");
+      } catch (error) {
+        songLoadFailed = true;
+        songSelect.textContent = "";
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "楽曲リストを読み込めませんでした";
+        songSelect.appendChild(option);
+      } finally {
+        updateSongPanel();
+      }
+    }
+
+    function updateSongPanel() {
+      const isVisible = SONG_FIELD_CATEGORIES.has(categorySelect.value);
+      const isRequired = categorySelect.value === REQUIRED_SONG_CATEGORY;
+      songPanel.classList.toggle("is-visible", isVisible);
+      songPanel.setAttribute("aria-hidden", String(!isVisible));
+      songSearch.disabled = !isVisible || songLoadFailed;
+      songSelect.disabled = !isVisible || songLoadFailed;
+      songLabel.disabled = !isVisible || songLoadFailed;
+      songSelect.required = isVisible && isRequired;
+      songRequiredMark.hidden = !isRequired;
+      if (!isVisible) {
+        songSearch.value = "";
+        songSelect.value = "";
+        updateSongLabel();
+      }
+    }
+
+    function renderSongOptions(query) {
+      const normalizedQuery = normalizeSearchText(query);
+      const previousValue = songSelect.value;
+      const matches = songOptions.filter(song => !normalizedQuery || song.searchText.includes(normalizedQuery));
+      songSelect.textContent = "";
+
+      const emptyOption = document.createElement("option");
+      emptyOption.value = "";
+      emptyOption.textContent = matches.length ? "楽曲を選択してください" : "該当する楽曲がありません";
+      songSelect.appendChild(emptyOption);
+
+      matches.forEach(song => {
+        const option = document.createElement("option");
+        option.value = song.id;
+        option.textContent = song.label;
+        option.dataset.label = song.label;
+        songSelect.appendChild(option);
+      });
+
+      const exactMatch = normalizedQuery
+        ? matches.find(song => song.id.toLowerCase() === normalizedQuery || normalizeSearchText(song.title).includes(normalizedQuery))
+        : null;
+      const selectedMatch = matches.find(song => song.id === previousValue) || exactMatch || (normalizedQuery && matches.length === 1 ? matches[0] : null);
+      songSelect.value = selectedMatch ? selectedMatch.id : "";
+      updateSongLabel();
+    }
+
+    function updateSongLabel() {
+      const selected = songSelect.selectedOptions[0];
+      songLabel.value = selected?.dataset.label || "";
+    }
+
+    function buildSongOptions(songs, formData, instrumentData) {
+      const formNames = (formData.find(item => item.kind === "form") || {}).ja || {};
+      const instrumentCategoryByName = buildInstrumentCategoryIndex(instrumentData);
+      return songs
+        .map(song => {
+          const id = formatSongId(song);
+          const title = song.title?.ja || song.title?.en || "";
+          const instrumentation = formatInstrumentation(song, formNames, instrumentCategoryByName);
+          const label = `${id} ${instrumentation} 「${title}」`;
+          return {
+            id,
+            title,
+            label,
+            searchText: normalizeSearchText(`${id} ${title} ${song.title?.en || ""} ${instrumentation}`)
+          };
+        })
+        .sort((a, b) => a.id.localeCompare(b.id, "en", { numeric: true }));
+    }
+
+    function buildInstrumentCategoryIndex(instrumentData) {
+      const index = {};
+      instrumentData.forEach(entry => {
+        Object.entries(entry).forEach(([key, category]) => {
+          walkInstrumentNode(key, category, []);
+        });
+      });
+      return index;
+
+      function walkInstrumentNode(key, node, path) {
+        const current = {
+          key,
+          name: node.name || key,
+          canname: node.canname === true
+        };
+        const nextPath = [...path, current];
+        Object.entries(node.insts || {}).forEach(([instrumentName, instrumentNameJa]) => {
+          index[instrumentName] = { instrumentName, instrumentNameJa, path: nextPath };
+        });
+        Object.entries(node.groups || {}).forEach(([childKey, childNode]) => {
+          walkInstrumentNode(childKey, childNode, nextPath);
+        });
+      }
+    }
+
+    function formatInstrumentation(song, formNames, instrumentCategoryByName) {
+      const matchedNameSource = headingNameSource(song, instrumentCategoryByName);
+      const formName = matchedNameSource
+        ? headingNameSourceLabel(matchedNameSource)
+        : formNames[song.id?.form || ""] || song.id?.form || "";
+      const count = effectivePartyCount(song);
+      const size = count === 1 ? "独奏" : `${count}重奏`;
+      return `${formName}${size}`;
+    }
+
+    function headingNameSource(song, instrumentCategoryByName) {
+      const instrumentInfos = countedPartyParts(song)
+        .flatMap(part => instrumentNamesFromPart(part))
+        .map(instrument => instrumentCategoryByName[instrument]);
+
+      if (!instrumentInfos.length || instrumentInfos.some(info => !info)) {
+        return null;
+      }
+
+      const firstInstrument = instrumentInfos[0];
+      if (instrumentInfos.every(info => info.instrumentName === firstInstrument.instrumentName)) {
+        return { type: "instrument", info: firstInstrument };
+      }
+
+      return deepestCommonNameableGroup(instrumentInfos);
+    }
+
+    function headingNameSourceLabel(source) {
+      return source.type === "instrument" ? source.info.instrumentNameJa : source.info.name;
+    }
+
+    function deepestCommonNameableGroup(instrumentInfos) {
+      const firstPath = instrumentInfos[0].path || [];
+      for (let index = firstPath.length - 1; index >= 0; index -= 1) {
+        const candidate = firstPath[index];
+        if (!candidate.canname) {
+          continue;
+        }
+        const shared = instrumentInfos.every(info => {
+          const node = info.path?.[index];
+          return node && node.key === candidate.key;
+        });
+        if (shared) {
+          return { type: "category", info: candidate };
+        }
+      }
+      return null;
+    }
+
+    function instrumentNamesFromPart(part) {
+      return String(mainPartName(part) || "")
+        .split(/[,/]/)
+        .map(name => normalizeInstrumentName(name))
+        .filter(Boolean);
+    }
+
+    function normalizeInstrumentName(name) {
+      return String(name || "")
+        .replace(/\([^)]*\)/g, "")
+        .replace(/\s+\d+$/g, "")
+        .trim();
+    }
+
+    function effectivePartyCount(song) {
+      const counted = countedPartyParts(song).length;
+      return counted || (song.party || []).length;
+    }
+
+    function countedPartyParts(song) {
+      return (song.party || []).filter(part => !isAccompanimentPart(part));
+    }
+
+    function isAccompanimentPart(part) {
+      return /\(accomp\.\)/i.test(String(mainPartName(part) || ""));
+    }
+
+    function mainPartName(part) {
+      return Array.isArray(part) ? part[0] : part;
+    }
+
+    function formatSongId(song) {
+      const id = song.id || {};
+      const base = `${id.form || ""}${String(id.number ?? "").padStart(4, "0")}`;
+      return id.mov === null || id.mov === undefined ? base : `${base}-${id.mov}`;
+    }
+
+    function normalizeSearchText(value) {
+      return String(value || "").trim().toLocaleLowerCase("ja-JP");
+    }
+
+    function resetContactForm() {
+      form.reset();
+      renderSongOptions("");
+      updateSongPanel();
+    }
 
     function setStatus(message, type) {
       statusText.textContent = message;
