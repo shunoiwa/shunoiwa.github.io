@@ -729,14 +729,14 @@
         "duration": 244,
         "difficulty": 3,
         "sells": {
-            "youtube": "https://www.youtube.com/watch?v=6o6DcVDNPT8",
-            "booth": null,
-            "instagram": "https://www.instagram.com/p/DOZxZbaEQtS/",
-            "price": null
+            "youtube": "https://youtu.be/J7MU8_i5smI",
+            "booth": "https://weaghk.booth.pm/items/8649794",
+            "instagram": "https://www.instagram.com/p/DbMdsbHRHxS/",
+            "price": 3000
         },
         "comment": {
-            "ja": null,
-            "en": null
+            "ja": "コルネットはトランペットやピッコロトランペットで代替してもOKです。",
+            "en": "You can substitute a trumpet or a piccolo trumpet for the cornet."
         }
     },
     {
