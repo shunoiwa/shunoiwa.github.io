@@ -2013,5 +2013,35 @@
             "ja": "「ファーストプライザー」の第2稿です。",
             "en": "This is the second version of \"The First Prior\"."
         }
+    },
+    {
+        "id": {
+            "form": "WOD",
+            "number": 25,
+            "mov": null
+        },
+        "title": {
+            "ja": "死の舞踊",
+            "en": "The Final Dance"
+        },
+        "party": [
+            "Alto Saxophone 1",
+            "Alto Saxophone 2",
+            "Tenor Saxophone 1",
+            "Tenor Saxophone 2",
+            "Baritone Saxophone"
+        ],
+        "duration": 180,
+        "difficulty": 3,
+        "sells": {
+            "youtube": "https://youtu.be/GVXCymJWI_8",
+            "booth": "https://weaghk.booth.pm/items/8656899",
+            "instagram": "https://www.instagram.com/p/DbR-_usxDw_/",
+            "price": 3000
+        },
+        "comment": {
+            "ja": "コンテスト用の短め、かつ標準的な難易度の曲です。",
+            "en": "This is a short piece of standard difficulty, suitable for contests.\n"
+        }
     }
 ]
