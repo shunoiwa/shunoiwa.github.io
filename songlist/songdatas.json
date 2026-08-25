@@ -2076,5 +2076,41 @@
             "ja": "コンテスト用の短め、かつ標準的な難易度の曲です。",
             "en": "This is a short piece of standard difficulty, suitable for contests.\n"
         }
+    },
+    {
+        "id": {
+            "form": "MIX",
+            "number": 5,
+            "mov": null
+        },
+        "title": {
+            "ja": "Viva!",
+            "en": "Viva!"
+        },
+        "party": [
+            [
+                "B♭ Piccolo Trumpet",
+                "Flute"
+            ],
+            "Soprano Saxophone",
+            [
+                "Prime Guitar",
+                "Pianoforte"
+            ],
+            "Electric Bass",
+            "Drumset"
+        ],
+        "duration": 161,
+        "difficulty": 4,
+        "sells": {
+            "youtube": "https://youtu.be/KQG-seD_jlU",
+            "booth": "https://weaghk.booth.pm/items/8761331",
+            "instagram": "https://www.instagram.com/p/DcdDpnhxt7J/",
+            "price": 3000
+        },
+        "comment": {
+            "ja": "ピッコロトランペットが望ましいですが、音域的にちょうど良いフルートで代替することもできます。\n※ピッコロトランペットはトランペットの1オクターヴ上の運指を持っていますが、高音の撥音自体の難易度はあまり変わらないらしいです",
+            "en": "A piccolo trumpet is preferable, but you can also use a flute with the right range as a substitute.\n*Although the piccolo trumpet uses fingering that is one octave higher than that of a trumpet, the difficulty of playing the high-pitched notes themselves doesn’t seem to differ much.\n"
+        }
     }
 ]
