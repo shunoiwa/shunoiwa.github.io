@@ -85,7 +85,7 @@
                     "name": "トロンボーン",
                     "canname": true,
                     "insts": {
-                        "Alto Trombone" : "アルトトロンボーン",
+                        "Alto Trombone": "アルトトロンボーン",
                         "Trombone": "トロンボーン",
                         "Bass Trombone": "バストロンボーン",
                         "Contrabass Trombone": "コントラバストロンボーン",
@@ -135,7 +135,9 @@
             "insts": {
                 "Pianoforte": "ピアノ",
                 "Harpsichord": "チェンバロ",
-                "Harp": "ハープ"
+                "Harp": "ハープ",
+                "Prime Guitar": "プライムギター",
+                "Electric Bass Guitar": "エレキベース"
             }
         },
         "Percussion": {
