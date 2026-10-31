@@ -529,12 +529,13 @@ select:focus {
     color: var(--blue-dark);
     font-size: 1.35rem;
     font-weight: 500;
-    transition: transform 0.18s ease, background 0.18s ease;
+    transform: rotate(0deg);
+    transition: transform 0.4s ease, background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
 .summary-card.is-active .summary-mark {
     background: #dbeafe;
-    transform: rotate(45deg);
+    transform: rotate(135deg);
 }
 
 .detail-card {
@@ -543,7 +544,6 @@ select:focus {
     border: 1px solid #cbd5e1;
     background: #fff;
     box-shadow: var(--shadow);
-    animation: detailIn 0.26s ease both;
 }
 
 .detail-card[hidden],
@@ -758,6 +758,12 @@ select:focus {
     border-radius: 6px;
     background: #fff;
     border: 1px solid #e2e8f0;
+    transform-origin: center;
+    backface-visibility: hidden;
+}
+
+.party-part.is-flipping {
+    will-change: transform;
 }
 
 .part-number {
@@ -911,17 +917,6 @@ select:focus {
     from {
         opacity: 0;
         transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes detailIn {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
     }
     to {
         opacity: 1;
@@ -1272,6 +1267,9 @@ const state = {
     descriptions: {},
     openId: null
 };
+
+const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+const detailAnimations = new WeakMap();
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -1665,13 +1663,88 @@ function renderSongList(container, songs) {
     songs.forEach(song => {
         fragment.appendChild(createSongItem(song));
         if (state.openId === formatSongId(song)) {
-            const detailRow = document.createElement("div");
-            detailRow.className = "detail-row";
-            detailRow.appendChild(createDetailCard(song));
-            fragment.appendChild(detailRow);
+            fragment.appendChild(createDetailRow(song));
         }
     });
     container.appendChild(fragment);
+    container.querySelectorAll(".detail-row").forEach(row => animateDetailRow(row, true));
+}
+
+function createDetailRow(song) {
+    const row = document.createElement("div");
+    row.className = "detail-row";
+    row.dataset.songId = formatSongId(song);
+    row.id = `detail-${row.dataset.songId}`;
+    const card = createDetailCard(song);
+    card.style.opacity = "0";
+    row.appendChild(card);
+    return row;
+}
+
+function setOpenSong(song) {
+    state.openId = song ? formatSongId(song) : null;
+    let openItem = null;
+
+    document.querySelectorAll(".song-item").forEach(item => {
+        const summary = item.querySelector(".summary-card");
+        const isOpen = item.dataset.songId === state.openId;
+        summary.classList.toggle("is-active", isOpen);
+        summary.setAttribute("aria-expanded", String(isOpen));
+        if (isOpen) openItem = item;
+    });
+
+    let openRow = null;
+    document.querySelectorAll(".detail-row").forEach(row => {
+        if (row.dataset.songId === state.openId) {
+            openRow = row;
+        } else {
+            if (row.contains(document.activeElement)) {
+                const item = row.previousElementSibling;
+                item?.querySelector(".summary-card")?.focus({ preventScroll: true });
+            }
+            animateDetailRow(row, false);
+        }
+    });
+
+    if (!song || !openItem) return;
+    if (!openRow) {
+        openRow = createDetailRow(song);
+        openItem.after(openRow);
+    }
+    animateDetailRow(openRow, true);
+}
+
+function animateDetailRow(row, opening) {
+    const previous = detailAnimations.get(row);
+    if (previous?.opening === opening) return;
+
+    const card = row.querySelector(".detail-card");
+    const opacity = Number(getComputedStyle(card).opacity);
+    previous?.animation.cancel();
+    detailAnimations.delete(row);
+    row.inert = !opening;
+    row.setAttribute("aria-hidden", String(!opening));
+
+    const target = opening ? 1 : 0;
+    if (motionPreference.matches || !card.animate || opacity === target) {
+        card.style.opacity = String(target);
+        if (!opening) row.remove();
+        return;
+    }
+
+    const animation = card.animate([{ opacity }, { opacity: target }], {
+        duration: 260,
+        easing: "ease",
+        fill: "both"
+    });
+    detailAnimations.set(row, { animation, opening });
+    animation.finished.then(() => {
+        if (detailAnimations.get(row)?.animation !== animation) return;
+        detailAnimations.delete(row);
+        card.style.opacity = String(target);
+        animation.cancel();
+        if (!opening) row.remove();
+    }, () => {});
 }
 
 function createSongItem(song) {
@@ -1685,6 +1758,7 @@ function createSongItem(song) {
     summary.className = "summary-card";
     summary.classList.toggle("is-active", state.openId === id);
     summary.setAttribute("aria-expanded", state.openId === id ? "true" : "false");
+    summary.setAttribute("aria-controls", `detail-${id}`);
     summary.innerHTML = `
         <span>
             <span class="summary-title">${escapeHtml(formatHeading(song))}</span>
@@ -1693,8 +1767,7 @@ function createSongItem(song) {
         <span class="summary-mark" aria-hidden="true">+</span>
     `;
     summary.addEventListener("click", () => {
-        state.openId = state.openId === id ? null : id;
-        filterTable();
+        setOpenSong(state.openId === id ? null : song);
     });
 
     item.appendChild(summary);
@@ -1731,9 +1804,8 @@ function createDetailCard(song) {
 
     card.querySelector(".close-detail").addEventListener("click", () => {
         if (state.openId === id) {
-            state.openId = null;
+            setOpenSong(null);
         }
-        filterTable();
     });
 
     return card;
@@ -1790,7 +1862,7 @@ function partyBlock(party) {
         const hasAlternative = isAlternativePart(part);
         const altName = hasAlternative ? displayPartName(part, true) : "";
         const nameAttributes = hasAlternative
-            ? ` data-main-part="${escapeAttribute(partName)}" data-alt-part="${escapeAttribute(altName)}"`
+            ? ` data-main-part="${escapeAttribute(partName)}" data-alt-part="${escapeAttribute(altName)}" aria-live="polite"`
             : "";
         const alternativeButton = hasAlternative
             ? `<button type="button" class="alt-part-button" data-alt-part-toggle aria-pressed="false">${escapeHtml(t("alternativePart"))}</button>`
@@ -1821,12 +1893,61 @@ function initAlternativePartToggles(card) {
             return;
         }
 
-        button.addEventListener("click", () => {
-            const isAlternative = button.getAttribute("aria-pressed") !== "true";
+        let isAlternative = button.getAttribute("aria-pressed") === "true";
+        let requestedAlternative = isAlternative;
+        let flipping = false;
+
+        function applyAlternative(value) {
+            isAlternative = value;
             button.setAttribute("aria-pressed", String(isAlternative));
             button.classList.toggle("is-active", isAlternative);
             name.classList.toggle("is-alternative", isAlternative);
             name.textContent = isAlternative ? name.dataset.altPart : name.dataset.mainPart;
+        }
+
+        async function animatePart() {
+            if (flipping) return;
+            if (motionPreference.matches || !part.animate) {
+                applyAlternative(requestedAlternative);
+                return;
+            }
+
+            flipping = true;
+            part.classList.add("is-flipping");
+            let outgoing;
+            let incoming;
+            try {
+                outgoing = part.animate([
+                    { transform: "perspective(700px) rotateY(0deg)" },
+                    { transform: "perspective(700px) rotateY(-90deg)" }
+                ], { duration: 200, easing: "ease-in", fill: "both" });
+                await outgoing.finished;
+                if (!part.isConnected) return;
+
+                // Swap the label edge-on so neither face is shown mirrored.
+                applyAlternative(requestedAlternative);
+                incoming = part.animate([
+                    { transform: "perspective(700px) rotateY(90deg)" },
+                    { transform: "perspective(700px) rotateY(0deg)" }
+                ], { duration: 200, easing: "ease-out", fill: "both" });
+                outgoing.cancel();
+                await incoming.finished;
+            } catch {
+                if (part.isConnected) applyAlternative(requestedAlternative);
+            } finally {
+                outgoing?.cancel();
+                incoming?.cancel();
+                part.classList.remove("is-flipping");
+                flipping = false;
+                if (part.isConnected && isAlternative !== requestedAlternative) {
+                    void animatePart();
+                }
+            }
+        }
+
+        button.addEventListener("click", () => {
+            requestedAlternative = !requestedAlternative;
+            void animatePart();
         });
     });
 }

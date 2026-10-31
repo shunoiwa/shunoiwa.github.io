@@ -457,6 +457,13 @@ The selected design combines the editorial layout, square controls, bold sans-se
 
 `songlist/songlist4.html` keeps its internal layout CSS and JavaScript. Do not replace it with `site.css`; its shared visual overrides come from `../theme.css`.
 
+Song list motion:
+
+- Opening and closing details retain the summary buttons instead of rebuilding the whole list. The plus mark rotates 135 degrees and transitions its colors over 400ms.
+- Detail panels fade in/out over 260ms, including when switching songs. A reversed fade resumes from its current opacity; closing panels are inert until removed.
+- Alternate-instrument part cards flip around the vertical axis over 400ms. Labels change halfway through the flip, with rapid clicks reconciled to the last requested selection.
+- Reduced-motion preferences skip the scripted fades and flips; CSS transitions are also reduced.
+
 ## Encoding Notes
 
 All files should be UTF-8.
