@@ -1,0 +1,97 @@
+.home-layout { padding-top: 28px; padding-bottom: 36px; }
+.home-intro { margin-bottom: 24px; }
+.home-intro .eyebrow { margin-bottom: 10px; }
+.home-intro .home-title { font-size: 48px; }
+.home-intro .lead { max-width: 900px; margin-top: 12px; font-size: 15px; line-height: 1.7; }
+
+.home-board {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-areas: "catalog catalog catalog video video" "scores scores info video video";
+  gap: 12px;
+  align-items: stretch;
+}
+.home-board > * { min-width: 0; }
+.home-catalog { grid-area: catalog; }
+.home-scores { grid-area: scores; }
+.home-info { grid-area: info; }
+.home-video { grid-area: video; }
+.home-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--ink);
+  background: var(--panel);
+  text-decoration: none;
+  color: var(--ink);
+}
+a.home-tile:hover { border-color: var(--accent); background: var(--soft); }
+.home-tile h2, .home-tile h3 { font-size: 19px; line-height: 1.4; margin: 0; }
+.home-tile p { font-size: 14px; line-height: 1.65; margin: 0; color: var(--muted); }
+.tile-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.tile-heading svg { width: 20px; height: 20px; flex: 0 0 auto; color: var(--accent); }
+.home-board > .home-catalog { background: var(--accent); border-color: var(--ink); color: #fff; padding: 20px; }
+.home-board > .home-catalog h2 { font-size: 25px; }
+.home-board > .home-catalog p, .home-board > .home-catalog svg { color: #fff; }
+.home-board > .home-catalog:hover { background: var(--blue-dark); }
+
+.home-video { margin: 0; min-width: 0; background: #fff; border: 1px solid var(--ink); align-self: start; overflow: hidden; }
+.home-video .hero-video-frame { position: relative; }
+.home-video .hero-video-frame iframe { position: absolute; inset: 0; display: block; }
+.home-video-caption {
+  border-top: 1px solid var(--line);
+  padding: 6px 14px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--ink);
+  min-height: 48px;
+}
+.home-video-caption > span { min-width: 0; overflow-wrap: anywhere; }
+.home-video-caption .video-refresh { display: grid; place-items: center; padding: 0; }
+.home-video-caption .video-refresh:hover { transform: none; }
+.home-video-caption .video-refresh svg { width: 18px; height: 18px; }
+
+.resource-band {
+  margin-top: 18px;
+  padding: 16px 0 0;
+  border-top: 2px solid var(--ink);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.3fr;
+  gap: 20px;
+}
+.resource-band .home-tile { min-width: 0; background: transparent; padding: 0; border: 0; }
+.resource-band .home-tile p { font-size: 13px; }
+.resource-band .tile-heading h3 { font-size: 17px; }
+.resource-band a.home-tile:hover { background: transparent; }
+.resource-band a.home-tile:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+.tile-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; margin-top: auto; }
+.tile-links a { color: var(--blue-dark); font-size: 13px; font-weight: 650; min-height: 36px; display: inline-flex; align-items: center; text-underline-offset: 4px; }
+.tile-links a:hover { text-decoration-thickness: 2px; }
+
+@media (min-width: 861px) and (max-width: 1100px) {
+  .home-board { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "catalog video" "scores info"; }
+}
+@media (max-width: 860px) {
+  .home-layout { padding-top: 20px; }
+  .home-intro { margin-bottom: 20px; }
+  .home-intro .home-title { font-size: 36px; }
+  .home-intro .lead { font-size: 14px; }
+  .home-board { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "catalog catalog" "scores info" "video video"; }
+  .home-tile { padding: 12px; gap: 6px; }
+  .home-tile h2 { font-size: 17px; }
+  .home-tile p { font-size: 13px; }
+  .tile-heading { gap: 8px; }
+  .tile-heading svg { width: 17px; height: 17px; }
+  .home-board > .home-catalog { padding: 16px; }
+  .home-board > .home-catalog h2 { font-size: 22px; }
+  .resource-band { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .home-social { grid-column: 1 / -1; }
+}
+@media (max-width: 360px) {
+  .home-board { grid-template-columns: minmax(0, 1fr); grid-template-areas: "catalog" "scores" "info" "video"; }
+}

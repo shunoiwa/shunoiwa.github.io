@@ -2,7 +2,7 @@
 
 MUSIC WEAGHK site work history and handoff notes
 
-Last updated: 2026-07-23
+Last updated: 2026-10-31
 Root directory used in the latest work: `D:\shunoiwa.github.io`
 
 This file records the practical history of the site migration and the song list tool so another PC or another editor can continue the project without needing the full chat history.
@@ -439,18 +439,23 @@ Browsers cache favicons heavily. If it does not update, force refresh or clear s
 
 ## Design Notes
 
-Root pages use `site.css`.
+Root pages use `site.css` for their existing layout and `theme.css` as the shared visual layer.
 
-`songlist/songlist4.html` still has internal CSS because it has a larger interactive UI. It has been visually aligned with the shared site style in these areas:
+The selected design combines the editorial layout, square controls, bold sans-serif headings and strong rules of concept A with the white/deep-green palette of concept B. The wood-texture concept was rejected.
 
-- Tab title format.
-- Main heading size.
-- Page top spacing.
-- Background gradient.
-- Header colors.
-- Page width.
+- All six HTML pages load `theme.css` after their original styles.
+- Desktop navigation, main content and footer are centered with a maximum width of 1180px; a 1920px viewport has 370px side margins.
+- Mobile content retains 16px side margins.
+- Alternate instrument names stay blue; required form markers and error states stay red.
+- YouTube, BOOTH and Instagram link colors retain their separate semantic colors.
+- The home page uses the selected third layout (song-list-first). `home.css` contains its dedicated compact grid styles and loads after `theme.css`.
+- The song list is the primary green tile; score sales and information sit below it, with the random YouTube player beside them on desktop.
+- YouTube, BOOTH and SNS links are grouped in an unframed resource band below the grid. Internal tiles navigate in the same tab; external links open separately.
+- The existing random-video script and fallback data remain unchanged. The refresh control uses a Lucide icon, as do the tile arrows.
+- At smaller widths, navigation tiles precede the video; the desktop maximum content width and mobile side margins are unchanged.
+- These changes are local source edits, not a deployment or a Git commit.
 
-Do not blindly replace its CSS with `site.css`; the song list has many custom controls and detail-card states.
+`songlist/songlist4.html` keeps its internal layout CSS and JavaScript. Do not replace it with `site.css`; its shared visual overrides come from `../theme.css`.
 
 ## Encoding Notes
 

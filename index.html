@@ -24,6 +24,8 @@
   <link rel="icon" type="image/jpeg" href="cpi.jpg">
   <link rel="apple-touch-icon" href="cpi.jpg">
   <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
   <header class="site-header">
@@ -43,85 +45,72 @@
     </div>
   </header>
 
-  <main class="page">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Composer / Arranger / Sheet Music</p>
-        <h1 class="home-title">MUSIC WEAGHK</h1>
-        <p class="lead">ようこそ！ここはMUSIC WEAGHKのホームページです。
-          オリジナル曲を公開・販売しています。
-          少人数のアンサンブル曲が中心で、「」
-        </p>
-        <div class="hero-actions">
-          <a class="button primary" href="songlist/songlist4.html">楽曲リストを見る</a>
-          <a class="button" href="scores.html">楽譜販売について</a>
-          <a class="button dark" href="https://www.youtube.com/channel/UCMZ-iIj2BMkTeximnGh7IEA" target="_blank" rel="noopener noreferrer">YouTube</a>
+  <main class="page home-layout">
+    <header class="home-intro">
+      <p class="eyebrow">Composer / Arranger / Sheet Music</p>
+      <h1 class="home-title">MUSIC WEAGHK</h1>
+      <p class="lead">少人数のアンサンブルを中心に、オリジナル楽曲と楽譜を公開・販売しています。</p>
+    </header>
+
+    <section class="home-board" aria-label="楽曲と楽譜">
+      <a class="home-tile home-catalog" href="songlist/songlist4.html">
+        <div class="tile-heading">
+          <h2>楽曲リスト</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </div>
-      </div>
-      <figure class="hero-visual video-panel">
+        <p>編成・楽器・難度から、演奏したい楽曲を探せます。</p>
+      </a>
+      <a class="home-tile home-scores" href="scores.html">
+        <div class="tile-heading">
+          <h2>楽譜販売</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+        <p>難度・価格・購入前の注意事項を確認できます。</p>
+      </a>
+      <a class="home-tile home-info" href="information.html">
+        <div class="tile-heading">
+          <h2>情報</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+        <p>楽譜の利用範囲、編曲、著作権、Q&amp;A。</p>
+      </a>
+      <figure class="home-video">
         <div class="hero-video-frame">
-          <iframe id="hero-video" title="MUSIC WEAGHK random video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <iframe id="hero-video" title="MUSIC WEAGHKの参考動画" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
-        <figcaption class="visual-caption video-caption">
+        <figcaption class="home-video-caption">
           <span id="hero-video-title">YouTubeからランダムに選曲中...</span>
-          <button class="video-refresh" id="refresh-video" type="button" aria-label="動画を切り替える">&#8635;</button>
+          <button class="video-refresh" id="refresh-video" type="button" aria-label="動画を切り替える" title="動画を切り替える">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+          </button>
         </figcaption>
       </figure>
     </section>
 
-    <section class="section">
-      <div class="section-head">
-        <h2>リンクいろいろ</h2>
-        <p class="lead">動画、販売、SNSへの導線です。</p>
-      </div>
-      <div class="grid">
-        <article class="card">
-          <span class="meta">Video</span>
+    <section class="resource-band" aria-label="動画・販売・SNS">
+      <a class="home-tile" href="https://www.youtube.com/channel/UCMZ-iIj2BMkTeximnGh7IEA" target="_blank" rel="noopener noreferrer">
+        <div class="tile-heading">
           <h3>YouTube</h3>
-          <p>いろんなオリジナル楽曲を公開しています。参考動画の確認にもどうぞ。</p>
-          <div class="action-row"><a class="button" href="https://www.youtube.com/channel/UCMZ-iIj2BMkTeximnGh7IEA" target="_blank" rel="noopener noreferrer">開く</a></div>
-        </article>
-        <article class="card">
-          <span class="meta">Shop</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+        </div>
+        <p>オリジナル楽曲と演奏の参考動画を公開中。</p>
+      </a>
+      <a class="home-tile" href="https://weaghk.booth.pm/" target="_blank" rel="noopener noreferrer">
+        <div class="tile-heading">
           <h3>BOOTH</h3>
-          <p>楽譜はBOOTHで販売しています。販売ページは楽曲リストからも確認できます。</p>
-          <div class="action-row"><a class="button" href="https://weaghk.booth.pm/" target="_blank" rel="noopener noreferrer">開く</a></div>
-        </article>
-        <article class="card">
-          <span class="meta">SNS</span>
-          <h3>Instagram / Twitter</h3>
-          <p>@weaghk はYouTubeチャンネル対応、@shunoiwa は対外用の個人アカウントです。</p>
-          <div class="action-row">
-            <a class="button" href="https://www.instagram.com/music_weaghk/" target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a class="button" href="https://twitter.com/weaghk" target="_blank" rel="noopener noreferrer">@weaghk</a>
-            <a class="button" href="https://twitter.com/shunoiwa" target="_blank" rel="noopener noreferrer">@shunoiwa</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <h2>サイト内メニュー</h2>
-        <p class="lead">必要なページへすぐ移動できます。</p>
-      </div>
-      <div class="grid">
-        <article class="card">
-          <h3>楽譜販売</h3>
-          <p>難度設定、販売価格、購入前の確認事項をまとめています。</p>
-          <div class="action-row"><a class="button" href="scores.html">読む</a></div>
-        </article>
-        <article class="card">
-          <h3>情報</h3>
-          <p>楽譜の利用範囲、編曲、著作権、Q&Aをまとめています。</p>
-          <div class="action-row"><a class="button" href="information.html">読む</a></div>
-        </article>
-        <article class="card">
-          <h3>楽曲リスト</h3>
-          <p>販売中の楽曲を、編成・難度・楽器数・IDから検索できます。</p>
-          <div class="action-row"><a class="button primary" href="songlist/songlist4.html">開く</a></div>
-        </article>
-      </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+        </div>
+        <p>楽譜の購入はこちら。各曲の販売先は楽曲リストにも掲載。</p>
+      </a>
+      <article class="home-tile home-social">
+        <div class="tile-heading"><h3>Instagram / X</h3></div>
+        <p>@weaghk は楽曲用、@shunoiwa は個人用。</p>
+        <div class="tile-links">
+          <a href="https://www.instagram.com/music_weaghk/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://twitter.com/weaghk" target="_blank" rel="noopener noreferrer">@weaghk</a>
+          <a href="https://twitter.com/shunoiwa" target="_blank" rel="noopener noreferrer">@shunoiwa</a>
+        </div>
+      </article>
     </section>
   </main>
 
