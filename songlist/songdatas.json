@@ -443,8 +443,17 @@
         ],
         "duration": 92,
         "difficulty": {
-            "overall": "C",
-            "parts": null
+            "overall": "E",
+            "parts": [
+                {
+                    "id": "P1",
+                    "grade": "E+"
+                },
+                {
+                    "id": "P2",
+                    "grade": "E+"
+                }
+            ]
         },
         "sells": {
             "youtube": "https://youtu.be/aXhyK3thQqY",
@@ -1854,8 +1863,29 @@
         ],
         "duration": 217,
         "difficulty": {
-            "overall": "C",
-            "parts": null
+            "overall": "E",
+            "parts": [
+                {
+                    "id": "P1",
+                    "grade": "E"
+                },
+                {
+                    "id": "P2",
+                    "grade": "D+"
+                },
+                {
+                    "id": "P3",
+                    "grade": "D"
+                },
+                {
+                    "id": "P4",
+                    "grade": "E-"
+                },
+                {
+                    "id": "P5",
+                    "grade": "E"
+                }
+            ]
         },
         "sells": {
             "youtube": "https://youtu.be/ThNEBdms1Jg",
