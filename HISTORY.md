@@ -2,7 +2,7 @@
 
 MUSIC WEAGHK site work history and handoff notes
 
-Last updated: 2026-10-31
+Last updated: 2026-11-01
 Root directory used in the latest work: `D:\shunoiwa.github.io`
 
 This file records the practical history of the site migration and the song list tool so another PC or another editor can continue the project without needing the full chat history.
@@ -463,6 +463,23 @@ Song list motion:
 - Detail panels fade in/out over 260ms, including when switching songs. A reversed fade resumes from its current opacity; closing panels are inert until removed.
 - Alternate-instrument part cards flip around the vertical axis over 400ms. Labels change halfway through the flip, with rapid clicks reconciled to the last requested selection.
 - Reduced-motion preferences skip the scripted fades and flips; CSS transitions are also reduced.
+
+Song difficulty data and part cards:
+
+- `difficulty.overall` is the overall A-G string used in summaries, details, filters and purchase warnings. The visible label is now "総合難度" / "Overall Difficulty".
+- `difficulty.parts` supplies individual score-part grades, matched by `P1`, `P2`, etc., including accompaniment. Grades such as `B+` and `F-` appear in a small bordered badge interrupting the card's upper-left border.
+- Part ratings require only `id` and `grade`; `name` is not read. Instrument labels continue to come from `party`. All 71 songs were also tested with the `name` properties omitted from the JSON response.
+- Part backgrounds interpolate through the score guide's pale blue, neutral midpoint and pale red stops. Plus/minus grades shift the color by one third of a level. Unrated cards stay neutral, without an invented grade.
+- The former separate part-difficulty block is integrated into detailed instrumentation. Alternative buttons, their blue labels and flip animations are retained; switching alternatives does not invent a separate rating.
+- Instrumentation entries remain intact, including comma-grouped instruments and alternative instruments. MIX0001 now has eight matching score-part ratings; its combined Drumset/Vibraphone entry remains a single card rated D. The embedded local backup is synchronized with the corrected JSON.
+
+Catalog maintenance on 2026-11-01:
+
+- Removed both language comments from WOD0002 (GANZ), MIX0004 (Nyx), and WOD0025 (The Final Dance), since their difficulty descriptions were stale.
+- WOD0012 now links to `https://youtu.be/ThNEBdms1Jg`. Both the song-list embedded catalog and the home page's embedded video ID were updated.
+- Regenerated `sitemap.xml` with six URLs. At the user's clarification, MusicXML re-export is limited to WOD0012. Exported `D:/作曲/完成/MS3/偏愛.mscz` to the release tool's `files/xml/WOD0012.xml`, verified five parts and 84 measures, and confirmed the original score hash is unchanged. Regenerated `songlist/maps/WOD0012.svg` from that XML with an explicit song ID. No other song's re-exported XML was installed; a temporary batch export was canceled.
+- Verified all 34 overall-grade changes against the release tool's existing thumbnail manifest: current grades, image hashes and dimensions match, with prior `api_confirmed` upload records for all 34. No duplicate uploads were performed in this task.
+- WOD0012's overall grade remains C, so its thumbnail does not need a grade update. The private, Git-ignored `scripts/export-henai-musicxml.py` exports only WOD0012; `scripts/refresh-song-assets.py --id WOD0012` regenerates only its map. Local verification reports remain under `scripts/generated/`.
 
 Score difficulty guide:
 
