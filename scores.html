@@ -24,6 +24,7 @@
   <link rel="apple-touch-icon" href="cpi.jpg">
   <link rel="stylesheet" href="site.css">
   <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="scores.css">
 </head>
 <body>
   <header class="site-header">
@@ -57,9 +58,24 @@
     <section class="section">
       <div class="section-head">
         <h2>難度設定について</h2>
-        <p class="lead">すべての曲の難度はAからGの7段階です。</p>
+        <p class="lead" id="difficulty-caption">すべての曲の難度はAからGの7段階です。</p>
       </div>
-      <div class="difficulty-list">
+      <div class="difficulty-guide" id="difficulty-guide" hidden>
+        <div class="difficulty-scale" id="difficulty-scale">
+          <label class="difficulty-slider-label" for="difficulty-slider">楽曲の難度</label>
+          <input class="difficulty-slider" id="difficulty-slider" type="range" min="1" max="7" step="1" value="4" aria-orientation="vertical" aria-describedby="difficulty-caption" aria-controls="difficulty-explanation">
+          <span class="difficulty-thumb" id="difficulty-thumb" aria-hidden="true"></span>
+          <div class="difficulty-steps" id="difficulty-steps" aria-label="難度を選択"></div>
+        </div>
+        <article class="difficulty-explanation" id="difficulty-explanation" aria-live="polite" aria-atomic="true">
+          <div class="difficulty-explanation-heading">
+            <span class="difficulty-grade" id="difficulty-grade"></span>
+            <h3 id="difficulty-title"></h3>
+          </div>
+          <p id="difficulty-description"></p>
+        </article>
+      </div>
+      <div class="difficulty-list" id="difficulty-fallback">
         <div class="difficulty-item"><span class="rank">A</span><p>初級。基礎的なパッセージのみを含みます。管楽器や弦楽器については基本的な狭い音域のみを使います。</p></div>
         <div class="difficulty-item"><span class="rank">B</span><p>初級上。おおよそ9割以上が簡単なパッセージで構成されています。</p></div>
         <div class="difficulty-item"><span class="rank">C</span><p>中級。経験年数3年程度の方向けの標準的な難易度です。</p></div>
@@ -70,26 +86,13 @@
       </div>
     </section>
 
-    <section class="section split">
-      <article class="card callout">
-        <h2>購入前の注意</h2>
-        <p>特にFやGに該当する曲は難易度が高いので、ご購入の前に参考動画をよくご確認ください。</p>
-      </article>
-      <article class="card">
-        <h2>ソロ楽曲の難度</h2>
-        <p>ソロ楽曲の難度は独奏楽器のみを基準にしており、伴奏の難易度は考慮されていません。</p>
-      </article>
-    </section>
-
-    <section class="section grid two">
-      <article class="card">
-        <h2>音域について</h2>
-        <p>標準的な楽器について、音域はおおよその目安として扱っています。AからDの曲で使われる音域と、E以上の曲で使われる音域を分けて考えています。一覧は実音表記です。</p>
-      </article>
-      <article class="card">
-        <h2>販売について</h2>
-        <p>基本的に各楽譜を通常3000円で販売しています。編成や曲の長さによって値段が変動することもあります。販売ページは楽曲リストにてご確認ください。</p>
-      </article>
+    <section class="section" aria-label="楽譜購入に関する補足">
+      <ul class="score-notes">
+        <li>特にFやGに該当する曲は難易度が高いので、ご購入の前に参考動画をよくご確認ください。</li>
+        <li>ソロ楽曲の難度は独奏楽器のみを基準にしており、伴奏の難易度は考慮されていません。</li>
+        <li>標準的な楽器について、音域はおおよその目安として扱っています。AからDの曲で使われる音域と、E以上の曲で使われる音域を分けて考えています。一覧は実音表記です。</li>
+        <li>基本的に各楽譜を通常3000円で販売しています。編成や曲の長さによって値段が変動することもあります。販売ページは楽曲リストにてご確認ください。</li>
+      </ul>
     </section>
   </main>
 
@@ -99,5 +102,86 @@
       <span><a href="contact.html">お問い合わせフォーム</a></span>
     </div>
   </footer>
+  <script>
+    (() => {
+      const fallback = document.getElementById("difficulty-fallback");
+      const levels = [...fallback.querySelectorAll(".difficulty-item")].map(item => {
+        const text = item.querySelector("p").textContent.trim();
+        const separator = text.indexOf("。");
+        return {
+          grade: item.querySelector(".rank").textContent.trim(),
+          title: separator < 0 ? text : text.slice(0, separator),
+          description: separator < 0 ? "" : text.slice(separator + 1)
+        };
+      });
+      if (levels.length !== 7) return;
+
+      const guide = document.getElementById("difficulty-guide");
+      const scale = document.getElementById("difficulty-scale");
+      const slider = document.getElementById("difficulty-slider");
+      const thumb = document.getElementById("difficulty-thumb");
+      const steps = document.getElementById("difficulty-steps");
+      const explanation = document.getElementById("difficulty-explanation");
+      const colors = ["#235d80", "#336582", "#3e686c", "#005a41", "#80533f", "#963c48", "#a32d42"];
+      const surfaces = ["#dfedfa", "#e5edf6", "#e9eff1", "#e2eee6", "#f7e9e2", "#f9e1e6", "#fbdce3"];
+
+      const buttons = levels.map((level, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "difficulty-step";
+        button.textContent = level.grade;
+        button.setAttribute("aria-label", `難度 ${level.grade}：${level.title}`);
+        button.setAttribute("aria-controls", "difficulty-explanation");
+        button.addEventListener("click", () => {
+          slider.value = String(index + 1);
+          updateDifficulty();
+        });
+        return button;
+      });
+      steps.append(...[...buttons].reverse());
+
+      function positionExplanation() {
+        const index = Number(slider.value) - 1;
+        const step = buttons[index].getBoundingClientRect();
+        const rail = scale.getBoundingClientRect();
+        const center = step.top - rail.top + step.height / 2;
+        const height = explanation.offsetHeight;
+        const top = Math.max(0, Math.min(center - height / 2, rail.height - height));
+        guide.style.setProperty("--bubble-offset", `${top}px`);
+        guide.style.setProperty("--pointer-offset", `${center - top}px`);
+        guide.style.setProperty("--thumb-offset", `${center - slider.offsetTop - thumb.offsetHeight / 2}px`);
+      }
+
+      function updateDifficulty() {
+        const index = Number(slider.value) - 1;
+        const level = levels[index];
+        slider.setAttribute("aria-valuetext", `${level.grade}：${level.title}`);
+        document.getElementById("difficulty-grade").textContent = level.grade;
+        document.getElementById("difficulty-title").textContent = level.title;
+        document.getElementById("difficulty-description").textContent = level.description;
+        guide.style.setProperty("--level-ink", colors[index]);
+        guide.style.setProperty("--level-surface", surfaces[index]);
+        buttons.forEach((button, buttonIndex) => {
+          const selected = buttonIndex === index;
+          button.classList.toggle("is-active", selected);
+          button.setAttribute("aria-pressed", String(selected));
+        });
+        positionExplanation();
+      }
+
+      slider.addEventListener("input", updateDifficulty);
+      guide.hidden = false;
+      fallback.hidden = true;
+      updateDifficulty();
+      guide.classList.add("is-ready");
+      if (typeof ResizeObserver === "function") {
+        const observer = new ResizeObserver(positionExplanation);
+        observer.observe(scale);
+        observer.observe(explanation);
+      } else {
+        window.addEventListener("resize", positionExplanation);
+      }
+    })();
+  </script>
 </body>
 </html>

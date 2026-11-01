@@ -464,6 +464,15 @@ Song list motion:
 - Alternate-instrument part cards flip around the vertical axis over 400ms. Labels change halfway through the flip, with rapid clicks reconciled to the last requested selection.
 - Reduced-motion preferences skip the scripted fades and flips; CSS transitions are also reduced.
 
+Score difficulty guide:
+
+- `scores.css` styles a native vertical range control on `scores.html`: A is at the bottom (pale blue), G at the top (pale red).
+- The rail and A-G labels also select their grade directly. A visual thumb overlays the transparent native thumb, smoothing each step during clicks and dragging over 220ms. The native input still owns pointer and keyboard interaction.
+- A speech bubble follows the selected position and displays that grade's original explanation.
+- The guide spans the same full content width as the page's other sections. The four notes beneath it use a plain bullet list, with their text preserved and the former card headings removed.
+- The original `.difficulty-list` remains the single source for all seven descriptions and is shown when JavaScript is unavailable. Enhancement hides it only after the interactive guide is initialized.
+- Keyboard navigation uses the native range input, and the bubble announces changes with `aria-live`. Responsive positioning follows size changes, and reduced-motion settings disable its movement transitions.
+
 ## Encoding Notes
 
 All files should be UTF-8.

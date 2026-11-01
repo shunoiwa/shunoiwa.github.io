@@ -1,0 +1,160 @@
+.difficulty-guide {
+  --level-ink: #005a41;
+  --level-surface: #e2eee6;
+  --bubble-offset: 0px;
+  --pointer-offset: 22px;
+  --thumb-offset: 168px;
+  width: 100%;
+  margin: 30px 0 0;
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.difficulty-guide[hidden], .difficulty-list[hidden] { display: none; }
+.difficulty-scale { position: relative; height: 380px; }
+.difficulty-slider-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.difficulty-slider {
+  position: absolute;
+  left: 64px;
+  top: 11px;
+  width: 44px;
+  height: 358px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  cursor: ns-resize;
+  touch-action: pan-x;
+}
+.difficulty-slider::-webkit-slider-runnable-track {
+  width: 12px;
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: linear-gradient(to top, #d5edff, #edeef1 50%, #ffd7df);
+}
+.difficulty-slider::-webkit-slider-thumb {
+  width: 30px;
+  height: 22px;
+  margin-left: -10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.difficulty-slider::-moz-range-track {
+  width: 12px;
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: linear-gradient(to top, #d5edff, #edeef1 50%, #ffd7df);
+}
+.difficulty-slider::-moz-range-thumb {
+  width: 26px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+}
+.difficulty-thumb {
+  position: absolute;
+  left: 71px;
+  top: 11px;
+  width: 30px;
+  height: 22px;
+  border: 2px solid var(--ink);
+  background: #fff;
+  transform: translateY(var(--thumb-offset));
+  pointer-events: none;
+}
+.difficulty-steps {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44px;
+  display: grid;
+  grid-template-rows: repeat(7, 44px);
+  gap: 12px;
+}
+.difficulty-step {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.difficulty-step:hover { border-color: var(--line); color: var(--ink); }
+.difficulty-step.is-active { border-color: var(--level-ink); background: var(--level-surface); color: var(--level-ink); }
+.difficulty-explanation {
+  position: relative;
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--ink);
+  border-top: 3px solid var(--level-ink);
+  background: var(--panel);
+  transform: translateY(var(--bubble-offset));
+}
+.difficulty-explanation::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: calc(var(--pointer-offset) - 7px);
+  width: 14px;
+  height: 14px;
+  border-left: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  background: var(--panel);
+  transform: rotate(45deg);
+}
+.difficulty-explanation-heading { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.difficulty-grade { min-width: 40px; color: var(--level-ink); font-size: 40px; font-weight: 800; line-height: 1; }
+.difficulty-explanation-heading h3 { margin: 0; font-size: 24px; line-height: 1.4; }
+.difficulty-explanation p { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.9; overflow-wrap: anywhere; }
+.is-ready .difficulty-explanation { transition: transform 0.22s ease, border-color 0.22s ease; }
+.is-ready .difficulty-explanation::before { transition: top 0.22s ease; }
+.is-ready .difficulty-grade { transition: color 0.22s ease; }
+.is-ready .difficulty-thumb { transition: transform 0.22s ease; }
+.score-notes {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 1.4em;
+  color: var(--ink);
+  line-height: 1.9;
+}
+@media (max-width: 600px) {
+  .difficulty-guide { grid-template-columns: 80px minmax(0, 1fr); gap: 20px; margin-top: 24px; }
+  .difficulty-slider { left: 40px; width: 40px; }
+  .difficulty-thumb { left: 45px; }
+  .difficulty-steps { width: 36px; }
+  .difficulty-step { width: 36px; }
+  .difficulty-explanation { padding: 16px; }
+  .difficulty-explanation-heading { gap: 10px; margin-bottom: 12px; }
+  .difficulty-grade { min-width: 28px; font-size: 32px; }
+  .difficulty-explanation-heading h3 { font-size: 19px; }
+  .difficulty-explanation p { font-size: 14px; line-height: 1.8; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .difficulty-explanation, .difficulty-explanation::before, .difficulty-grade, .difficulty-thumb { transition: none !important; }
+}
