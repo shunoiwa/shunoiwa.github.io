@@ -3574,5 +3574,54 @@
             "ja": "第2フルートの難度判定はOssia(簡単な代案譜)を基にしています。",
             "en": "The difficulty rating for the second flute part is based on the Ossia (simplified alternative version)."
         }
+    },
+    {
+        "id": {
+            "form": "STR",
+            "number": 5,
+            "mov": null
+        },
+        "title": {
+            "ja": "死の森",
+            "en": "Silva Mortis"
+        },
+        "party": [
+            "Violoncello 1",
+            "Violoncello 2",
+            "Violoncello 3",
+            "Contrabass"
+        ],
+        "duration": 180,
+        "difficulty": {
+            "overall": "D",
+            "parts": [
+                {
+                    "id": "P1",
+                    "grade": "D+"
+                },
+                {
+                    "id": "P2",
+                    "grade": "C+"
+                },
+                {
+                    "id": "P3",
+                    "grade": "C+"
+                },
+                {
+                    "id": "P4",
+                    "grade": "C"
+                }
+            ]
+        },
+        "sells": {
+            "youtube": "https://youtu.be/zdQTW9Wb_YM",
+            "booth": "https://weaghk.booth.pm/items/9160474",
+            "instagram": "https://www.instagram.com/p/DfzF5o2yxWC/",
+            "price": 3000
+        },
+        "comment": {
+            "ja": null,
+            "en": null
+        }
     }
 ]
